@@ -1,0 +1,1746 @@
+<!DOCTYPE html>
+<html lang="fr" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plateforme Mécanique des Structures | ENSTP Francis Jeanson</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #1a365d;
+            --primary-light: #2c5282;
+            --secondary: #c53030;
+            --accent: #d69e2e;
+            --accent-light: #ecc94b;
+            --dark: #0f172a;
+            --dark-light: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --success: #059669;
+            --glass: rgba(255,255,255,0.08);
+            --glass-border: rgba(255,255,255,0.15);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--dark);
+            color: var(--light);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+        .bg-animation {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: linear-gradient(135deg, #0f172a 0%, #1a365d 50%, #0f172a 100%);
+        }
+        .bg-animation::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(214,158,46,0.08) 0%, transparent 50%);
+            animation: rotate 30s linear infinite;
+        }
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .particles {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1; pointer-events: none; overflow: hidden;
+        }
+        .particle {
+            position: absolute;
+            width: 4px; height: 4px;
+            background: var(--accent);
+            border-radius: 50%;
+            opacity: 0.3;
+            animation: float 15s infinite;
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.3; }
+            90% { opacity: 0.3; }
+            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
+        }
+        .header {
+            position: fixed; top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(15,23,42,0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--glass-border);
+            padding: 0.8rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+        }
+        .header.scrolled {
+            padding: 0.5rem 2rem;
+            background: rgba(15,23,42,0.95);
+        }
+        .logos-container {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+        .logo-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            transition: transform 0.3s ease;
+        }
+        .logo-item:hover { transform: scale(1.05); }
+        .logo-item img {
+            height: 55px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 8px rgba(0,0,0,0.3));
+        }
+        .logo-text {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--accent);
+            line-height: 1.3;
+            max-width: 180px;
+        }
+        .logo-text span {
+            display: block;
+            color: var(--light);
+            font-size: 0.65rem;
+            font-weight: 400;
+            opacity: 0.8;
+        }
+        .nav-menu {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+        .nav-menu a {
+            color: var(--light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: color 0.3s ease;
+        }
+        .nav-menu a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0;
+            width: 0; height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+        .nav-menu a:hover { color: var(--accent); }
+        .nav-menu a:hover::after { width: 100%; }
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            max-width: 1400px;
+            width: 100%;
+            align-items: center;
+        }
+        .hero-content { animation: slideInLeft 1s ease-out; }
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #fff 0%, var(--accent) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--gray);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+        .stat-item {
+            text-align: center;
+            padding: 1rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            min-width: 100px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .stat-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 40px rgba(214,158,46,0.2);
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin-top: 0.3rem;
+        }
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+        }
+        .btn {
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
+            color: var(--dark);
+            box-shadow: 0 4px 20px rgba(214,158,46,0.4);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(214,158,46,0.6);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--light);
+            border: 2px solid var(--glass-border);
+        }
+        .btn-outline:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-3px);
+        }
+        .hero-image {
+            position: relative;
+            animation: slideInRight 1s ease-out 0.3s both;
+        }
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+        .hero-image-main {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 24px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+            border: 1px solid var(--glass-border);
+            transition: transform 0.5s ease;
+        }
+        .hero-image:hover .hero-image-main {
+            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
+        }
+        .floating-card {
+            position: absolute;
+            background: var(--glass);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            animation: floatCard 3s ease-in-out infinite;
+        }
+        @keyframes floatCard {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-15px); }
+        }
+        .floating-card.card-1 {
+            top: 10%; right: -20px;
+            animation-delay: 0s;
+        }
+        .floating-card.card-2 {
+            bottom: 15%; left: -30px;
+            animation-delay: 1.5s;
+        }
+        .floating-icon {
+            width: 45px; height: 45px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark);
+            font-size: 1.2rem;
+        }
+        .floating-text {
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .floating-text span {
+            display: block;
+            font-size: 0.7rem;
+            color: var(--gray);
+            font-weight: 400;
+        }
+        .semesters-section {
+            padding: 6rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        .section-tag {
+            display: inline-block;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        .section-desc {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+            font-size: 1.05rem;
+        }
+        .semesters-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+        .semester-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(20px);
+            cursor: pointer;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .semester-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 4px;
+            background: linear-gradient(90deg, var(--accent), var(--accent-light));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+        }
+        .semester-card:hover::before { transform: scaleX(1); }
+        .semester-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            border-color: var(--accent);
+        }
+        .semester-icon {
+            width: 70px; height: 70px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent);
+        }
+        .semester-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+        .semester-desc {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+        .semester-chapters {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .chapter-preview {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.8rem 1rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+        .chapter-preview:hover {
+            background: rgba(214,158,46,0.1);
+        }
+        .chapter-num {
+            width: 36px; height: 36px;
+            background: var(--accent);
+            color: var(--dark);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        .chapter-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .semester-arrow {
+            position: absolute;
+            top: 2.5rem; right: 2.5rem;
+            width: 45px; height: 45px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .semester-card:hover .semester-arrow {
+            background: var(--accent);
+            color: var(--dark);
+            transform: rotate(-45deg);
+        }
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .modal-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        .modal-container {
+            background: var(--dark-light);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
+            width: 100%;
+            max-width: 1000px;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.9) translateY(20px);
+            transition: transform 0.4s ease;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+        }
+        .modal-overlay.active .modal-container {
+            transform: scale(1) translateY(0);
+        }
+        .modal-header {
+            padding: 2rem 2.5rem;
+            border-bottom: 1px solid var(--glass-border);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            background: var(--dark-light);
+            z-index: 10;
+            border-radius: 24px 24px 0 0;
+        }
+        .modal-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .modal-title span { color: var(--accent); }
+        .modal-close {
+            width: 45px; height: 45px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--light);
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+        .modal-close:hover {
+            background: var(--secondary);
+            border-color: var(--secondary);
+        }
+        .modal-body {
+            padding: 2rem 2.5rem;
+        }
+        .chapters-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .chapter-card {
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .chapter-card:hover {
+            border-color: var(--accent);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+        }
+        .chapter-header {
+            padding: 1.5rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .chapter-header:hover {
+            background: rgba(214,158,46,0.05);
+        }
+        .chapter-number {
+            width: 50px; height: 50px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            color: var(--dark);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        .chapter-info { flex: 1; }
+        .chapter-info h3 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        .chapter-info p {
+            font-size: 0.85rem;
+            color: var(--gray);
+        }
+        .chapter-toggle {
+            width: 40px; height: 40px;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+        .chapter-card.expanded .chapter-toggle {
+            transform: rotate(180deg);
+            background: var(--accent);
+            color: var(--dark);
+        }
+        .chapter-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease, padding 0.5s ease;
+        }
+        .chapter-card.expanded .chapter-content {
+            max-height: 2000px;
+            padding: 0 2rem 2rem;
+        }
+        .tabs-nav {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            padding: 0.7rem 1.2rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            color: var(--gray);
+            font-size: 0.85rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .tab-btn:hover {
+            border-color: var(--accent);
+            color: var(--light);
+        }
+        .tab-btn.active {
+            background: var(--accent);
+            color: var(--dark);
+            border-color: var(--accent);
+            font-weight: 600;
+        }
+        .tab-panel {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        .tab-panel.active { display: block; }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .content-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+        .content-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        .content-card:hover {
+            background: rgba(214,158,46,0.08);
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+        .content-icon {
+            width: 50px; height: 50px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--accent);
+            margin-bottom: 1rem;
+        }
+        .content-title {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .content-desc {
+            font-size: 0.85rem;
+            color: var(--gray);
+            margin-bottom: 1rem;
+        }
+        .content-actions {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .action-btn {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            border: none;
+        }
+        .action-btn-primary {
+            background: var(--accent);
+            color: var(--dark);
+        }
+        .action-btn-primary:hover {
+            background: var(--accent-light);
+            transform: translateY(-2px);
+        }
+        .action-btn-secondary {
+            background: var(--glass);
+            color: var(--light);
+            border: 1px solid var(--glass-border);
+        }
+        .action-btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+        .university-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+        .university-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .university-card:hover {
+            background: rgba(214,158,46,0.08);
+            border-color: var(--accent);
+            transform: translateY(-5px);
+        }
+        .university-icon {
+            width: 60px; height: 60px;
+            background: linear-gradient(135deg, var(--primary-light), var(--primary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin: 0 auto 1rem;
+        }
+        .university-name {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        .university-count {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        .video-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+        }
+        .video-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+        .video-card:hover {
+            border-color: var(--accent);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.3);
+        }
+        .video-thumbnail {
+            position: relative;
+            aspect-ratio: 16/9;
+            background: linear-gradient(135deg, var(--primary), var(--dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .video-thumbnail i {
+            font-size: 3rem;
+            color: var(--accent);
+            opacity: 0.8;
+            transition: all 0.3s ease;
+        }
+        .video-card:hover .video-thumbnail i {
+            opacity: 1;
+            transform: scale(1.1);
+        }
+        .video-duration {
+            position: absolute;
+            bottom: 10px; right: 10px;
+            background: rgba(0,0,0,0.8);
+            padding: 0.2rem 0.6rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .video-info { padding: 1.2rem; }
+        .video-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            line-height: 1.4;
+        }
+        .video-meta {
+            font-size: 0.8rem;
+            color: var(--gray);
+        }
+        .qcm-container { max-width: 800px; margin: 0 auto; }
+        .qcm-question {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .qcm-question-text {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+        }
+        .qcm-num {
+            width: 30px; height: 30px;
+            background: var(--accent);
+            color: var(--dark);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+        .qcm-options {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+            padding-left: 2.5rem;
+        }
+        .qcm-option {
+            padding: 0.8rem 1rem;
+            background: var(--glass);
+            border: 1px solid var(--glass-border);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+        .qcm-option:hover {
+            border-color: var(--accent);
+            background: rgba(214,158,46,0.1);
+        }
+        .qcm-option.correct {
+            background: rgba(5,150,105,0.2);
+            border-color: var(--success);
+            color: #34d399;
+        }
+        .qcm-option.wrong {
+            background: rgba(197,48,48,0.2);
+            border-color: var(--secondary);
+            color: #f87171;
+        }
+        .qcm-actions {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+        .resource-category { margin-bottom: 2rem; }
+        .resource-category-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: var(--accent);
+        }
+        .resource-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .resource-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.2rem;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            color: var(--light);
+        }
+        .resource-item:hover {
+            background: rgba(214,158,46,0.08);
+            border-color: var(--accent);
+            transform: translateX(5px);
+        }
+        .resource-icon {
+            width: 45px; height: 45px;
+            background: var(--glass);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--accent);
+            flex-shrink: 0;
+        }
+        .resource-info { flex: 1; }
+        .resource-name { font-size: 0.95rem; font-weight: 500; }
+        .resource-meta { font-size: 0.8rem; color: var(--gray); }
+        .resource-action {
+            padding: 0.4rem 1rem;
+            background: var(--accent);
+            color: var(--dark);
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .footer {
+            background: var(--dark);
+            border-top: 1px solid var(--glass-border);
+            padding: 3rem 2rem 2rem;
+            margin-top: 4rem;
+        }
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+        .footer-section h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        .footer-section p, .footer-section a {
+            font-size: 0.9rem;
+            color: var(--gray);
+            text-decoration: none;
+            line-height: 1.8;
+            display: block;
+            transition: color 0.3s ease;
+        }
+        .footer-section a:hover { color: var(--accent); }
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 2rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+            text-align: center;
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: var(--dark); }
+        ::-webkit-scrollbar-thumb { background: var(--primary-light); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+        @media (max-width: 1024px) {
+            .hero-grid { grid-template-columns: 1fr; text-align: center; }
+            .hero-stats { justify-content: center; }
+            .hero-cta { justify-content: center; }
+            .hero-image { order: -1; }
+            .hero-image-main { max-width: 400px; margin: 0 auto; display: block; }
+            .floating-card { display: none; }
+            .semesters-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+            .header { flex-direction: column; gap: 1rem; padding: 1rem; }
+            .nav-menu { gap: 1rem; flex-wrap: wrap; justify-content: center; }
+            .hero-title { font-size: 2.2rem; }
+            .section-title { font-size: 1.8rem; }
+            .modal-container { max-height: 95vh; border-radius: 16px; }
+            .modal-header, .modal-body { padding: 1.5rem; }
+            .footer-content { grid-template-columns: 1fr; }
+            .tabs-nav { justify-content: center; }
+        }
+        .loading-screen {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--dark);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 2rem;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .loading-screen.hidden {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .loader {
+            width: 60px; height: 60px;
+            border: 3px solid var(--glass-border);
+            border-top-color: var(--accent);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-text {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--accent);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body>
+    <div class="loading-screen" id="loadingScreen">
+        <div class="loader"></div>
+        <div class="loading-text">Chargement de la plateforme...</div>
+    </div>
+    <div class="bg-animation"></div>
+    <div class="particles" id="particles"></div>
+    <header class="header" id="header">
+        <div class="logos-container">
+            <div class="logo-item">
+                <img src="https://kimi-web-img.kimi.ai/img/enstp.edu.dz/a0a16699d2707c4511420a7ea38875e4fd890d5c.png" alt="ENSTP Logo">
+                <div class="logo-text">ENSTP<span>Francis Jeanson - Kouba</span></div>
+            </div>
+            <div style="width:1px;height:40px;background:var(--glass-border);"></div>
+            <div class="logo-item">
+                <img src="https://kimi-web-img.kimi.ai/img/crsp.dz/9b4aa4447ecb7afe3310a7822800f904b7201f67.png" alt="MESRS Logo" style="height:50px;">
+                <div class="logo-text">Ministère<span>Enseignement Supérieur et Recherche Scientifique</span></div>
+            </div>
+        </div>
+        <nav>
+            <ul class="nav-menu">
+                <li><a href="#accueil"><i class="fas fa-home"></i> Accueil</a></li>
+                <li><a href="#semestres"><i class="fas fa-book"></i> Cours</a></li>
+                <li><a href="#professeur"><i class="fas fa-chalkboard-teacher"></i> Professeur</a></li>
+                <li><a href="#contact"><i class="fas fa-envelope"></i> Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section class="hero" id="accueil">
+        <div class="hero-grid">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <i class="fas fa-graduation-cap"></i>
+                    4ème Année DMS - Dr. A. Messaoudi-Mezouar
+                </div>
+                <h1 class="hero-title">Mécanique des Structures</h1>
+                <p class="hero-subtitle">
+                    Plateforme pédagogique interactive dédiée à l'étude avancée de la mécanique des structures. 
+                    Explorez les lignes d'influence, les câbles, les arcs isostatiques, les plaques minces, 
+                    les réseaux de poutres et la torsion avec des ressources complètes et modernes.
+                </p>
+                <div class="hero-stats">
+                    <div class="stat-item"><div class="stat-number">6</div><div class="stat-label">Chapitres</div></div>
+                    <div class="stat-item"><div class="stat-number">2</div><div class="stat-label">Semestres</div></div>
+                    <div class="stat-item"><div class="stat-number">50+</div><div class="stat-label">Exercices</div></div>
+                    <div class="stat-item"><div class="stat-number">100+</div><div class="stat-label">QCM</div></div>
+                </div>
+                <div class="hero-cta">
+                    <a href="#semestres" class="btn btn-primary"><i class="fas fa-play"></i> Commencer l'apprentissage</a>
+                    <a href="#professeur" class="btn btn-outline"><i class="fas fa-user"></i> Le Professeur</a>
+                </div>
+            </div>
+            <div class="hero-image">
+                <img src="https://kimi-web-img.kimi.ai/img/civilideas374921463.wordpress.com/08c42a635f5b365f5fe316247e70199a73a03913.png" alt="Mécanique des Structures" class="hero-image-main">
+                <div class="floating-card card-1">
+                    <div class="floating-icon"><i class="fas fa-file-pdf"></i></div>
+                    <div class="floating-text">Cours PDF<span>Téléchargement gratuit</span></div>
+                </div>
+                <div class="floating-card card-2">
+                    <div class="floating-icon"><i class="fas fa-video"></i></div>
+                    <div class="floating-text">Vidéos HD<span>Explications détaillées</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="semesters-section" id="semestres">
+        <div class="section-header">
+            <div class="section-tag"><i class="fas fa-layer-group"></i> Organisation du programme</div>
+            <h2 class="section-title">Semestres & Chapitres</h2>
+            <p class="section-desc">Le cours est structuré en deux semestres couvrant six chapitres fondamentaux de la mécanique des structures.</p>
+        </div>
+        <div class="semesters-grid">
+            <div class="semester-card" onclick="openSemester('s1')">
+                <div class="semester-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="semester-icon"><i class="fas fa-book-open"></i></div>
+                <h3 class="semester-title">Semestre 01</h3>
+                <p class="semester-desc">Fondements de la mécanique structurale : lignes d'influence, câbles et arcs isostatiques.</p>
+                <div class="semester-chapters">
+                    <div class="chapter-preview"><div class="chapter-num">01</div><div class="chapter-name">Théorie des lignes d'influence et ses applications</div></div>
+                    <div class="chapter-preview"><div class="chapter-num">02</div><div class="chapter-name">Les câbles</div></div>
+                    <div class="chapter-preview"><div class="chapter-num">03</div><div class="chapter-name">Les arcs isostatiques</div></div>
+                </div>
+            </div>
+            <div class="semester-card" onclick="openSemester('s2')">
+                <div class="semester-arrow"><i class="fas fa-arrow-right"></i></div>
+                <div class="semester-icon"><i class="fas fa-cogs"></i></div>
+                <h3 class="semester-title">Semestre 02</h3>
+                <p class="semester-desc">Approfondissement : plaques minces, réseaux de poutres et torsion des poutres.</p>
+                <div class="semester-chapters">
+                    <div class="chapter-preview"><div class="chapter-num">04</div><div class="chapter-name">Théorie élastique des plaques minces rectangulaires</div></div>
+                    <div class="chapter-preview"><div class="chapter-num">05</div><div class="chapter-name">Réseaux de poutres croisées</div></div>
+                    <div class="chapter-preview"><div class="chapter-num">06</div><div class="chapter-name">Torsion pure libre et uniforme des poutres</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="semesters-section" id="professeur" style="padding-top:2rem;">
+        <div class="section-header">
+            <div class="section-tag"><i class="fas fa-chalkboard-teacher"></i> Enseignant</div>
+            <h2 class="section-title">Dr. A. Messaoudi-Mezouar</h2>
+            <p class="section-desc">Professeur à l'École Nationale Supérieure des Travaux Publics - Francis Jeanson, Kouba, Alger.</p>
+        </div>
+        <div style="max-width:800px;margin:0 auto;background:var(--glass);border:1px solid var(--glass-border);border-radius:24px;padding:2.5rem;text-align:center;backdrop-filter:blur(20px);">
+            <div style="width:100px;height:100px;background:linear-gradient(135deg,var(--accent),var(--accent-light));border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.5rem;font-size:2.5rem;color:var(--dark);">
+                <i class="fas fa-user-tie"></i>
+            </div>
+            <h3 style="font-size:1.3rem;margin-bottom:0.5rem;">Dr. A. Messaoudi-Mezouar</h3>
+            <p style="color:var(--accent);font-weight:600;margin-bottom:1rem;">Mécanique des Structures - 4ème Année DMS</p>
+            <p style="color:var(--gray);line-height:1.8;max-width:600px;margin:0 auto;">
+                Cette plateforme pédagogique a été conçue pour accompagner les étudiants de 4ème année DMS 
+                dans leur apprentissage de la mécanique des structures. Elle regroupe l'ensemble des ressources 
+                nécessaires : cours théoriques, travaux dirigés, examens, vidéos explicatives et QCM d'entraînement.
+            </p>
+        </div>
+    </section>
+    <section class="semesters-section" id="contact" style="padding-top:2rem;">
+        <div class="section-header">
+            <div class="section-tag"><i class="fas fa-envelope"></i> Contact</div>
+            <h2 class="section-title">Contact & Informations</h2>
+        </div>
+        <div style="max-width:800px;margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;">
+            <div style="background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;padding:1.5rem;text-align:center;">
+                <div style="width:50px;height:50px;background:var(--glass);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;color:var(--accent);font-size:1.3rem;"><i class="fas fa-map-marker-alt"></i></div>
+                <h4 style="font-size:0.95rem;margin-bottom:0.5rem;">Adresse</h4>
+                <p style="color:var(--gray);font-size:0.85rem;">32 Rue Sidi Garidi, Kouba 16006, Alger</p>
+            </div>
+            <div style="background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;padding:1.5rem;text-align:center;">
+                <div style="width:50px;height:50px;background:var(--glass);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;color:var(--accent);font-size:1.3rem;"><i class="fas fa-globe"></i></div>
+                <h4 style="font-size:0.95rem;margin-bottom:0.5rem;">Site Web</h4>
+                <p style="color:var(--gray);font-size:0.85rem;">www.enstp.edu.dz</p>
+            </div>
+            <div style="background:var(--glass);border:1px solid var(--glass-border);border-radius:16px;padding:1.5rem;text-align:center;">
+                <div style="width:50px;height:50px;background:var(--glass);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;color:var(--accent);font-size:1.3rem;"><i class="fas fa-envelope"></i></div>
+                <h4 style="font-size:0.95rem;margin-bottom:0.5rem;">Email</h4>
+                <p style="color:var(--gray);font-size:0.85rem;">enstp@enstp.edu.dz</p>
+            </div>
+        </div>
+    </section>
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>ENSTP Francis Jeanson</h4>
+                <p>École Nationale Supérieure des Travaux Publics</p>
+                <p>32 Rue Sidi Garidi, Kouba</p>
+                <p>16006 Alger, Algérie</p>
+            </div>
+            <div class="footer-section">
+                <h4>Navigation</h4>
+                <a href="#accueil">Accueil</a>
+                <a href="#semestres">Cours</a>
+                <a href="#professeur">Professeur</a>
+                <a href="#contact">Contact</a>
+            </div>
+            <div class="footer-section">
+                <h4>Ressources</h4>
+                <a href="#">Cours PDF</a>
+                <a href="#">Travaux Dirigés</a>
+                <a href="#">Examens</a>
+                <a href="#">Vidéos</a>
+            </div>
+            <div class="footer-section">
+                <h4>Liens Utiles</h4>
+                <a href="https://www.enstp.edu.dz" target="_blank">Site ENSTP</a>
+                <a href="#">Ministère de l'Enseignement Supérieur</a>
+                <a href="#">Bibliothèque Nationale</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Plateforme Mécanique des Structures - ENSTP Francis Jeanson. Tous droits réservés.</p>
+            <p style="margin-top:0.5rem;font-size:0.8rem;">Développée pour Dr. A. Messaoudi-Mezouar - 4ème Année DMS</p>
+        </div>
+    </footer>
+    <div class="modal-overlay" id="semesterModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2 class="modal-title" id="modalTitle">Semestre <span>01</span></h2>
+                <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="chapters-list" id="chaptersList"></div>
+            </div>
+        </div>
+    </div>
+<script>
+// Data
+const semestersData = {
+    s1: {
+        title: "Semestre 01",
+        chapters: [
+            {
+                num: "01",
+                title: "Théorie des lignes d'influence et ses applications",
+                desc: "Étude des lignes d'influence pour les poutres isostatiques et hyperstatiques, principe de Müller-Breslau, applications aux ponts et planchers mixtes.",
+                tabs: {
+                    definition: {
+                        icon: "fa-bullseye",
+                        title: "Définition & Objectifs",
+                        content: `<div class="content-grid">
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-crosshairs"></i></div><h4 class="content-title">Objectifs du chapitre</h4><p class="content-desc">Comprendre la notion de ligne d'influence, maîtriser les méthodes de construction analytique et cinématique, et appliquer ces concepts aux structures réelles.</p></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-list-check"></i></div><h4 class="content-title">Compétences visées</h4><p class="content-desc">- Tracer les lignes d'influence pour différents types de structures<br>- Appliquer le principe de Müller-Breslau<br>- Calculer les effets des charges mobiles</p></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-clock"></i></div><h4 class="content-title">Durée estimée</h4><p class="content-desc">4 semaines de cours + 2 séances de TD</p></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-star"></i></div><h4 class="content-title">Prérequis</h4><p class="content-desc">Résistance des matériaux, statique des structures, calcul des efforts internes dans les poutres.</p></div>
+                        </div>`
+                    },
+                    cours: {
+                        icon: "fa-book",
+                        title: "Cours",
+                        content: `<div class="content-grid">
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-file-pdf"></i></div><h4 class="content-title">Cours Complet - Version Web</h4><p class="content-desc">Cours interactif avec animations et exemples résolus en ligne.</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-eye"></i> Consulter</a></div></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-download"></i></div><h4 class="content-title">Cours Complet - PDF</h4><p class="content-desc">Version PDF téléchargeable du cours complet (45 pages).</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> Télécharger</a></div></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-image"></i></div><h4 class="content-title">Diaporama - Présentation</h4><p class="content-desc">Slides de présentation pour le cours magistral.</p><div class="content-actions"><a href="#" class="action-btn action-btn-secondary"><i class="fas fa-eye"></i> Voir</a><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> PPT</a></div></div>
+                        </div>`
+                    },
+                    td: {
+                        icon: "fa-pen-to-square",
+                        title: "TD & Applications",
+                        content: `<div class="content-grid">
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-file-pdf"></i></div><h4 class="content-title">Série de TD N°1</h4><p class="content-desc">Exercices sur les lignes d'influence des poutres simples et continues.</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> Énoncé PDF</a><a href="#" class="action-btn action-btn-secondary"><i class="fas fa-key"></i> Corrigé</a></div></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-file-pdf"></i></div><h4 class="content-title">Série de TD N°2</h4><p class="content-desc">Applications : convois, planchers mixtes, ponts à poutres multiples.</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> Énoncé PDF</a><a href="#" class="action-btn action-btn-secondary"><i class="fas fa-key"></i> Corrigé</a></div></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-calculator"></i></div><h4 class="content-title">Applications Numériques</h4><p class="content-desc">Exercices corrigés avec calculs détaillés étape par étape.</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> Télécharger</a></div></div>
+                        </div>`
+                    },
+                    examens: {
+                        icon: "fa-file-signature",
+                        title: "Examens & Contrôle Continu",
+                        content: `<div class="university-grid">
+                            <div class="university-card" onclick="alert('Examen ENSTP 2024 - Ligne d\'influence d\'une poutre continue')"><div class="university-icon"><i class="fas fa-university"></i></div><div class="university-name">ENSTP Alger</div><div class="university-count">3 examens</div></div>
+                            <div class="university-card" onclick="alert('Examen USTHB 2023 - Théorie des lignes d\'influence')"><div class="university-icon"><i class="fas fa-university"></i></div><div class="university-name">USTHB Alger</div><div class="university-count">2 examens</div></div>
+                            <div class="university-card" onclick="alert('Examen ENA 2024 - Applications des lignes d\'influence')"><div class="university-icon"><i class="fas fa-university"></i></div><div class="university-name">ENA Alger</div><div class="university-count">2 examens</div></div>
+                            <div class="university-card" onclick="alert('Examen Université Batna 2023')"><div class="university-icon"><i class="fas fa-university"></i></div><div class="university-name">Univ. Batna</div><div class="university-count">1 examen</div></div>
+                            <div class="university-card" onclick="alert('Examen Université Constantine 2024')"><div class="university-icon"><i class="fas fa-university"></i></div><div class="university-name">Univ. Constantine</div><div class="university-count">2 examens</div></div>
+                            <div class="university-card" onclick="alert('Examen Université Oran 2023')"><div class="university-icon"><i class="fas fa-university"></i></div><div class="university-name">Univ. Oran</div><div class="university-count">1 examen</div></div>
+                        </div>`
+                    },
+                    videos: {
+                        icon: "fa-play-circle",
+                        title: "Vidéos Pédagogiques",
+                        content: `<div class="video-grid">
+                            <div class="video-card"><div class="video-thumbnail"><i class="fas fa-play-circle"></i><span class="video-duration">15:30</span></div><div class="video-info"><div class="video-title">Introduction aux lignes d'influence</div><div class="video-meta">Dr. Messaoudi-Mezouar · 12K vues</div></div></div>
+                            <div class="video-card"><div class="video-thumbnail"><i class="fas fa-play-circle"></i><span class="video-duration">22:45</span></div><div class="video-info"><div class="video-title">Méthode analytique - Exemple 1</div><div class="video-meta">Dr. Messaoudi-Mezouar · 8K vues</div></div></div>
+                            <div class="video-card"><div class="video-thumbnail"><i class="fas fa-play-circle"></i><span class="video-duration">18:20</span></div><div class="video-info"><div class="video-title">Principe de Müller-Breslau</div><div class="video-meta">Dr. Messaoudi-Mezouar · 10K vues</div></div></div>
+                            <div class="video-card"><div class="video-thumbnail"><i class="fas fa-play-circle"></i><span class="video-duration">25:10</span></div><div class="video-info"><div class="video-title">Application aux ponts et convois</div><div class="video-meta">Dr. Messaoudi-Mezouar · 7K vues</div></div></div>
+                        </div>`
+                    },
+                    ressources: {
+                        icon: "fa-folder-open",
+                        title: "Ressources",
+                        content: `<div class="resource-category"><div class="resource-category-title"><i class="fas fa-book"></i> Livres de Référence</div><div class="resource-list">
+                            <a href="#" class="resource-item"><div class="resource-icon"><i class="fas fa-book"></i></div><div class="resource-info"><div class="resource-name">Mécanique des Structures - Timoshenko</div><div class="resource-meta">Edition 2020 · 450 pages</div></div><span class="resource-action">PDF</span></a>
+                            <a href="#" class="resource-item"><div class="resource-icon"><i class="fas fa-book"></i></div><div class="resource-info"><div class="resource-name">Calcul des Structures - L. G. Simites</div><div class="resource-meta">Edition 2018 · 320 pages</div></div><span class="resource-action">PDF</span></a>
+                        </div></div>
+                        <div class="resource-category"><div class="resource-category-title"><i class="fas fa-newspaper"></i> Articles Scientifiques</div><div class="resource-list">
+                            <a href="#" class="resource-item"><div class="resource-icon"><i class="fas fa-file-alt"></i></div><div class="resource-info"><div class="resource-name">Lignes d'influence des structures continues</div><div class="resource-meta">Journal de Mécanique · 2022</div></div><span class="resource-action">Lire</span></a>
+                        </div></div>
+                        <div class="resource-category"><div class="resource-category-title"><i class="fas fa-link"></i> Liens Web</div><div class="resource-list">
+                            <a href="#" class="resource-item"><div class="resource-icon"><i class="fas fa-globe"></i></div><div class="resource-info"><div class="resource-name">ENSTP - Site Officiel</div><div class="resource-meta">www.enstp.edu.dz</div></div><span class="resource-action">Visiter</span></a>
+                            <a href="#" class="resource-item"><div class="resource-icon"><i class="fas fa-globe"></i></div><div class="resource-info"><div class="resource-name">Eurocode 2 - Calcul des structures</div><div class="resource-meta">eurocode-experts.com</div></div><span class="resource-action">Visiter</span></a>
+                        </div></div>`
+                    },
+                    qcm: {
+                        icon: "fa-question-circle",
+                        title: "QCM d'Entraînement",
+                        content: `<div class="qcm-container">
+                            <div class="qcm-question"><div class="qcm-question-text"><span class="qcm-num">1</span>Quelle est la définition d'une ligne d'influence ?</div><div class="qcm-options"><div class="qcm-option correct" onclick="this.classList.add('correct')">Courbe représentant la variation d'une grandeur pour une charge unitaire mobile</div><div class="qcm-option" onclick="this.classList.add('wrong')">Diagramme des moments fléchissants</div><div class="qcm-option" onclick="this.classList.add('wrong')">Courbe de déformation d'une structure</div></div></div>
+                            <div class="qcm-question"><div class="qcm-question-text"><span class="qcm-num">2</span>Le principe de Müller-Breslau est basé sur :</div><div class="qcm-options"><div class="qcm-option" onclick="this.classList.add('wrong')">La méthode des forces</div><div class="qcm-option correct" onclick="this.classList.add('correct')">L'approche cinématique et le théorème des travaux virtuels</div><div class="qcm-option" onclick="this.classList.add('wrong')">La méthode des déplacements</div></div></div>
+                            <div class="qcm-question"><div class="qcm-question-text"><span class="qcm-num">3</span>Pour une poutre simplement appuyée, la ligne d'influence de la réaction d'appui est :</div><div class="qcm-options"><div class="qcm-option" onclick="this.classList.add('wrong')">Une parabole</div><div class="qcm-option correct" onclick="this.classList.add('correct')">Une ligne droite</div><div class="qcm-option" onclick="this.classList.add('wrong')">Une sinusoïde</div></div></div>
+                            <div class="qcm-actions"><button class="btn btn-primary" onclick="alert('QCM soumis ! Résultat : 2/3 correct')"><i class="fas fa-check"></i> Vérifier les réponses</button><button class="btn btn-outline" onclick="location.reload()"><i class="fas fa-redo"></i> Réinitialiser</button></div>
+                        </div>`
+                    }
+                }
+            },
+            {
+                num: "02",
+                title: "Les câbles",
+                desc: "Étude des câbles soumis à des charges concentrées et réparties, géométrie du câble, application aux ponts suspendus.",
+                tabs: {
+                    definition: {
+                        icon: "fa-bullseye",
+                        title: "Définition & Objectifs",
+                        content: `<div class="content-grid">
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-crosshairs"></i></div><h4 class="content-title">Objectifs du chapitre</h4><p class="content-desc">Étudier le comportement des câbles sous charges, déterminer leur géométrie et leurs efforts internes.</p></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-list-check"></i></div><h4 class="content-title">Compétences visées</h4><p class="content-desc">- Calculer la flèche et la tension d'un câble<br>- Analyser les câbles avec charges concentrées<br>- Étudier les ponts suspendus</p></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-clock"></i></div><h4 class="content-title">Durée estimée</h4><p class="content-desc">3 semaines de cours + 2 séances de TD</p></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-star"></i></div><h4 class="content-title">Prérequis</h4><p class="content-desc">Statique, équilibre des forces, résistance des matériaux.</p></div>
+                        </div>`
+                    },
+                    cours: {
+                        icon: "fa-book",
+                        title: "Cours",
+                        content: `<div class="content-grid">
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-file-pdf"></i></div><h4 class="content-title">Cours Complet - Version Web</h4><p class="content-desc">Cours interactif sur les câbles et leurs applications.</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-eye"></i> Consulter</a></div></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-download"></i></div><h4 class="content-title">Cours Complet - PDF</h4><p class="content-desc">Version PDF téléchargeable (38 pages).</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> Télécharger</a></div></div>
+                        </div>`
+                    },
+                    td: {
+                        icon: "fa-pen-to-square",
+                        title: "TD & Applications",
+                        content: `<div class="content-grid">
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-file-pdf"></i></div><h4 class="content-title">Série de TD N°1 - Câbles</h4><p class="content-desc">Exercices sur les câbles avec charges concentrées et réparties.</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> Énoncé PDF</a><a href="#" class="action-btn action-btn-secondary"><i class="fas fa-key"></i> Corrigé</a></div></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-file-pdf"></i></div><h4 class="content-title">Application au pont suspendu</h4><p class="content-desc">Étude complète d'un pont suspendu type.</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> Énoncé PDF</a><a href="#" class="action-btn action-btn-secondary"><i class="fas fa-key"></i> Corrigé</a></div></div>
+                        </div>`
+                    },
+                    examens: {
+                        icon: "fa-file-signature",
+                        title: "Examens & Contrôle Continu",
+                        content: `<div class="university-grid">
+                            <div class="university-card" onclick="alert('Examen ENSTP 2024 - Câbles et ponts suspendus')"><div class="university-icon"><i class="fas fa-university"></i></div><div class="university-name">ENSTP Alger</div><div class="university-count">2 examens</div></div>
+                            <div class="university-card" onclick="alert('Examen USTHB 2023 - Les câbles')"><div class="university-icon"><i class="fas fa-university"></i></div><div class="university-name">USTHB Alger</div><div class="university-count">2 examens</div></div>
+                            <div class="university-card" onclick="alert('Examen Univ. Constantine 2024')"><div class="university-icon"><i class="fas fa-university"></i></div><div class="university-name">Univ. Constantine</div><div class="university-count">1 examen</div></div>
+                        </div>`
+                    },
+                    videos: {
+                        icon: "fa-play-circle",
+                        title: "Vidéos Pédagogiques",
+                        content: `<div class="video-grid">
+                            <div class="video-card"><div class="video-thumbnail"><i class="fas fa-play-circle"></i><span class="video-duration">20:15</span></div><div class="video-info"><div class="video-title">Introduction aux câbles - Généralités</div><div class="video-meta">Dr. Messaoudi-Mezouar · 9K vues</div></div></div>
+                            <div class="video-card"><div class="video-thumbnail"><i class="fas fa-play-circle"></i><span class="video-duration">28:30</span></div><div class="video-info"><div class="video-title">Câble sous charge répartie uniforme</div><div class="video-meta">Dr. Messaoudi-Mezouar · 7K vues</div></div></div>
+                            <div class="video-card"><div class="video-thumbnail"><i class="fas fa-play-circle"></i><span class="video-duration">35:00</span></div><div class="video-info"><div class="video-title">Application au pont suspendu</div><div class="video-meta">Dr. Messaoudi-Mezouar · 11K vues</div></div></div>
+                        </div>`
+                    },
+                    ressources: {
+                        icon: "fa-folder-open",
+                        title: "Ressources",
+                        content: `<div class="resource-category"><div class="resource-category-title"><i class="fas fa-book"></i> Livres de Référence</div><div class="resource-list">
+                            <a href="#" class="resource-item"><div class="resource-icon"><i class="fas fa-book"></i></div><div class="resource-info"><div class="resource-name">Ponts Suspendus - J. A. O'Connor</div><div class="resource-meta">Edition 2019 · 280 pages</div></div><span class="resource-action">PDF</span></a>
+                        </div></div>
+                        <div class="resource-category"><div class="resource-category-title"><i class="fas fa-link"></i> Liens Web</div><div class="resource-list">
+                            <a href="#" class="resource-item"><div class="resource-icon"><i class="fas fa-globe"></i></div><div class="resource-info"><div class="resource-name">Pont Golden Gate - Étude de cas</div><div class="resource-meta">goldengate.org</div></div><span class="resource-action">Visiter</span></a>
+                        </div></div>`
+                    },
+                    qcm: {
+                        icon: "fa-question-circle",
+                        title: "QCM d'Entraînement",
+                        content: `<div class="qcm-container">
+                            <div class="qcm-question"><div class="qcm-question-text"><span class="qcm-num">1</span>La forme d'un câble sous charge répartie uniforme horizontale est :</div><div class="qcm-options"><div class="qcm-option" onclick="this.classList.add('wrong')">Une droite</div><div class="qcm-option correct" onclick="this.classList.add('correct')">Une parabole</div><div class="qcm-option" onclick="this.classList.add('wrong')">Un cercle</div></div></div>
+                            <div class="qcm-question"><div class="qcm-question-text"><span class="qcm-num">2</span>La tension horizontale dans un câble est :</div><div class="qcm-options"><div class="qcm-option correct" onclick="this.classList.add('correct')">Constante le long du câble</div><div class="qcm-option" onclick="this.classList.add('wrong')">Variable selon la position</div><div class="qcm-option" onclick="this.classList.add('wrong')">Nulle au milieu</div></div></div>
+                            <div class="qcm-actions"><button class="btn btn-primary" onclick="alert('QCM soumis !')"><i class="fas fa-check"></i> Vérifier</button><button class="btn btn-outline" onclick="location.reload()"><i class="fas fa-redo"></i> Réinitialiser</button></div>
+                        </div>`
+                    }
+                }
+            },
+            {
+                num: "03",
+                title: "Les arcs isostatiques",
+                desc: "Étude des arcs linéaires, tri-articulés, circulaires et paraboliques. Comparaison avec les câbles.",
+                tabs: {
+                    definition: {
+                        icon: "fa-bullseye",
+                        title: "Définition & Objectifs",
+                        content: `<div class="content-grid">
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-crosshairs"></i></div><h4 class="content-title">Objectifs du chapitre</h4><p class="content-desc">Comprendre le comportement des arcs isostatiques, tracer les diagrammes de moments et efforts normaux.</p></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-list-check"></i></div><h4 class="content-title">Compétences visées</h4><p class="content-desc">- Analyser les arcs tri-articulés<br>- Comparer arcs et câbles<br>- Calculer la ligne de pression</p></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-clock"></i></div><h4 class="content-title">Durée estimée</h4><p class="content-desc">3 semaines de cours + 2 séances de TD</p></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-star"></i></div><h4 class="content-title">Prérequis</h4><p class="content-desc">Statique graphique, calcul des structures isostatiques.</p></div>
+                        </div>`
+                    },
+                    cours: {
+                        icon: "fa-book",
+                        title: "Cours",
+                        content: `<div class="content-grid">
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-file-pdf"></i></div><h4 class="content-title">Cours Complet - Version Web</h4><p class="content-desc">Cours interactif sur les arcs isostatiques.</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-eye"></i> Consulter</a></div></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-download"></i></div><h4 class="content-title">Cours Complet - PDF</h4><p class="content-desc">Version PDF téléchargeable (42 pages).</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> Télécharger</a></div></div>
+                        </div>`
+                    },
+                    td: {
+                        icon: "fa-pen-to-square",
+                        title: "TD & Applications",
+                        content: `<div class="content-grid">
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-file-pdf"></i></div><h4 class="content-title">Série de TD - Arcs tri-articulés</h4><p class="content-desc">Exercices sur les arcs circulaires et paraboliques.</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> Énoncé PDF</a><a href="#" class="action-btn action-btn-secondary"><i class="fas fa-key"></i> Corrigé</a></div></div>
+                        </div>`
+                    },
+                    examens: {
+                        icon: "fa-file-signature",
+                        title: "Examens & Contrôle Continu",
+                        content: `<div class="university-grid">
+                            <div class="university-card" onclick="alert('Examen ENSTP 2024 - Arcs isostatiques')"><div class="university-icon"><i class="fas fa-university"></i></div><div class="university-name">ENSTP Alger</div><div class="university-count">2 examens</div></div>
+                            <div class="university-card" onclick="alert('Examen USTHB 2023')"><div class="university-icon"><i class="fas fa-university"></i></div><div class="university-name">USTHB Alger</div><div class="university-count">1 examen</div></div>
+                        </div>`
+                    },
+                    videos: {
+                        icon: "fa-play-circle",
+                        title: "Vidéos Pédagogiques",
+                        content: `<div class="video-grid">
+                            <div class="video-card"><div class="video-thumbnail"><i class="fas fa-play-circle"></i><span class="video-duration">18:45</span></div><div class="video-info"><div class="video-title">Arcs linéaires vs Câbles linéaires</div><div class="video-meta">Dr. Messaoudi-Mezouar · 8K vues</div></div></div>
+                            <div class="video-card"><div class="video-thumbnail"><i class="fas fa-play-circle"></i><span class="video-duration">24:20</span></div><div class="video-info"><div class="video-title">Arcs tri-articulés circulaires</div><div class="video-meta">Dr. Messaoudi-Mezouar · 6K vues</div></div></div>
+                        </div>`
+                    },
+                    ressources: {
+                        icon: "fa-folder-open",
+                        title: "Ressources",
+                        content: `<div class="resource-category"><div class="resource-category-title"><i class="fas fa-book"></i> Livres de Référence</div><div class="resource-list">
+                            <a href="#" class="resource-item"><div class="resource-icon"><i class="fas fa-book"></i></div><div class="resource-info"><div class="resource-name">Arcs et Voûtes - R. H. Wood</div><div class="resource-meta">Edition 2017 · 210 pages</div></div><span class="resource-action">PDF</span></a>
+                        </div></div>`
+                    },
+                    qcm: {
+                        icon: "fa-question-circle",
+                        title: "QCM d'Entraînement",
+                        content: `<div class="qcm-container">
+                            <div class="qcm-question"><div class="qcm-question-text"><span class="qcm-num">1</span>Un arc tri-articulé est :</div><div class="qcm-options"><div class="qcm-option" onclick="this.classList.add('wrong')">Hyperstatique de degré 1</div><div class="qcm-option correct" onclick="this.classList.add('correct')">Isostatique</div><div class="qcm-option" onclick="this.classList.add('wrong')">Hypostatique</div></div></div>
+                            <div class="qcm-actions"><button class="btn btn-primary" onclick="alert('QCM soumis !')"><i class="fas fa-check"></i> Vérifier</button><button class="btn btn-outline" onclick="location.reload()"><i class="fas fa-redo"></i> Réinitialiser</button></div>
+                        </div>`
+                    }
+                }
+            }
+        ]
+    },
+    s2: {
+        title: "Semestre 02",
+        chapters: [
+            {
+                num: "04",
+                title: "Théorie élastique des plaques minces rectangulaires",
+                desc: "Équation différentielle de Lagrange, solution de Navier, hypothèses de Kirchhoff, calcul selon l'Eurocode 2.",
+                tabs: {
+                    definition: {
+                        icon: "fa-bullseye",
+                        title: "Définition & Objectifs",
+                        content: `<div class="content-grid">
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-crosshairs"></i></div><h4 class="content-title">Objectifs du chapitre</h4><p class="content-desc">Maîtriser la théorie des plaques minces, résoudre l'équation de Lagrange et appliquer la solution de Navier.</p></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-list-check"></i></div><h4 class="content-title">Compétences visées</h4><p class="content-desc">- Formuler l'équation de Lagrange<br>- Appliquer la solution de Navier<br>- Vérifier selon l'Eurocode 2</p></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-clock"></i></div><h4 class="content-title">Durée estimée</h4><p class="content-desc">4 semaines de cours + 3 séances de TD</p></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-star"></i></div><h4 class="content-title">Prérequis</h4><p class="content-desc">Élasticité, séries de Fourier, résistance des matériaux avancée.</p></div>
+                        </div>`
+                    },
+                    cours: {
+                        icon: "fa-book",
+                        title: "Cours",
+                        content: `<div class="content-grid">
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-file-pdf"></i></div><h4 class="content-title">Cours Complet - Version Web</h4><p class="content-desc">Cours interactif sur les plaques minces avec animations.</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-eye"></i> Consulter</a></div></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-download"></i></div><h4 class="content-title">Cours Complet - PDF</h4><p class="content-desc">Version PDF téléchargeable (52 pages).</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> Télécharger</a></div></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-calculator"></i></div><h4 class="content-title">Calcul selon l'Eurocode 2</h4><p class="content-desc">Guide pratique de calcul des dalles selon l'EC2.</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> PDF</a></div></div>
+                        </div>`
+                    },
+                    td: {
+                        icon: "fa-pen-to-square",
+                        title: "TD & Applications",
+                        content: `<div class="content-grid">
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-file-pdf"></i></div><h4 class="content-title">Série de TD N°1 - Plaques minces</h4><p class="content-desc">Exercices sur l'équation de Lagrange et la solution de Navier.</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> Énoncé PDF</a><a href="#" class="action-btn action-btn-secondary"><i class="fas fa-key"></i> Corrigé</a></div></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-file-pdf"></i></div><h4 class="content-title">Application Eurocode 2</h4><p class="content-desc">Exercice de calcul pratique d'une dalle rectangulaire.</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> Énoncé PDF</a><a href="#" class="action-btn action-btn-secondary"><i class="fas fa-key"></i> Corrigé</a></div></div>
+                        </div>`
+                    },
+                    examens: {
+                        icon: "fa-file-signature",
+                        title: "Examens & Contrôle Continu",
+                        content: `<div class="university-grid">
+                            <div class="university-card" onclick="alert('Examen ENSTP 2024 - Plaques minces')"><div class="university-icon"><i class="fas fa-university"></i></div><div class="university-name">ENSTP Alger</div><div class="university-count">3 examens</div></div>
+                            <div class="university-card" onclick="alert('Examen USTHB 2023')"><div class="university-icon"><i class="fas fa-university"></i></div><div class="university-name">USTHB Alger</div><div class="university-count">2 examens</div></div>
+                            <div class="university-card" onclick="alert('Examen Univ. Constantine 2024')"><div class="university-icon"><i class="fas fa-university"></i></div><div class="university-name">Univ. Constantine</div><div class="university-count">2 examens</div></div>
+                        </div>`
+                    },
+                    videos: {
+                        icon: "fa-play-circle",
+                        title: "Vidéos Pédagogiques",
+                        content: `<div class="video-grid">
+                            <div class="video-card"><div class="video-thumbnail"><i class="fas fa-play-circle"></i><span class="video-duration">25:00</span></div><div class="video-info"><div class="video-title">Hypothèses de Kirchhoff</div><div class="video-meta">Dr. Messaoudi-Mezouar · 10K vues</div></div></div>
+                            <div class="video-card"><div class="video-thumbnail"><i class="fas fa-play-circle"></i><span class="video-duration">32:15</span></div><div class="video-info"><div class="video-title">Équation de Lagrange - Dérivation</div><div class="video-meta">Dr. Messaoudi-Mezouar · 8K vues</div></div></div>
+                            <div class="video-card"><div class="video-thumbnail"><i class="fas fa-play-circle"></i><span class="video-duration">28:40</span></div><div class="video-info"><div class="video-title">Solution de Navier en série de Fourier</div><div class="video-meta">Dr. Messaoudi-Mezouar · 9K vues</div></div></div>
+                        </div>`
+                    },
+                    ressources: {
+                        icon: "fa-folder-open",
+                        title: "Ressources",
+                        content: `<div class="resource-category"><div class="resource-category-title"><i class="fas fa-book"></i> Livres de Référence</div><div class="resource-list">
+                            <a href="#" class="resource-item"><div class="resource-icon"><i class="fas fa-book"></i></div><div class="resource-info"><div class="resource-name">Theory of Plates - S. Timoshenko</div><div class="resource-meta">Edition 2021 · 580 pages</div></div><span class="resource-action">PDF</span></a>
+                            <a href="#" class="resource-item"><div class="resource-icon"><i class="fas fa-book"></i></div><div class="resource-info"><div class="resource-name">Eurocode 2 - Calcul des structures en béton</div><div class="resource-meta">NF EN 1992-1-1</div></div><span class="resource-action">PDF</span></a>
+                        </div></div>
+                        <div class="resource-category"><div class="resource-category-title"><i class="fas fa-newspaper"></i> Articles Scientifiques</div><div class="resource-list">
+                            <a href="#" class="resource-item"><div class="resource-icon"><i class="fas fa-file-alt"></i></div><div class="resource-info"><div class="resource-name">Solutions exactes pour plaques rectangulaires</div><div class="resource-meta">Journal of Applied Mechanics · 2023</div></div><span class="resource-action">Lire</span></a>
+                        </div></div>`
+                    },
+                    qcm: {
+                        icon: "fa-question-circle",
+                        title: "QCM d'Entraînement",
+                        content: `<div class="qcm-container">
+                            <div class="qcm-question"><div class="qcm-question-text"><span class="qcm-num">1</span>L'hypothèse de Kirchhoff stipule que :</div><div class="qcm-options"><div class="qcm-option" onclick="this.classList.add('wrong')">Les contraintes normales sont nulles</div><div class="qcm-option correct" onclick="this.classList.add('correct')">Les normales au plan moyen restent normales après déformation</div><div class="qcm-option" onclick="this.classList.add('wrong')">Le cisaillement transversal est maximal</div></div></div>
+                            <div class="qcm-question"><div class="qcm-question-text"><span class="qcm-num">2</span>La solution de Navier utilise :</div><div class="qcm-options"><div class="qcm-option correct" onclick="this.classList.add('correct')">Les séries doubles de Fourier</div><div class="qcm-option" onclick="this.classList.add('wrong')">La méthode des éléments finis</div><div class="qcm-option" onclick="this.classList.add('wrong')">La méthode de Ritz</div></div></div>
+                            <div class="qcm-actions"><button class="btn btn-primary" onclick="alert('QCM soumis !')"><i class="fas fa-check"></i> Vérifier</button><button class="btn btn-outline" onclick="location.reload()"><i class="fas fa-redo"></i> Réinitialiser</button></div>
+                        </div>`
+                    }
+                }
+            },
+            {
+                num: "05",
+                title: "Réseaux de poutres croisées",
+                desc: "Mécanisme de transfert des charges, modèles simplifiés, application au calcul des dalles pleines.",
+                tabs: {
+                    definition: {
+                        icon: "fa-bullseye",
+                        title: "Définition & Objectifs",
+                        content: `<div class="content-grid">
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-crosshairs"></i></div><h4 class="content-title">Objectifs du chapitre</h4><p class="content-desc">Comprendre le transfert des charges dans les réseaux de poutres et calculer les efforts dans chaque élément.</p></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-list-check"></i></div><h4 class="content-title">Compétences visées</h4><p class="content-desc">- Modéliser un réseau de poutres<br>- Calculer la répartition des charges<br>- Dimensionner les dalles pleines</p></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-clock"></i></div><h4 class="content-title">Durée estimée</h4><p class="content-desc">3 semaines de cours + 2 séances de TD</p></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-star"></i></div><h4 class="content-title">Prérequis</h4><p class="content-desc">Méthode des éléments finis, calcul matriciel.</p></div>
+                        </div>`
+                    },
+                    cours: {
+                        icon: "fa-book",
+                        title: "Cours",
+                        content: `<div class="content-grid">
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-file-pdf"></i></div><h4 class="content-title">Cours Complet - Version Web</h4><p class="content-desc">Cours interactif sur les réseaux de poutres croisées.</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-eye"></i> Consulter</a></div></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-download"></i></div><h4 class="content-title">Cours Complet - PDF</h4><p class="content-desc">Version PDF téléchargeable (40 pages).</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> Télécharger</a></div></div>
+                        </div>`
+                    },
+                    td: {
+                        icon: "fa-pen-to-square",
+                        title: "TD & Applications",
+                        content: `<div class="content-grid">
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-file-pdf"></i></div><h4 class="content-title">Série de TD - Réseaux de poutres</h4><p class="content-desc">Exercices sur les modèles (1,1), (1,2), (2,2) et (4,6).</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> Énoncé PDF</a><a href="#" class="action-btn action-btn-secondary"><i class="fas fa-key"></i> Corrigé</a></div></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-file-pdf"></i></div><h4 class="content-title">Application aux dalles pleines</h4><p class="content-desc">Étude complète d'une dalle sur réseau de poutres.</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> Énoncé PDF</a><a href="#" class="action-btn action-btn-secondary"><i class="fas fa-key"></i> Corrigé</a></div></div>
+                        </div>`
+                    },
+                    examens: {
+                        icon: "fa-file-signature",
+                        title: "Examens & Contrôle Continu",
+                        content: `<div class="university-grid">
+                            <div class="university-card" onclick="alert('Examen ENSTP 2024 - Réseaux de poutres')"><div class="university-icon"><i class="fas fa-university"></i></div><div class="university-name">ENSTP Alger</div><div class="university-count">2 examens</div></div>
+                            <div class="university-card" onclick="alert('Examen USTHB 2023')"><div class="university-icon"><i class="fas fa-university"></i></div><div class="university-name">USTHB Alger</div><div class="university-count">1 examen</div></div>
+                        </div>`
+                    },
+                    videos: {
+                        icon: "fa-play-circle",
+                        title: "Vidéos Pédagogiques",
+                        content: `<div class="video-grid">
+                            <div class="video-card"><div class="video-thumbnail"><i class="fas fa-play-circle"></i><span class="video-duration">22:00</span></div><div class="video-info"><div class="video-title">Introduction aux réseaux de poutres</div><div class="video-meta">Dr. Messaoudi-Mezouar · 7K vues</div></div></div>
+                            <div class="video-card"><div class="video-thumbnail"><i class="fas fa-play-circle"></i><span class="video-duration">30:15</span></div><div class="video-info"><div class="video-title">Modèle simplifié (m,n)=(2,2)</div><div class="video-meta">Dr. Messaoudi-Mezouar · 5K vues</div></div></div>
+                        </div>`
+                    },
+                    ressources: {
+                        icon: "fa-folder-open",
+                        title: "Ressources",
+                        content: `<div class="resource-category"><div class="resource-category-title"><i class="fas fa-book"></i> Livres de Référence</div><div class="resource-list">
+                            <a href="#" class="resource-item"><div class="resource-icon"><i class="fas fa-book"></i></div><div class="resource-info"><div class="resource-name">Grillage Analogy - C. P. Heins</div><div class="resource-meta">Edition 2018 · 300 pages</div></div><span class="resource-action">PDF</span></a>
+                        </div></div>`
+                    },
+                    qcm: {
+                        icon: "fa-question-circle",
+                        title: "QCM d'Entraînement",
+                        content: `<div class="qcm-container">
+                            <div class="qcm-question"><div class="qcm-question-text"><span class="qcm-num">1</span>Dans un réseau de poutres croisées (1,1), la charge est supportée par :</div><div class="qcm-options"><div class="qcm-option correct" onclick="this.classList.add('correct')">Une seule poutre dans chaque direction</div><div class="qcm-option" onclick="this.classList.add('wrong')">Toutes les poutres également</div><div class="qcm-option" onclick="this.classList.add('wrong')">Aucune poutre</div></div></div>
+                            <div class="qcm-actions"><button class="btn btn-primary" onclick="alert('QCM soumis !')"><i class="fas fa-check"></i> Vérifier</button><button class="btn btn-outline" onclick="location.reload()"><i class="fas fa-redo"></i> Réinitialiser</button></div>
+                        </div>`
+                    }
+                }
+            },
+            {
+                num: "06",
+                title: "Torsion pure libre et uniforme des poutres",
+                desc: "Torsion des barres circulaires, sections massives, ouvertes et fermées à parois minces. Application aux ouvrages d'art.",
+                tabs: {
+                    definition: {
+                        icon: "fa-bullseye",
+                        title: "Définition & Objectifs",
+                        content: `<div class="content-grid">
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-crosshairs"></i></div><h4 class="content-title">Objectifs du chapitre</h4><p class="content-desc">Étudier la torsion dans différents types de sections et comprendre les phénomènes de déversement.</p></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-list-check"></i></div><h4 class="content-title">Compétences visées</h4><p class="content-desc">- Calculer les contraintes de torsion<br>- Comparer sections pleines et creuses<br>- Analyser les ouvrages d'art</p></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-clock"></i></div><h4 class="content-title">Durée estimée</h4><p class="content-desc">4 semaines de cours + 2 séances de TD</p></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-star"></i></div><h4 class="content-title">Prérequis</h4><p class="content-desc">Résistance des matériaux, théorie de l'élasticité.</p></div>
+                        </div>`
+                    },
+                    cours: {
+                        icon: "fa-book",
+                        title: "Cours",
+                        content: `<div class="content-grid">
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-file-pdf"></i></div><h4 class="content-title">Cours Complet - Version Web</h4><p class="content-desc">Cours interactif sur la torsion des poutres.</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-eye"></i> Consulter</a></div></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-download"></i></div><h4 class="content-title">Cours Complet - PDF</h4><p class="content-desc">Version PDF téléchargeable (48 pages).</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> Télécharger</a></div></div>
+                        </div>`
+                    },
+                    td: {
+                        icon: "fa-pen-to-square",
+                        title: "TD & Applications",
+                        content: `<div class="content-grid">
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-file-pdf"></i></div><h4 class="content-title">Série de TD - Torsion</h4><p class="content-desc">Exercices sur les sections circulaires, ouvertes et fermées.</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> Énoncé PDF</a><a href="#" class="action-btn action-btn-secondary"><i class="fas fa-key"></i> Corrigé</a></div></div>
+                            <div class="content-card"><div class="content-icon"><i class="fas fa-file-pdf"></i></div><h4 class="content-title">Étude de cas - Pont de Tacoma</h4><p class="content-desc">Analyse de l'effondrement du pont de Tacoma (1940).</p><div class="content-actions"><a href="#" class="action-btn action-btn-primary"><i class="fas fa-download"></i> PDF</a></div></div>
+                        </div>`
+                    },
+                    examens: {
+                        icon: "fa-file-signature",
+                        title: "Examens & Contrôle Continu",
+                        content: `<div class="university-grid">
+                            <div class="university-card" onclick="alert('Examen ENSTP 2024 - Torsion des poutres')"><div class="university-icon"><i class="fas fa-university"></i></div><div class="university-name">ENSTP Alger</div><div class="university-count">3 examens</div></div>
+                            <div class="university-card" onclick="alert('Examen USTHB 2023')"><div class="university-icon"><i class="fas fa-university"></i></div><div class="university-name">USTHB Alger</div><div class="university-count">2 examens</div></div>
+                            <div class="university-card" onclick="alert('Examen Univ. Oran 2024')"><div class="university-icon"><i class="fas fa-university"></i></div><div class="university-name">Univ. Oran</div><div class="university-count">1 examen</div></div>
+                        </div>`
+                    },
+                    videos: {
+                        icon: "fa-play-circle",
+                        title: "Vidéos Pédagogiques",
+                        content: `<div class="video-grid">
+                            <div class="video-card"><div class="video-thumbnail"><i class="fas fa-play-circle"></i><span class="video-duration">20:30</span></div><div class="video-info"><div class="video-title">Torsion d'une barre circulaire</div><div class="video-meta">Dr. Messaoudi-Mezouar · 9K vues</div></div></div>
+                            <div class="video-card"><div class="video-thumbnail"><i class="fas fa-play-circle"></i><span class="video-duration">26:00</span></div><div class="video-info"><div class="video-title">Sections tubulaires à parois minces</div><div class="video-meta">Dr. Messaoudi-Mezouar · 7K vues</div></div></div>
+                            <div class="video-card"><div class="video-thumbnail"><i class="fas fa-play-circle"></i><span class="video-duration">18:45</span></div><div class="video-info"><div class="video-title">Le pont de Tacoma - Étude de cas</div><div class="video-meta">Dr. Messaoudi-Mezouar · 15K vues</div></div></div>
+                        </div>`
+                    },
+                    ressources: {
+                        icon: "fa-folder-open",
+                        title: "Ressources",
+                        content: `<div class="resource-category"><div class="resource-category-title"><i class="fas fa-book"></i> Livres de Référence</div><div class="resource-list">
+                            <a href="#" class="resource-item"><div class="resource-icon"><i class="fas fa-book"></i></div><div class="resource-info"><div class="resource-name">Torsion in Structural Design - V. Z. Vlasov</div><div class="resource-meta">Edition 2020 · 350 pages</div></div><span class="resource-action">PDF</span></a>
+                        </div></div>
+                        <div class="resource-category"><div class="resource-category-title"><i class="fas fa-newspaper"></i> Articles Scientifiques</div><div class="resource-list">
+                            <a href="#" class="resource-item"><div class="resource-icon"><i class="fas fa-file-alt"></i></div><div class="resource-info"><div class="resource-name">Torsion dans les ouvrages d'art - Ponts</div><div class="resource-meta">Revue Française de Génie Civil · 2022</div></div><span class="resource-action">Lire</span></a>
+                        </div></div>`
+                    },
+                    qcm: {
+                        icon: "fa-question-circle",
+                        title: "QCM d'Entraînement",
+                        content: `<div class="qcm-container">
+                            <div class="qcm-question"><div class="qcm-question-text"><span class="qcm-num">1</span>Le module de torsion J pour une section circulaire pleine est :</div><div class="qcm-options"><div class="qcm-option" onclick="this.classList.add('wrong')">πd³/16</div><div class="qcm-option correct" onclick="this.classList.add('correct')">πd⁴/32</div><div class="qcm-option" onclick="this.classList.add('wrong')">πd²/4</div></div></div>
+                            <div class="qcm-question"><div class="qcm-question-text"><span class="qcm-num">2</span>Le pont de Tacoma s'est effondré à cause de :</div><div class="qcm-options"><div class="qcm-option" onclick="this.classList.add('wrong')">Défaillance des fondations</div><div class="qcm-option correct" onclick="this.classList.add('correct')">Résonance aéroélastique et torsion</div><div class="qcm-option" onclick="this.classList.add('wrong')">Corrosion des câbles</div></div></div>
+                            <div class="qcm-actions"><button class="btn btn-primary" onclick="alert('QCM soumis !')"><i class="fas fa-check"></i> Vérifier</button><button class="btn btn-outline" onclick="location.reload()"><i class="fas fa-redo"></i> Réinitialiser</button></div>
+                        </div>`
+                    }
+                }
+            }
+        ]
+    }
+};
+
+// Functions
+function openSemester(semId) {
+    const data = semestersData[semId];
+    document.getElementById('modalTitle').innerHTML = data.title + ' <span>' + (semId === 's1' ? '01' : '02') + '</span>';
+    const list = document.getElementById('chaptersList');
+    list.innerHTML = '';
+
+    data.chapters.forEach((ch, idx) => {
+        const tabs = Object.keys(ch.tabs);
+        const firstTab = tabs[0];
+
+        let tabsNav = '';
+        let tabsContent = '';
+
+        tabs.forEach((tabKey, tidx) => {
+            const tab = ch.tabs[tabKey];
+            tabsNav += `<button class="tab-btn ${tidx === 0 ? 'active' : ''}" onclick="switchTab(this, 'tab-${semId}-${idx}-${tabKey}')"><i class="fas ${tab.icon}"></i> ${tab.title}</button>`;
+            tabsContent += `<div class="tab-panel ${tidx === 0 ? 'active' : ''}" id="tab-${semId}-${idx}-${tabKey}">${tab.content}</div>`;
+        });
+
+        const card = document.createElement('div');
+        card.className = 'chapter-card';
+        card.innerHTML = `
+            <div class="chapter-header" onclick="toggleChapter(this.parentElement)">
+                <div class="chapter-number">${ch.num}</div>
+                <div class="chapter-info">
+                    <h3>${ch.title}</h3>
+                    <p>${ch.desc}</p>
+                </div>
+                <div class="chapter-toggle"><i class="fas fa-chevron-down"></i></div>
+            </div>
+            <div class="chapter-content">
+                <div class="tabs-nav">${tabsNav}</div>
+                ${tabsContent}
+            </div>
+        `;
+        list.appendChild(card);
+    });
+
+    document.getElementById('semesterModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    document.getElementById('semesterModal').classList.remove('active');
+    document.body.style.overflow = '';
+}
+
+function toggleChapter(card) {
+    card.classList.toggle('expanded');
+}
+
+function switchTab(btn, panelId) {
+    const content = btn.closest('.chapter-content');
+    content.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    content.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById(panelId).classList.add('active');
+}
+
+// Close modal on overlay click
+document.getElementById('semesterModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+// Close modal on Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeModal();
+});
+
+// Header scroll effect
+window.addEventListener('scroll', function() {
+    const header = document.getElementById('header');
+    if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+    } else {
+        header.classList.remove('scrolled');
+    }
+});
+
+// Smooth scroll for nav links
+document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+    });
+});
+
+// Create particles
+function createParticles() {
+    const container = document.getElementById('particles');
+    for (let i = 0; i < 30; i++) {
+        const particle = document.createElement('div');
+        particle.className = 'particle';
+        particle.style.left = Math.random() * 100 + '%';
+        particle.style.animationDelay = Math.random() * 15 + 's';
+        particle.style.animationDuration = (10 + Math.random() * 10) + 's';
+        container.appendChild(particle);
+    }
+}
+
+// Loading screen
+window.addEventListener('load', function() {
+    createParticles();
+    setTimeout(() => {
+        document.getElementById('loadingScreen').classList.add('hidden');
+    }, 1500);
+});
+</script>
+</body>
+</html>
