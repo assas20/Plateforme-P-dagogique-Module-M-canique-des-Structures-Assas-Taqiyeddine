@@ -2961,46 +2961,517 @@ videos:[
    OBJECTIVES
 ========================================================= */
 
-function renderObjectives(){
+/* =========================================================
+   OBJECTIFS PÉDAGOGIQUES PAR CHAPITRE
+========================================================= */
 
-const container =
-document.getElementById(
-"objectivesContainer"
-);
+const chapterObjectives = [
 
-container.innerHTML="";
+{
+    id: 1,
+
+    titleFR:
+    "Chapter I — Influence Lines of Determinate and Indeterminate Structures",
+
+    titleEN:
+    "Chapter I — Influence Lines of Determinate and Indeterminate Structures",
+
+    objectivesFR: [
+
+        "Comprendre la notion de ligne d’influence et son rôle dans l’analyse des structures soumises à des charges mobiles.",
+
+        "Établir les lignes d’influence des réactions d’appui, efforts tranchants et moments fléchissants.",
+
+        "Appliquer l’approche statique et analytique aux poutres.",
+
+        "Utiliser le principe de Müller-Breslau pour déterminer qualitativement les lignes d’influence.",
+
+        "Déterminer les lignes d’influence des poutres avec systèmes de planchers, treillis et portiques.",
+
+        "Évaluer la réponse d’une structure sous une charge concentrée mobile, une charge uniformément répartie ou une succession de charges concentrées.",
+
+        "Déterminer la réponse maximale absolue d’une structure soumise à des charges mobiles.",
+
+        "Résoudre des problèmes pratiques d’analyse des structures sous charges mobiles."
+
+    ],
+
+    objectivesEN: [
+
+        "Understand the concept of influence lines and their role in the analysis of structures subjected to moving loads.",
+
+        "Determine influence lines for support reactions, shear forces and bending moments.",
+
+        "Apply the static and analytical approach to beams.",
+
+        "Use the Müller-Breslau principle to qualitatively determine influence lines.",
+
+        "Determine influence lines for girders with floor systems, trusses and frames.",
+
+        "Evaluate the response of a structure subjected to a single moving concentrated load, a uniformly distributed live load or a series of moving concentrated loads.",
+
+        "Determine the absolute maximum response of a structure subjected to moving loads.",
+
+        "Solve practical problems involving structural analysis under moving loads."
+
+    ]
+},
 
 
-chapters.forEach(chapter=>{
+{
+    id: 2,
 
-container.innerHTML += `
+    titleFR:
+    "Chapter II — Cables",
 
-<div class="card">
+    titleEN:
+    "Chapter II — Cables",
 
-<h2>
-${chapter.titleFR}
-</h2>
+    objectivesFR: [
 
-<ul>
+        "Comprendre les caractéristiques mécaniques et géométriques des câbles.",
 
-${chapter.sections
-.map(section=>`
-<li>
-${section}
-</li>
-`)
-.join("")}
+        "Identifier le mode de fonctionnement d’un câble soumis principalement à des efforts de traction.",
 
-</ul>
+        "Établir les équations d’équilibre d’un câble soumis à des charges concentrées.",
 
-</div>
+        "Analyser un câble soumis à une charge uniformément répartie horizontalement.",
 
-`;
+        "Étudier le comportement d’un câble soumis à son propre poids.",
 
-});
+        "Déterminer la forme, les réactions d’appui, la tension et les efforts dans un câble.",
 
+        "Appliquer les principes de la mécanique des câbles aux ponts suspendus.",
+
+        "Résoudre des problèmes pratiques relatifs aux structures à câbles."
+
+    ],
+
+    objectivesEN: [
+
+        "Understand the mechanical and geometrical characteristics of cables.",
+
+        "Identify the working mode of a cable subjected mainly to tensile forces.",
+
+        "Establish the equilibrium equations of a cable subjected to concentrated loads.",
+
+        "Analyze a cable subjected to a uniformly distributed horizontal load.",
+
+        "Study the behavior of a cable subjected to its own weight.",
+
+        "Determine the cable shape, support reactions, tension and internal forces.",
+
+        "Apply the principles of cable mechanics to suspension bridges.",
+
+        "Solve practical problems involving cable structures."
+
+    ]
+},
+
+
+{
+    id: 3,
+
+    titleFR:
+    "Chapter III — Arch — Isostatic Arches",
+
+    titleEN:
+    "Chapter III — Arch — Isostatic Arches",
+
+    objectivesFR: [
+
+        "Comprendre le comportement structural des arcs.",
+
+        "Identifier les caractéristiques géométriques et mécaniques des arcs isostatiques.",
+
+        "Comprendre la notion de ligne d’arc et son influence sur le comportement de la structure.",
+
+        "Analyser le fonctionnement des arcs à trois articulations.",
+
+        "Déterminer les réactions d’appui et les principales sollicitations dans un arc.",
+
+        "Appliquer les équations d’équilibre à l’analyse des arcs soumis à différentes charges.",
+
+        "Interpréter les résultats mécaniques et identifier les particularités du comportement des arcs.",
+
+        "Résoudre des problèmes pratiques d’arcs isostatiques."
+
+    ],
+
+    objectivesEN: [
+
+        "Understand the structural behavior of arches.",
+
+        "Identify the geometrical and mechanical characteristics of isostatic arches.",
+
+        "Understand the concept of the arch axis and its influence on structural behavior.",
+
+        "Analyze the behavior of three-hinged arches.",
+
+        "Determine support reactions and the main internal forces in an arch.",
+
+        "Apply equilibrium equations to the analysis of arches subjected to different loading conditions.",
+
+        "Interpret mechanical results and identify the specific characteristics of arch behavior.",
+
+        "Solve practical problems involving isostatic arches."
+
+    ]
+},
+
+
+{
+    id: 4,
+
+    titleFR:
+    "Chapter IV — Rectangular Thin Elastic Plates",
+
+    titleEN:
+    "Chapter IV — Rectangular Thin Elastic Plates",
+
+    objectivesFR: [
+
+        "Comprendre les principes fondamentaux de la théorie des plaques minces élastiques.",
+
+        "Identifier les hypothèses de Kirchhoff applicables aux plaques minces.",
+
+        "Établir et interpréter l’équation différentielle de Lagrange.",
+
+        "Comprendre les conditions aux limites des plaques rectangulaires.",
+
+        "Utiliser la solution exacte pour l’analyse des plaques dans les cas appropriés.",
+
+        "Appliquer la solution de Navier par double série de Fourier aux plaques rectangulaires simplement appuyées.",
+
+        "Déterminer les déplacements et les principales sollicitations dans une plaque.",
+
+        "Relier les résultats théoriques aux applications pratiques de calcul des dalles.",
+
+        "Se familiariser avec les principes de calcul pratique conformément aux prescriptions de l’Eurocode 2.",
+
+        "Résoudre des séries d’exercices portant sur les plaques rectangulaires."
+
+    ],
+
+    objectivesEN: [
+
+        "Understand the fundamental principles of the theory of thin elastic plates.",
+
+        "Identify the Kirchhoff assumptions applicable to thin plates.",
+
+        "Establish and interpret the Lagrange differential equation.",
+
+        "Understand the boundary conditions of rectangular plates.",
+
+        "Use the exact solution for plate analysis in appropriate cases.",
+
+        "Apply Navier’s double Fourier series solution to simply supported rectangular plates.",
+
+        "Determine displacements and the main internal forces in a plate.",
+
+        "Relate theoretical results to practical applications in slab design.",
+
+        "Become familiar with practical design principles in accordance with Eurocode 2.",
+
+        "Solve exercise series involving rectangular thin plates."
+
+    ]
+},
+
+
+{
+    id: 5,
+
+    titleFR:
+    "Chapter V — Crossed Beam Network — Réseaux de Poutres Croisées",
+
+    titleEN:
+    "Chapter V — Crossed Beam Network",
+
+    objectivesFR: [
+
+        "Comprendre le fonctionnement structural d’un réseau de poutres croisées.",
+
+        "Identifier les principales hypothèses utilisées pour la modélisation et le calcul.",
+
+        "Comprendre le mécanisme de transfert des charges verticales entre les poutres.",
+
+        "Déterminer la participation des différentes poutres dans la reprise et la redistribution des charges.",
+
+        "Appliquer les méthodes de calcul des réseaux de poutres croisées aux dalles pleines.",
+
+        "Analyser la participation des poutres parallèles dans le transfert des charges d’un pont à poutres multiples.",
+
+        "Interpréter la distribution des charges entre les différents éléments structuraux.",
+
+        "Appliquer les méthodes étudiées à des problèmes pratiques de structures.",
+
+        "Résoudre des exercices de synthèse sur les réseaux de poutres croisées."
+
+    ],
+
+    objectivesEN: [
+
+        "Understand the structural behavior of crossed beam networks.",
+
+        "Identify the main assumptions used for structural modeling and analysis.",
+
+        "Understand the mechanism of vertical load transfer between beams.",
+
+        "Determine the contribution of the different beams to load carrying and redistribution.",
+
+        "Apply crossed beam network analysis methods to solid slabs.",
+
+        "Analyze the contribution of parallel beams to load transfer in multi-girder bridges.",
+
+        "Interpret load distribution among the different structural elements.",
+
+        "Apply the studied methods to practical structural problems.",
+
+        "Solve comprehensive exercises involving crossed beam networks."
+
+    ]
+},
+
+
+{
+    id: 6,
+
+    titleFR:
+    "Chapter VI — Torsion — Pure, Libre et Uniforme des Poutres",
+
+    titleEN:
+    "Chapter VI — Torsion — Pure, Free and Uniform Torsion of Beams",
+
+    objectivesFR: [
+
+        "Comprendre les principes fondamentaux de la torsion pure, libre et uniforme des poutres.",
+
+        "Analyser le comportement d’une barre à section circulaire soumise à la torsion.",
+
+        "Déterminer les principales grandeurs mécaniques associées à la torsion.",
+
+        "Étudier la torsion des barres à sections transversales massives pleines.",
+
+        "Analyser la torsion des sections ouvertes à parois minces.",
+
+        "Étudier le comportement des sections fermées ou tubulaires à parois minces.",
+
+        "Comparer le comportement des différentes formes de sections soumises à la torsion.",
+
+        "Déterminer les contraintes de cisaillement et les paramètres caractéristiques de la torsion.",
+
+        "Comprendre le rôle de la torsion dans les ouvrages d’art, notamment les ponts.",
+
+        "Appliquer les méthodes théoriques à des problèmes pratiques et résoudre des exercices de torsion."
+
+    ],
+
+    objectivesEN: [
+
+        "Understand the fundamental principles of pure, free and uniform torsion of beams.",
+
+        "Analyze the behavior of a circular-section bar subjected to torsion.",
+
+        "Determine the main mechanical quantities associated with torsion.",
+
+        "Study the torsion of bars with solid cross-sections.",
+
+        "Analyze the torsion of thin-walled open sections.",
+
+        "Study the behavior of thin-walled closed or tubular sections.",
+
+        "Compare the behavior of different cross-sectional shapes subjected to torsion.",
+
+        "Determine shear stresses and the characteristic parameters of torsion.",
+
+        "Understand the role of torsion in civil engineering structures, particularly bridges.",
+
+        "Apply theoretical methods to practical problems and solve torsion exercises."
+
+    ]
 }
 
+];
+
+
+
+/* =========================================================
+   RENDU DES OBJECTIFS
+========================================================= */
+
+function renderObjectives(){
+
+    const container =
+        document.getElementById(
+            "objectivesContainer"
+        );
+
+    if(!container) return;
+
+    container.innerHTML = "";
+
+    chapterObjectives.forEach(chapter => {
+
+        const title =
+            currentLanguage === "fr"
+            ? chapter.titleFR
+            : chapter.titleEN;
+
+        const objectives =
+            currentLanguage === "fr"
+            ? chapter.objectivesFR
+            : chapter.objectivesEN;
+
+        let html = `
+
+        <div class="card objective-chapter">
+
+            <div
+                style="
+                    display:flex;
+                    align-items:center;
+                    gap:15px;
+                    margin-bottom:18px;
+                "
+            >
+
+                <span class="chapter-number">
+                    ${chapter.id}
+                </span>
+
+                <h2
+                    style="
+                        margin:0;
+                        flex:1;
+                    "
+                >
+                    ${title}
+                </h2>
+
+            </div>
+
+
+            <div
+                style="
+                    background:#eef6fc;
+                    border-left:5px solid var(--primary);
+                    padding:14px 18px;
+                    border-radius:10px;
+                    margin-bottom:18px;
+                "
+            >
+
+                <strong>
+                    ${
+                        currentLanguage === "fr"
+                        ? "À l’issue de ce chapitre, l’étudiant sera capable de :"
+                        : "At the end of this chapter, the student will be able to:"
+                    }
+                </strong>
+
+            </div>
+
+
+            <ol
+                style="
+                    padding-left:28px;
+                    margin:0;
+                "
+            >
+
+                ${
+                    objectives.map(objective => `
+
+                        <li
+                            style="
+                                margin-bottom:12px;
+                                padding-left:5px;
+                            "
+                        >
+                            ${objective}
+                        </li>
+
+                    `).join("")
+                }
+
+            </ol>
+
+        </div>
+
+        `;
+
+        container.innerHTML += html;
+
+    });
+
+
+    /* =====================================================
+       OBJECTIF GLOBAL
+    ===================================================== */
+
+    container.innerHTML += `
+
+    <div
+        class="card"
+        style="
+            background:
+            linear-gradient(
+                135deg,
+                #003f63,
+                #0077a8
+            );
+            color:white;
+            border:none;
+        "
+    >
+
+        <h2
+            style="
+                color:white;
+                margin-top:0;
+            "
+        >
+
+            🎯
+
+            ${
+                currentLanguage === "fr"
+                ? "Objectif global du module"
+                : "Overall Module Objective"
+            }
+
+        </h2>
+
+
+        <p
+            style="
+                font-size:16px;
+                line-height:1.8;
+                margin-bottom:0;
+            "
+        >
+
+            ${
+                currentLanguage === "fr"
+
+                ?
+
+                "À travers ces six chapitres, l’étudiant développe progressivement les compétences nécessaires pour modéliser, analyser et calculer différents systèmes structuraux — poutres, treillis, portiques, câbles, arcs, plaques et réseaux de poutres — soumis à des charges statiques, mobiles, verticales ou de torsion, en mobilisant des méthodes analytiques adaptées aux problèmes de mécanique des structures."
+
+                :
+
+                "Through these six chapters, the student progressively develops the skills required to model, analyze and calculate different structural systems — beams, trusses, frames, cables, arches, plates and beam networks — subjected to static, moving, vertical or torsional loads, using analytical methods appropriate to structural mechanics problems."
+
+            }
+
+        </p>
+
+    </div>
+
+    `;
+
+}
 
 /* =========================================================
    COURSES
