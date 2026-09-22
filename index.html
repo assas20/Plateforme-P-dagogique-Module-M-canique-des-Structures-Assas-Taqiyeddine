@@ -1,379 +1,1155 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
+
 <meta charset="UTF-8">
+
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<meta name="description"
-content="Plateforme pédagogique de Mécanique des Structures - ENSTP Kouba Alger">
-
-<meta name="author" content="Dr. Assas Taqiyeddine">
 
 <title>Mécanique des Structures | ENSTP</title>
 
-<link rel="icon" href="assets/logo-enstp.png">
+<meta name="description"
+content="Plateforme pédagogique bilingue Français / English - Mécanique des Structures - ENSTP Kouba">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
-<link
-href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Montserrat:wght@600;700;800&display=swap"
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
 rel="stylesheet">
 
-<link
-rel="stylesheet"
+<link rel="stylesheet"
 href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
-<link rel="stylesheet" href="style.css">
 
-<script>
-window.MathJax = {
-    tex: {
-        inlineMath: [['\\(','\\)'],['$','$']],
-        displayMath: [['\\[','\\]'],['$$','$$']]
-    },
-    svg: {
-        fontCache: 'global'
+<style>
+
+/* =========================================================
+   VARIABLES
+========================================================= */
+
+:root{
+
+    --primary:#006699;
+    --primary-dark:#004d73;
+    --secondary:#0b7fab;
+
+    --success:#16803c;
+    --danger:#c62828;
+    --warning:#e58b00;
+
+    --dark:#17202a;
+    --text:#263238;
+    --muted:#64748b;
+
+    --light:#f4f7fa;
+    --white:#ffffff;
+
+    --border:#dce5ec;
+
+    --shadow:
+    0 8px 25px rgba(0,0,0,.08);
+
+    --radius:15px;
+
+}
+
+
+/* =========================================================
+   RESET
+========================================================= */
+
+*{
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
+body{
+
+    margin:0;
+
+    font-family:
+    "Inter",
+    Arial,
+    sans-serif;
+
+    background:var(--light);
+
+    color:var(--text);
+
+    line-height:1.6;
+
+}
+
+
+/* =========================================================
+   HEADER
+========================================================= */
+
+header{
+
+    background:
+    linear-gradient(
+        135deg,
+        #003f63,
+        #0077a8
+    );
+
+    color:white;
+
+    padding:15px 25px;
+
+    box-shadow:
+    0 5px 20px rgba(0,0,0,.15);
+
+}
+
+
+.header-container{
+
+    max-width:1500px;
+
+    margin:auto;
+
+    display:grid;
+
+    grid-template-columns:
+    160px 1fr 160px;
+
+    align-items:center;
+
+    gap:20px;
+
+}
+
+
+.logo-container{
+
+    display:flex;
+
+    justify-content:center;
+
+    align-items:center;
+
+}
+
+
+.logo-enstp,
+.logo-mesrs{
+
+    width:auto;
+
+    height:105px;
+
+    object-fit:contain;
+
+    background:white;
+
+    padding:6px;
+
+    border-radius:12px;
+
+    box-shadow:
+    0 5px 15px rgba(0,0,0,.2);
+
+}
+
+
+.header-center{
+
+    text-align:center;
+
+}
+
+
+.header-ar{
+
+    font-size:23px;
+
+    font-weight:800;
+
+    direction:rtl;
+
+}
+
+
+.header-fr{
+
+    font-size:18px;
+
+    font-weight:700;
+
+}
+
+
+.header-en{
+
+    font-size:15px;
+
+    opacity:.9;
+
+}
+
+
+.platform-title{
+
+    margin-top:8px;
+
+    font-size:28px;
+
+    font-weight:800;
+
+}
+
+
+.platform-subtitle{
+
+    font-size:14px;
+
+    opacity:.9;
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+nav{
+
+    position:sticky;
+
+    top:0;
+
+    z-index:1000;
+
+    background:
+    rgba(255,255,255,.98);
+
+    box-shadow:
+    0 3px 15px rgba(0,0,0,.08);
+
+}
+
+
+.nav-container{
+
+    max-width:1500px;
+
+    margin:auto;
+
+    display:flex;
+
+    flex-wrap:wrap;
+
+    justify-content:center;
+
+}
+
+
+.nav-btn{
+
+    border:0;
+
+    background:transparent;
+
+    padding:14px 13px;
+
+    cursor:pointer;
+
+    color:var(--dark);
+
+    font-weight:600;
+
+    transition:.25s;
+
+}
+
+
+.nav-btn:hover,
+.nav-btn.active{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+
+.language-btn{
+
+    background:#eaf4fa;
+
+    color:var(--primary);
+
+}
+
+
+.language-btn:hover{
+
+    background:var(--primary);
+
+    color:white;
+
+}
+
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+main{
+
+    max-width:1500px;
+
+    margin:auto;
+
+    padding:30px 20px;
+
+}
+
+
+.page{
+
+    display:none;
+
+    animation:
+    fadeIn .3s ease;
+
+}
+
+
+.page.active{
+
+    display:block;
+
+}
+
+
+@keyframes fadeIn{
+
+    from{
+        opacity:0;
+        transform:translateY(10px);
     }
-};
-</script>
 
-<script
-async
-src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
-</script>
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+
+}
+
+
+/* =========================================================
+   TITLES
+========================================================= */
+
+.section-title{
+
+    color:var(--primary);
+
+    font-size:31px;
+
+    margin-bottom:5px;
+
+}
+
+
+.section-subtitle{
+
+    color:var(--muted);
+
+    margin-top:0;
+
+}
+
+
+/* =========================================================
+   CARDS
+========================================================= */
+
+.card{
+
+    background:white;
+
+    border:
+    1px solid var(--border);
+
+    border-radius:var(--radius);
+
+    padding:23px;
+
+    margin-bottom:20px;
+
+    box-shadow:var(--shadow);
+
+}
+
+
+.card h2,
+.card h3{
+
+    color:var(--primary);
+
+}
+
+
+/* =========================================================
+   GRID
+========================================================= */
+
+.grid{
+
+    display:grid;
+
+    gap:20px;
+
+}
+
+
+.grid-2{
+    grid-template-columns:repeat(2,1fr);
+}
+
+
+.grid-3{
+    grid-template-columns:repeat(3,1fr);
+}
+
+
+.grid-4{
+    grid-template-columns:repeat(4,1fr);
+}
+
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.btn{
+
+    border:0;
+
+    border-radius:9px;
+
+    padding:10px 15px;
+
+    cursor:pointer;
+
+    font-weight:600;
+
+    margin:3px;
+
+    transition:.2s;
+
+}
+
+
+.btn:hover{
+
+    transform:translateY(-2px);
+
+}
+
+
+.btn-primary{
+    background:var(--primary);
+    color:white;
+}
+
+
+.btn-success{
+    background:var(--success);
+    color:white;
+}
+
+
+.btn-danger{
+    background:var(--danger);
+    color:white;
+}
+
+
+.btn-warning{
+    background:var(--warning);
+    color:white;
+}
+
+
+.btn-dark{
+    background:var(--dark);
+    color:white;
+}
+
+
+.btn-light{
+    background:#edf3f7;
+    color:var(--dark);
+}
+
+
+/* =========================================================
+   INPUT
+========================================================= */
+
+.input,
+select{
+
+    padding:11px 13px;
+
+    border:
+    1px solid #ccd8e0;
+
+    border-radius:9px;
+
+    background:white;
+
+    font-size:14px;
+
+}
+
+
+.input:focus,
+select:focus{
+
+    outline:
+    2px solid #9ed4ef;
+
+}
+
+
+/* =========================================================
+   TABLE
+========================================================= */
+
+.table-wrapper{
+
+    overflow-x:auto;
+
+}
+
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+}
+
+
+th,
+td{
+
+    padding:10px;
+
+    border:
+    1px solid var(--border);
+
+    text-align:left;
+
+}
+
+
+th{
+
+    background:#edf5fa;
+
+    color:var(--primary);
+
+}
+
+
+tr:hover td{
+
+    background:#f8fbfd;
+
+}
+
+
+/* =========================================================
+   STATISTICS
+========================================================= */
+
+.stat-card{
+
+    background:white;
+
+    border:
+    1px solid var(--border);
+
+    border-radius:15px;
+
+    padding:22px;
+
+    text-align:center;
+
+    box-shadow:var(--shadow);
+
+}
+
+
+.stat-card i{
+
+    font-size:29px;
+
+    color:var(--primary);
+
+}
+
+
+.stat-number{
+
+    font-size:29px;
+
+    font-weight:800;
+
+}
+
+
+/* =========================================================
+   CHAPTER
+========================================================= */
+
+.chapter-card{
+
+    background:white;
+
+    border:
+    1px solid var(--border);
+
+    border-radius:16px;
+
+    padding:23px;
+
+    box-shadow:var(--shadow);
+
+    transition:.25s;
+
+}
+
+
+.chapter-card:hover{
+
+    transform:translateY(-4px);
+
+}
+
+
+.chapter-number{
+
+    display:inline-flex;
+
+    width:45px;
+
+    height:45px;
+
+    border-radius:50%;
+
+    align-items:center;
+
+    justify-content:center;
+
+    background:var(--primary);
+
+    color:white;
+
+    font-weight:800;
+
+}
+
+
+/* =========================================================
+   RESOURCE
+========================================================= */
+
+.resource-card{
+
+    border:
+    1px solid var(--border);
+
+    border-radius:12px;
+
+    padding:16px;
+
+    background:#fbfdff;
+
+}
+
+
+.resource-icon{
+
+    font-size:30px;
+
+}
+
+
+/* =========================================================
+   SOCIAL
+========================================================= */
+
+.social-grid{
+
+    display:grid;
+
+    grid-template-columns:
+    repeat(5,1fr);
+
+    gap:15px;
+
+}
+
+
+.social-link{
+
+    min-height:120px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    align-items:center;
+
+    color:white;
+
+    text-decoration:none;
+
+    border-radius:15px;
+
+    font-weight:700;
+
+    transition:.25s;
+
+}
+
+
+.social-link:hover{
+
+    transform:
+    translateY(-5px);
+
+}
+
+
+.social-link i{
+
+    font-size:35px;
+
+    margin-bottom:8px;
+
+}
+
+
+.linkedin{
+    background:#0a66c2;
+}
+
+
+.researchgate{
+    background:#00ccbb;
+}
+
+
+.facebook{
+    background:#1877f2;
+}
+
+
+.scholar{
+    background:#4285f4;
+}
+
+
+.email{
+    background:#d93025;
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+.modal{
+
+    display:none;
+
+    position:fixed;
+
+    z-index:3000;
+
+    inset:0;
+
+    background:
+    rgba(0,0,0,.65);
+
+    padding:30px;
+
+}
+
+
+.modal-content{
+
+    max-width:1000px;
+
+    max-height:90vh;
+
+    overflow-y:auto;
+
+    margin:30px auto;
+
+    background:white;
+
+    border-radius:18px;
+
+    padding:25px;
+
+    position:relative;
+
+}
+
+
+.close-modal{
+
+    position:absolute;
+
+    right:18px;
+
+    top:10px;
+
+    font-size:32px;
+
+    color:var(--danger);
+
+    cursor:pointer;
+
+}
+
+
+/* =========================================================
+   FOOTER
+========================================================= */
+
+footer{
+
+    background:#102a3a;
+
+    color:white;
+
+    text-align:center;
+
+    padding:30px 20px;
+
+    margin-top:40px;
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media(max-width:1000px){
+
+    .grid-4{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .social-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+}
+
+
+@media(max-width:700px){
+
+    .header-container{
+
+        grid-template-columns:
+        80px 1fr 80px;
+
+        gap:8px;
+
+    }
+
+    .logo-enstp,
+    .logo-mesrs{
+
+        height:65px;
+
+    }
+
+    .header-ar{
+        font-size:14px;
+    }
+
+    .header-fr{
+        font-size:11px;
+    }
+
+    .header-en{
+        font-size:9px;
+    }
+
+    .platform-title{
+        font-size:17px;
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4{
+
+        grid-template-columns:1fr;
+
+    }
+
+    .social-grid{
+
+        grid-template-columns:1fr;
+
+    }
+
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+@media print{
+
+    header,
+    nav,
+    footer,
+    .btn{
+
+        display:none !important;
+
+    }
+
+    body{
+
+        background:white;
+
+    }
+
+}
+
+</style>
 
 </head>
 
+
 <body>
-
-<!-- =========================================================
-     LOADER
-========================================================= -->
-
-<div id="loader" class="loader">
-    <div class="loader-box">
-        <img src="assets/logo-enstp.png" alt="ENSTP">
-        <div class="spinner"></div>
-        <h2>Mécanique des Structures</h2>
-        <p>Chargement de la plateforme...</p>
-    </div>
-</div>
-
-
-<!-- =========================================================
-     TOP BAR
-========================================================= -->
-
-<div class="topbar">
-
-    <div>
-        <i class="fa-solid fa-graduation-cap"></i>
-        ENSTP — Département Infrastructures de Base
-    </div>
-
-    <div class="topbar-right">
-        <span>
-            <i class="fa-regular fa-calendar"></i>
-            2026–2027
-        </span>
-
-        <span class="status-online">
-            <i class="fa-solid fa-circle"></i>
-            Plateforme active
-        </span>
-    </div>
-
-</div>
 
 
 <!-- =========================================================
      HEADER
 ========================================================= -->
 
-<header class="header">
+<header>
 
-    <div class="logo-box">
-        <img
-        src="assets/logo-enstp.png"
-        alt="Logo ENSTP">
-    </div>
+<div class="header-container">
 
-    <div class="institution">
 
-        <div class="arabic">
-            المدرسة الوطنية العليا للأشغال العمومية
-        </div>
+<div class="logo-container">
 
-        <div class="french">
-            ÉCOLE NATIONALE SUPÉRIEURE DES TRAVAUX PUBLICS
-        </div>
+<img
+src="logo-enstp.png"
+class="logo-enstp"
+alt="ENSTP">
 
-        <div class="english">
-            HIGHER NATIONAL SCHOOL OF PUBLIC WORKS
-        </div>
+</div>
 
-        <small>
-            <i class="fa-solid fa-location-dot"></i>
-            1 Rue Sidi Garidi — Kouba — Alger
-        </small>
 
-    </div>
+<div class="header-center">
 
-    <div class="logo-box">
-        <img
-        src="assets/logo-mesrs.png"
-        alt="Logo MESRS">
-    </div>
+<div class="header-ar">
+المدرسة الوطنية العليا للأشغال العمومية
+</div>
+
+<div class="header-fr">
+ÉCOLE NATIONALE SUPÉRIEURE DES TRAVAUX PUBLICS
+</div>
+
+<div class="header-en">
+HIGHER NATIONAL SCHOOL OF PUBLIC WORKS
+</div>
+
+<div class="platform-title"
+data-fr="Mécanique des Structures"
+data-en="Structural Mechanics">
+
+Mécanique des Structures
+
+</div>
+
+<div class="platform-subtitle"
+data-fr="Plateforme pédagogique — 2026 / 2027"
+data-en="Educational Platform — 2026 / 2027">
+
+Plateforme pédagogique — 2026 / 2027
+
+</div>
+
+</div>
+
+
+<div class="logo-container">
+
+<img
+src="logo-mesrs.png"
+class="logo-mesrs"
+alt="MESRS">
+
+</div>
+
+</div>
 
 </header>
-
-
-<!-- =========================================================
-     COURSE BRAND
-========================================================= -->
-
-<section class="course-brand">
-
-    <div class="brand-inner">
-
-        <div class="brand-label">
-            <i class="fa-solid fa-building-columns"></i>
-            4ème année — Infrastructures de Base
-        </div>
-
-        <h1>
-            Mécanique des Structures
-        </h1>
-
-        <h2>
-            Structural Mechanics
-        </h2>
-
-        <p>
-            Plateforme interactive pédagogique dédiée à l'étude,
-            au calcul, à la modélisation et à l'analyse
-            des structures.
-        </p>
-
-        <div class="keywords">
-
-            <span>
-                <i class="fa-solid fa-chart-line"></i>
-                Lignes d'influence
-            </span>
-
-            <span>
-                <i class="fa-solid fa-link"></i>
-                Câbles
-            </span>
-
-            <span>
-                <i class="fa-solid fa-archway"></i>
-                Arches
-            </span>
-
-            <span>
-                <i class="fa-solid fa-border-all"></i>
-                Plaques minces
-            </span>
-
-            <span>
-                <i class="fa-solid fa-network-wired"></i>
-                Réseaux de poutres
-            </span>
-
-            <span>
-                <i class="fa-solid fa-arrows-rotate"></i>
-                Torsion
-            </span>
-
-        </div>
-
-        <div class="teacher">
-
-            <div class="teacher-avatar">
-                <i class="fa-solid fa-user-tie"></i>
-            </div>
-
-            <div>
-                <strong>Dr. Assas Taqiyeddine</strong>
-                <span>Maître-assistant (Classe B) — ENSTP</span>
-            </div>
-
-        </div>
-
-    </div>
-
-</section>
 
 
 <!-- =========================================================
      NAVIGATION
 ========================================================= -->
 
-<nav class="navbar">
+<nav>
 
-    <div class="nav-inner">
+<div class="nav-container">
 
-        <button id="mobileMenu" class="mobile-menu">
-            <i class="fa-solid fa-bars"></i>
-        </button>
 
-        <div id="navLinks" class="nav-links">
+<button
+class="nav-btn active"
+onclick="showPage('accueil',this)"
+data-fr="🏠 Accueil"
+data-en="🏠 Home">
 
-            <button class="nav-btn active" data-page="home">
-                <i class="fa-solid fa-house"></i>
-                Accueil
-            </button>
+🏠 Accueil
 
-            <button class="nav-btn" data-page="objectifs">
-                <i class="fa-solid fa-bullseye"></i>
-                Objectifs
-            </button>
+</button>
 
-            <button class="nav-btn" data-page="programme">
-                <i class="fa-solid fa-sitemap"></i>
-                Programme
-            </button>
 
-            <button class="nav-btn" data-page="cours">
-                <i class="fa-solid fa-book-open"></i>
-                Cours
-            </button>
+<button
+class="nav-btn"
+onclick="showPage('objectifs',this)"
+data-fr="🎯 Objectifs"
+data-en="🎯 Objectives">
 
-            <button class="nav-btn" data-page="videos">
-                <i class="fa-solid fa-circle-play"></i>
-                Vidéos
-            </button>
+🎯 Objectifs
 
-            <button class="nav-btn" data-page="presence">
-                <i class="fa-solid fa-user-check"></i>
-                Présence
-            </button>
+</button>
 
-            <button class="nav-btn" data-page="notes">
-                <i class="fa-solid fa-chart-column"></i>
-                Les notes
-            </button>
 
-            <button class="nav-btn" data-page="examens">
-                <i class="fa-solid fa-file-pen"></i>
-                Examens
-            </button>
+<button
+class="nav-btn"
+onclick="showPage('programme',this)"
+data-fr="📚 Programme"
+data-en="📚 Program">
 
-            <button class="nav-btn" data-page="ressources">
-                <i class="fa-solid fa-book"></i>
-                Ressources
-            </button>
+📚 Programme
 
-            <button class="nav-btn" data-page="contact">
-                <i class="fa-solid fa-address-card"></i>
-                Contact
-            </button>
+</button>
 
-        </div>
 
-        <div class="nav-tools">
+<button
+class="nav-btn"
+onclick="showPage('cours',this)"
+data-fr="🏗️ Cours"
+data-en="🏗️ Courses">
 
-            <button id="searchButton" title="Recherche">
-                <i class="fa-solid fa-magnifying-glass"></i>
-            </button>
+🏗️ Cours
 
-            <button id="notificationButton" title="Notifications">
-                <i class="fa-solid fa-bell"></i>
-                <span class="notification-dot"></span>
-            </button>
+</button>
 
-            <button id="languageButton">
-                <i class="fa-solid fa-language"></i>
-                <span id="languageLabel">FR</span>
-            </button>
 
-        </div>
+<button
+class="nav-btn"
+onclick="showPage('videos',this)"
+data-fr="🎥 Vidéos"
+data-en="🎥 Videos">
 
-    </div>
+🎥 Vidéos
+
+</button>
+
+
+<button
+class="nav-btn"
+onclick="showPage('presence',this)"
+data-fr="✅ Présence"
+data-en="✅ Attendance">
+
+✅ Présence
+
+</button>
+
+
+<button
+class="nav-btn"
+onclick="showPage('notes',this)"
+data-fr="📝 Notes CC"
+data-en="📝 CC Grades">
+
+📝 Notes CC
+
+</button>
+
+
+<button
+class="nav-btn"
+onclick="showPage('examens',this)"
+data-fr="📋 Examens"
+data-en="📋 Exams">
+
+📋 Examens
+
+</button>
+
+
+<button
+class="nav-btn"
+onclick="showPage('ressources',this)"
+data-fr="📚 Ressources"
+data-en="📚 Resources">
+
+📚 Ressources
+
+</button>
+
+
+<button
+class="nav-btn"
+onclick="showPage('enseignant',this)"
+data-fr="👨‍🏫 Enseignant"
+data-en="👨‍🏫 Instructor">
+
+👨‍🏫 Enseignant
+
+</button>
+
+
+<button
+class="nav-btn language-btn"
+onclick="toggleLanguage()">
+
+🌐
+
+<span id="languageText">
+English
+</span>
+
+</button>
+
+
+</div>
 
 </nav>
-
-
-<!-- =========================================================
-     SEARCH
-========================================================= -->
-
-<div id="searchOverlay" class="search-overlay">
-
-    <div class="search-box">
-
-        <button id="closeSearch" class="close-btn">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-
-        <span class="eyebrow">
-            RECHERCHE
-        </span>
-
-        <h2>
-            Rechercher dans la plateforme
-        </h2>
-
-        <div class="search-input">
-
-            <i class="fa-solid fa-magnifying-glass"></i>
-
-            <input
-            id="searchInput"
-            type="search"
-            placeholder="Ex. Müller-Breslau, câble, torsion...">
-
-        </div>
-
-        <div id="searchResults"></div>
-
-    </div>
-
-</div>
-
-
-<!-- =========================================================
-     NOTIFICATION
-========================================================= -->
-
-<div id="notificationPanel" class="notification-panel">
-
-    <div class="notification-title">
-        <strong>Notifications</strong>
-
-        <button id="closeNotification">
-            <i class="fa-solid fa-xmark"></i>
-        </button>
-    </div>
-
-    <div class="notification-item">
-        <i class="fa-solid fa-calendar-check"></i>
-        <div>
-            <strong>Début du cours</strong>
-            <p>23 septembre 2026</p>
-        </div>
-    </div>
-
-    <div class="notification-item">
-        <i class="fa-solid fa-book"></i>
-        <div>
-            <strong>Programme disponible</strong>
-            <p>Les six chapitres sont organisés par semestre.</p>
-        </div>
-    </div>
-
-    <div class="notification-item">
-        <i class="fa-solid fa-user-check"></i>
-        <div>
-            <strong>Présence</strong>
-            <p>Le registre de présence est disponible.</p>
-        </div>
-    </div>
-
-</div>
 
 
 <!-- =========================================================
@@ -384,260 +1160,136 @@ src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
 
 
 <!-- =========================================================
-     HOME
+     ACCUEIL
 ========================================================= -->
 
-<section id="page-home" class="page active">
+<section
+id="accueil"
+class="page active">
 
-    <div class="hero">
 
-        <div class="hero-content">
+<h1
+class="section-title"
+data-fr="Bienvenue sur la plateforme pédagogique"
+data-en="Welcome to the Educational Platform">
 
-            <span class="eyebrow">
-                PLATEFORME PÉDAGOGIQUE 2026–2027
-            </span>
+Bienvenue sur la plateforme pédagogique
 
-            <h2>
-                Comprendre.
-                <span>Calculer.</span>
-                Modéliser.
-            </h2>
+</h1>
 
-            <p>
-                Un environnement numérique complet pour accompagner
-                l'étudiant dans l'apprentissage de la mécanique
-                des structures.
-            </p>
 
-            <div class="hero-buttons">
+<p
+class="section-subtitle"
+data-fr="Mécanique des Structures — 4ème année Département Infrastructures de Base"
+data-en="Structural Mechanics — 4th Year Department of Basic Infrastructure">
 
-                <button class="btn primary" data-page-target="programme">
-                    <i class="fa-solid fa-map"></i>
-                    Explorer le programme
-                </button>
+Mécanique des Structures — 4ème année Département Infrastructures de Base
 
-                <button class="btn secondary" data-page-target="cours">
-                    <i class="fa-solid fa-book-open"></i>
-                    Accéder aux cours
-                </button>
+</p>
 
-            </div>
 
-        </div>
+<div class="card">
 
+<h2
+data-fr="Mécanique des Structures"
+data-en="Structural Mechanics">
 
-        <div class="schedule-card">
+Mécanique des Structures
 
-            <div class="schedule-header">
+</h2>
 
-                <div class="icon-circle">
-                    <i class="fa-solid fa-calendar-week"></i>
-                </div>
 
-                <div>
-                    <span>ORGANISATION</span>
-                    <h3>Emploi du temps</h3>
-                </div>
+<p
+data-fr="Plateforme pédagogique dédiée aux étudiants de 4ème année du Département Infrastructures de Base de l'ENSTP Kouba."
+data-en="Educational platform dedicated to fourth-year students of the Department of Basic Infrastructure at ENSTP Kouba.">
 
-            </div>
+Plateforme pédagogique dédiée aux étudiants de 4ème année du Département Infrastructures de Base de l'ENSTP Kouba.
 
+</p>
 
-            <div class="schedule-row">
 
-                <div class="group-number">
-                    G01
-                </div>
+<div class="grid grid-4">
 
-                <div>
-                    <strong>Mercredi</strong>
-                    <span>08:00 — 10:00</span>
-                    <small>Salle 05</small>
-                </div>
 
-            </div>
+<div class="stat-card">
 
+<i class="fa-solid fa-book-open"></i>
 
-            <div class="schedule-row">
+<div class="stat-number">
+6
+</div>
 
-                <div class="group-number">
-                    G02
-                </div>
+<div
+data-fr="Chapitres"
+data-en="Chapters">
 
-                <div>
-                    <strong>Mercredi</strong>
-                    <span>10:05 — 12:05</span>
-                    <small>Salle 22</small>
-                </div>
+Chapitres
 
-            </div>
+</div>
 
+</div>
 
-            <div class="start-date">
 
-                <i class="fa-solid fa-calendar-days"></i>
+<div class="stat-card">
 
-                <div>
-                    <span>Première séance</span>
-                    <strong>23 septembre 2026</strong>
-                </div>
+<i class="fa-brands fa-youtube"></i>
 
-            </div>
+<div class="stat-number">
+60+
+</div>
 
-        </div>
+<div
+data-fr="Vidéos"
+data-en="Videos">
 
-    </div>
+Vidéos
 
+</div>
 
-    <!-- STATISTICS -->
-
-    <div class="section-container">
-
-        <div class="section-heading">
-
-            <span class="eyebrow">TABLEAU DE BORD</span>
-
-            <h2>
-                Votre espace pédagogique
-            </h2>
-
-            <p>
-                Accédez rapidement aux différentes fonctionnalités.
-            </p>
-
-        </div>
-
-
-        <div class="stats-grid">
-
-            <div class="stat-card">
-                <div class="stat-icon blue">
-                    <i class="fa-solid fa-layer-group"></i>
-                </div>
-                <div>
-                    <span>Semestres</span>
-                    <strong>02</strong>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon cyan">
-                    <i class="fa-solid fa-book-open"></i>
-                </div>
-                <div>
-                    <span>Chapitres</span>
-                    <strong>06</strong>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon green">
-                    <i class="fa-solid fa-file-lines"></i>
-                </div>
-                <div>
-                    <span>Supports</span>
-                    <strong>100+</strong>
-                </div>
-            </div>
-
-            <div class="stat-card">
-                <div class="stat-icon orange">
-                    <i class="fa-solid fa-video"></i>
-                </div>
-                <div>
-                    <span>Vidéos</span>
-                    <strong>50+</strong>
-                </div>
-            </div>
-
-        </div>
-
-
-        <!-- QUICK ACCESS -->
-
-        <div class="section-heading compact">
-
-            <span class="eyebrow">
-                ACCÈS RAPIDE
-            </span>
-
-            <h2>
-                Explorer la plateforme
-            </h2>
-
-        </div>
-
-
-        <div class="quick-grid">
-
-            <button class="quick-card" data-page-target="objectifs">
-                <div class="quick-icon">
-                    <i class="fa-solid fa-bullseye"></i>
-                </div>
-                <div>
-                    <strong>Objectifs</strong>
-                    <span>Compétences par chapitre</span>
-                </div>
-                <i class="fa-solid fa-arrow-right"></i>
-            </button>
-
-            <button class="quick-card" data-page-target="programme">
-                <div class="quick-icon">
-                    <i class="fa-solid fa-sitemap"></i>
-                </div>
-                <div>
-                    <strong>Programme</strong>
-                    <span>Semestre 01 et semestre 02</span>
-                </div>
-                <i class="fa-solid fa-arrow-right"></i>
-            </button>
-
-            <button class="quick-card" data-page-target="cours">
-                <div class="quick-icon">
-                    <i class="fa-solid fa-book"></i>
-                </div>
-                <div>
-                    <strong>Cours</strong>
-                    <span>Web • PDF • TD • Applications</span>
-                </div>
-                <i class="fa-solid fa-arrow-right"></i>
-            </button>
-
-            <button class="quick-card" data-page-target="videos">
-                <div class="quick-icon">
-                    <i class="fa-brands fa-youtube"></i>
-                </div>
-                <div>
-                    <strong>Vidéos</strong>
-                    <span>Tutoriels par chapitre</span>
-                </div>
-                <i class="fa-solid fa-arrow-right"></i>
-            </button>
-
-            <button class="quick-card" data-page-target="presence">
-                <div class="quick-icon">
-                    <i class="fa-solid fa-user-check"></i>
-                </div>
-                <div>
-                    <strong>Présence</strong>
-                    <span>Gestion des étudiants</span>
-                </div>
-                <i class="fa-solid fa-arrow-right"></i>
-            </button>
-
-            <button class="quick-card" data-page-target="notes">
-                <div class="quick-icon">
-                    <i class="fa-solid fa-chart-column"></i>
-                </div>
-                <div>
-                    <strong>Les notes</strong>
-                    <span>Contrôle continu /20</span>
-                </div>
-                <i class="fa-solid fa-arrow-right"></i>
-            </button>
-
-        </div>
-
-    </div>
+</div>
+
+
+<div class="stat-card">
+
+<i class="fa-solid fa-users"></i>
+
+<div class="stat-number">
+81
+</div>
+
+<div
+data-fr="Étudiants"
+data-en="Students">
+
+Étudiants
+
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<i class="fa-solid fa-language"></i>
+
+<div class="stat-number">
+2
+</div>
+
+<div
+data-fr="Langues"
+data-en="Languages">
+
+Langues
+
+</div>
+
+</div>
+
+
+</div>
+
+</div>
 
 </section>
 
@@ -646,115 +1298,300 @@ src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
      OBJECTIFS
 ========================================================= -->
 
-<section id="page-objectifs" class="page">
+<section
+id="objectifs"
+class="page">
 
-    <div class="page-header">
 
-        <span class="eyebrow">PÉDAGOGIE</span>
+<h1 class="section-title"
+data-fr="Objectifs pédagogiques"
+data-en="Learning Objectives">
 
-        <h2>
-            Objectifs pédagogiques
-        </h2>
+Objectifs pédagogiques
 
-        <p>
-            Compétences et résultats d'apprentissage attendus
-            pour chaque chapitre.
-        </p>
+</h1>
 
-    </div>
 
-    <div id="objectifsContainer" class="section-container"></div>
+<div id="objectivesContainer"></div>
+
 
 </section>
 
 
 <!-- =========================================================
-     PROGRAMME
+     PROGRAMME EXACT
 ========================================================= -->
 
-<section id="page-programme" class="page">
-
-    <div class="page-header">
-
-        <span class="eyebrow">PROGRAMME ANNUEL</span>
-
-        <h2>
-            Programme de Mécanique des Structures
-        </h2>
-
-        <p>
-            Année universitaire 2026–2027
-        </p>
-
-    </div>
+<section
+id="programme"
+class="page">
 
 
-    <div class="semester-switch">
+<h1 class="section-title"
+data-fr="Programme de la matière"
+data-en="Course Program">
 
-        <button class="semester-btn active" data-semester="s1">
-            <strong>S1</strong>
-            <span>Influence Lines • Câbles • Arches</span>
-        </button>
+Programme de la matière
 
-        <button class="semester-btn" data-semester="s2">
-            <strong>S2</strong>
-            <span>Plaques • Réseaux • Torsion</span>
-        </button>
-
-    </div>
+</h1>
 
 
-    <div class="concept-map">
+<p class="section-subtitle">
 
-        <div class="concept-center">
-            <i class="fa-solid fa-building"></i>
-            <strong>MÉCANIQUE<br>DES STRUCTURES</strong>
-        </div>
+Mécanique des Structures
 
-        <div class="concept-items">
-
-            <div class="concept-item">
-                <span>CH01</span>
-                <i class="fa-solid fa-chart-line"></i>
-                <strong>Influence Lines</strong>
-            </div>
-
-            <div class="concept-item">
-                <span>CH02</span>
-                <i class="fa-solid fa-link"></i>
-                <strong>Câbles</strong>
-            </div>
-
-            <div class="concept-item">
-                <span>CH03</span>
-                <i class="fa-solid fa-archway"></i>
-                <strong>Arches</strong>
-            </div>
-
-            <div class="concept-item">
-                <span>CH04</span>
-                <i class="fa-solid fa-border-all"></i>
-                <strong>Plaques minces</strong>
-            </div>
-
-            <div class="concept-item">
-                <span>CH05</span>
-                <i class="fa-solid fa-network-wired"></i>
-                <strong>Réseaux de poutres</strong>
-            </div>
-
-            <div class="concept-item">
-                <span>CH06</span>
-                <i class="fa-solid fa-arrows-rotate"></i>
-                <strong>Torsion</strong>
-            </div>
-
-        </div>
-
-    </div>
+</p>
 
 
-    <div id="programmeContainer" class="section-container"></div>
+<!-- CHAPTER I -->
+
+<div class="card">
+
+<h2>
+Chapter I: Influence Lines of Determinate and Indeterminate Structures
+</h2>
+
+<h3>
+I.1. Introduction
+</h3>
+
+<h3>
+I.2. Influence lines for beams: Static–analytical approach
+</h3>
+
+<h3>
+I.3. Müller–Breslau principle: kinematic–qualitative approach
+</h3>
+
+<h3>
+I.4. Influence lines for Girders with floor systems
+</h3>
+
+<h3>
+I.5. Influence lines for Trusses
+</h3>
+
+<h3>
+I.6. Influence lines for Frames
+</h3>
+
+<h3>
+I.7. Applications of influence lines
+</h3>
+
+<h4>
+I.7.1. Response at a particular location due to a single moving concentrated load
+</h4>
+
+<h4>
+I.7.2. Response at a particular location due to a uniformly distributed live load
+</h4>
+
+<h4>
+I.7.3. Response at a particular location due to a series of moving concentrated loads
+</h4>
+
+<h4>
+I.7.4. Absolute maximum response
+</h4>
+
+<h3>
+I.8. Problems
+</h3>
+
+</div>
+
+
+<!-- CHAPTER II -->
+
+<div class="card">
+
+<h2>
+Chapter II: Cables
+</h2>
+
+<h3>
+II.1. INTRODUCTION
+</h3>
+
+<h3>
+II.2. CHARACTERISTICS AND WORKING MODE OF A CABLE
+</h3>
+
+<h3>
+II.3. CABLE SUBJECTED TO CONCENTRATED LOADS
+</h3>
+
+<h3>
+II.4. CABLE SUBJECTED TO A UNIFORM HORIZONTALLY DISTRIBUTED LOAD
+</h3>
+
+<h3>
+II.5. CABLE UNDER ITS OWN WEIGHT
+</h3>
+
+<h3>
+II.6. APPLICATION TO THE SUSPENDED BRIDGE
+</h3>
+
+<h3>
+II.7. PROBLEMS
+</h3>
+
+</div>
+
+
+<!-- CHAPTER III -->
+
+<div class="card">
+
+<h2>
+Chapter III: Arch
+</h2>
+
+<h3>
+Isostatic Arches
+</h3>
+
+<h3>
+III.1. INTRODUCTION
+</h3>
+
+<h3>
+III.2. LINEAR ARCHES
+</h3>
+
+<h3>
+III.3. TRI-ARTICULATED ARCHES
+</h3>
+
+<h3>
+III.4. PROBLEMS
+</h3>
+
+</div>
+
+
+<!-- CHAPTER IV -->
+
+<div class="card">
+
+<h2>
+Chapter IV: Rectangular Thin Elastic Plates
+</h2>
+
+<h3>
+Théorie Elastiques des Plaques Minces Rectangulaires
+</h3>
+
+<h3>
+V.1. DEFINITION D’UNE PLAQUE MINCE - HYPOTHESES DE KIRCHOFF
+</h3>
+
+<h3>
+V.2. EQUATION DIFFERENTIELLE DE LAGRANGE-SOLUTION EXACTE
+</h3>
+
+<h3>
+V.3. SOLUTION DE NAVIER EN DOUBLE SERIE DE FOURIER POUR PANNEAU DE DALLE RECTANGULAIRE ISOSTATIQUE
+</h3>
+
+<h3>
+V.4. CALCUL PRATIQUE SELON L’EUROCODEC2
+</h3>
+
+<h3>
+V.5. SERIE D’EXERCICES
+</h3>
+
+</div>
+
+
+<!-- CHAPTER V -->
+
+<div class="card">
+
+<h2>
+Chapter V: Crossed Beam Network
+</h2>
+
+<h3>
+Réseaux des Poutres Croisées
+</h3>
+
+<h3>
+VI.1 INTRODUCTION
+</h3>
+
+<h3>
+VI.2 HYPOTHESES DE CALCUL
+</h3>
+
+<h3>
+VI.3 MECANISME DE TRANSFERT DES CHARGES VERTICALES
+</h3>
+
+<h3>
+VI.4 APPLICATION DE LA METHODE AU CALCUL DES DALLES PLEINES
+</h3>
+
+<h3>
+VI.5 PARTICIPATION DES POUTRES PARALLELES AU TRANSFERT DES CHARGES DANS UN PONT A POUTRES MULTIPLES
+</h3>
+
+<h3>
+VI.6 SERIE D’EXERCICES
+</h3>
+
+<h3>
+VI.7 ANNEXE
+</h3>
+
+</div>
+
+
+<!-- CHAPTER VI -->
+
+<div class="card">
+
+<h2>
+Chapter VI: Torsion
+</h2>
+
+<h3>
+Torsion Pure Libre et Uniforme Des Poutres
+</h3>
+
+<h3>
+IV.1. INTRODUCTION
+</h3>
+
+<h3>
+IV.2. TORSION D'UNE BARRE CIRCULAIRE
+</h3>
+
+<h3>
+IV.3. TORSION D’UNE BARRE DE SECTIONS TRANSVERSALES MASSIVES ‘PLEINES’
+</h3>
+
+<h3>
+IV.4. TORSION D’UNE BARRE DE SECTIONS TRANSVERSALES OUVERTES A PAROIS MINCES
+</h3>
+
+<h3>
+IV.5. TORSION D’UNE BARRE DE SECTIONS TRANSVERSALES FERMEES (TUBULAIRES) A PAROIS MINCES
+</h3>
+
+<h3>
+IV.6. LA TORSION DANS L’OUVRAGE D’ART ‘PONT’
+</h3>
+
+<h3>
+IV.7. SERIE D’EXERCICES
+</h3>
+
+</div>
+
 
 </section>
 
@@ -763,38 +1600,25 @@ src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
      COURS
 ========================================================= -->
 
-<section id="page-cours" class="page">
-
-    <div class="page-header">
-
-        <span class="eyebrow">SUPPORTS PÉDAGOGIQUES</span>
-
-        <h2>
-            Cours — TD — Applications
-        </h2>
-
-        <p>
-            Accès aux supports web, PDF, travaux dirigés
-            et applications.
-        </p>
-
-    </div>
+<section
+id="cours"
+class="page">
 
 
-    <div class="semester-switch">
+<h1 class="section-title"
+data-fr="Cours par chapitre"
+data-en="Courses by Chapter">
 
-        <button class="course-semester-btn active" data-semester="s1">
-            Semestre 01
-        </button>
+Cours par chapitre
 
-        <button class="course-semester-btn" data-semester="s2">
-            Semestre 02
-        </button>
-
-    </div>
+</h1>
 
 
-    <div id="coursContainer" class="course-grid"></div>
+<div
+id="chaptersContainer"
+class="grid grid-2">
+</div>
+
 
 </section>
 
@@ -803,236 +1627,431 @@ src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
      VIDEOS
 ========================================================= -->
 
-<section id="page-videos" class="page">
-
-    <div class="page-header">
-
-        <span class="eyebrow">MULTIMÉDIA</span>
-
-        <h2>
-            Vidéos pédagogiques
-        </h2>
-
-        <p>
-            Tutoriels et démonstrations organisés par chapitre.
-        </p>
-
-    </div>
+<section
+id="videos"
+class="page">
 
 
-    <div class="semester-switch">
+<h1 class="section-title"
+data-fr="Bibliothèque vidéo"
+data-en="Video Library">
 
-        <button class="video-semester-btn active" data-semester="s1">
-            Semestre 01
-        </button>
+Bibliothèque vidéo
 
-        <button class="video-semester-btn" data-semester="s2">
-            Semestre 02
-        </button>
-
-    </div>
+</h1>
 
 
-    <div id="videosContainer" class="video-grid"></div>
+<div class="card">
+
+<select
+id="videoChapterFilter"
+class="input"
+onchange="renderVideos()">
+
+<option value="all">
+Tous les chapitres / All Chapters
+</option>
+
+<option value="1">
+Chapter I — Influence Lines
+</option>
+
+<option value="2">
+Chapter II — Cables
+</option>
+
+<option value="3">
+Chapter III — Arch
+</option>
+
+<option value="4">
+Chapter IV — Rectangular Thin Elastic Plates
+</option>
+
+<option value="5">
+Chapter V — Crossed Beam Network
+</option>
+
+<option value="6">
+Chapter VI — Torsion
+</option>
+
+</select>
+
+</div>
+
+
+<div
+id="videosContainer"
+class="grid grid-3">
+</div>
+
 
 </section>
 
 
 <!-- =========================================================
-     PRÉSENCE
+     PRESENCE
 ========================================================= -->
 
-<section id="page-presence" class="page">
-
-    <div class="page-header">
-
-        <span class="eyebrow">GESTION PÉDAGOGIQUE</span>
-
-        <h2>
-            Gestion des présences
-        </h2>
-
-        <p>
-            Suivi des étudiants par section et par séance.
-        </p>
-
-    </div>
+<section
+id="presence"
+class="page">
 
 
-    <div class="control-panel">
+<h1 class="section-title"
+data-fr="Gestion de la présence"
+data-en="Attendance Management">
 
-        <div class="field">
+Gestion de la présence
 
-            <label>
-                Semestre
-            </label>
-
-            <select id="attendanceSemester">
-
-                <option value="s1">
-                    Semestre 01
-                </option>
-
-                <option value="s2">
-                    Semestre 02
-                </option>
-
-            </select>
-
-        </div>
+</h1>
 
 
-        <div class="field">
+<div class="card">
 
-            <label>
-                Groupe
-            </label>
+<h3>
+<i class="fa-solid fa-calendar-days"></i>
 
-            <select id="attendanceGroup">
+<span
+data-fr="Séance"
+data-en="Session">
 
-                <option value="01">
-                    Groupe 01 — Salle 05
-                </option>
+Séance
 
-                <option value="02">
-                    Groupe 02 — Salle 22
-                </option>
+</span>
 
-            </select>
-
-        </div>
+</h3>
 
 
-        <div class="field">
-
-            <label>
-                Date
-            </label>
-
-            <input
-            type="date"
-            id="attendanceDate"
-            value="2026-09-23">
-
-        </div>
+<div class="grid grid-3">
 
 
-        <div class="field">
+<div>
 
-            <label>
-                Rechercher
-            </label>
+<label>
+<strong
+data-fr="Section"
+data-en="Section">
 
-            <input
-            id="studentSearch"
-            type="search"
-            placeholder="Nom de l'étudiant...">
+Section
 
-        </div>
+</strong>
+</label>
 
-    </div>
+<select
+id="presenceSection"
+class="input"
+style="width:100%;margin-top:7px;"
+onchange="syncGroupWithSection()">
 
+<option value="01">
+Section 01
+</option>
 
-    <div class="attendance-actions">
+<option value="02">
+Section 02
+</option>
 
-        <button id="loadAttendance" class="btn primary">
-            <i class="fa-solid fa-rotate"></i>
-            Charger
-        </button>
+</select>
 
-        <button id="allPresent" class="btn success">
-            <i class="fa-solid fa-check-double"></i>
-            Tous présents
-        </button>
-
-        <button id="allAbsent" class="btn danger">
-            <i class="fa-solid fa-user-xmark"></i>
-            Tous absents
-        </button>
-
-        <button id="allJustified" class="btn warning">
-            <i class="fa-solid fa-file-circle-check"></i>
-            Tous justifiés
-        </button>
-
-        <button id="printAttendance" class="btn secondary">
-            <i class="fa-solid fa-print"></i>
-            Imprimer
-        </button>
-
-        <button id="exportAttendance" class="btn secondary">
-            <i class="fa-solid fa-file-excel"></i>
-            Export Excel
-        </button>
-
-        <label class="btn secondary import-label">
-
-            <i class="fa-solid fa-file-import"></i>
-            Importer CSV
-
-            <input
-            type="file"
-            id="studentImport"
-            accept=".csv"
-            hidden>
-
-        </label>
-
-    </div>
+</div>
 
 
-    <div class="attendance-stats">
+<div>
 
-        <div class="attendance-stat">
-            <i class="fa-solid fa-users"></i>
-            <span>Total</span>
-            <strong id="totalStudents">0</strong>
-        </div>
+<label>
+<strong
+data-fr="Groupe"
+data-en="Group">
 
-        <div class="attendance-stat present">
-            <i class="fa-solid fa-circle-check"></i>
-            <span>Présents</span>
-            <strong id="presentStudents">0</strong>
-        </div>
+Groupe
 
-        <div class="attendance-stat absent">
-            <i class="fa-solid fa-circle-xmark"></i>
-            <span>Absents</span>
-            <strong id="absentStudents">0</strong>
-        </div>
+</strong>
+</label>
 
-        <div class="attendance-stat justified">
-            <i class="fa-solid fa-circle-exclamation"></i>
-            <span>Justifiés</span>
-            <strong id="justifiedStudents">0</strong>
-        </div>
+<select
+id="presenceGroup"
+class="input"
+style="width:100%;margin-top:7px;"
+onchange="updatePresenceList()">
 
-    </div>
+<option value="01">
+Groupe 01
+</option>
+
+<option value="02">
+Groupe 02
+</option>
+
+</select>
+
+</div>
 
 
-    <div class="table-container">
+<div>
 
-        <table id="attendanceTable">
+<label>
+<strong
+data-fr="Date"
+data-en="Date">
 
-            <thead>
+Date
 
-                <tr>
-                    <th>#</th>
-                    <th>Nom & prénom</th>
-                    <th>Matricule</th>
-                    <th>Présent</th>
-                    <th>Absent</th>
-                    <th>Justifié</th>
-                    <th>Observation</th>
-                </tr>
+</strong>
+</label>
 
-            </thead>
+<input
+type="date"
+id="presenceDate"
+class="input"
+style="width:100%;margin-top:7px;"
+onchange="updatePresenceList()">
 
-            <tbody id="attendanceBody"></tbody>
+</div>
 
-        </table>
+</div>
 
-    </div>
+
+<div
+id="presenceSessionInfo"
+style="
+margin-top:20px;
+padding:15px;
+border-radius:12px;
+background:#eef6fc;
+border-left:5px solid #0077b6;
+">
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div
+style="
+display:flex;
+flex-wrap:wrap;
+gap:8px;
+">
+
+
+<input
+class="input"
+id="studentSearch"
+style="flex:1;min-width:250px;"
+placeholder="Rechercher / Search..."
+oninput="updatePresenceList()">
+
+
+<button
+class="btn btn-success"
+onclick="markAllPresent()">
+
+<i class="fa-solid fa-check-double"></i>
+
+Tous présents
+
+</button>
+
+
+<button
+class="btn btn-danger"
+onclick="markAllAbsent()">
+
+<i class="fa-solid fa-xmark"></i>
+
+Tous absents
+
+</button>
+
+
+<button
+class="btn btn-primary"
+onclick="saveCurrentSession()">
+
+<i class="fa-solid fa-floppy-disk"></i>
+
+Enregistrer
+
+</button>
+
+
+<button
+class="btn btn-warning"
+onclick="printAttendance()">
+
+<i class="fa-solid fa-print"></i>
+
+Imprimer
+
+</button>
+
+
+<button
+class="btn btn-dark"
+onclick="exportAttendanceCSV()">
+
+<i class="fa-solid fa-file-csv"></i>
+
+CSV
+
+</button>
+
+
+</div>
+
+</div>
+
+
+<div class="grid grid-4">
+
+
+<div class="stat-card">
+
+<i class="fa-solid fa-users"></i>
+
+<div
+class="stat-number"
+id="totalStudentsPresence">
+
+0
+
+</div>
+
+<div>
+Étudiants
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<i
+class="fa-solid fa-user-check"
+style="color:#16803c;">
+</i>
+
+<div
+class="stat-number"
+id="totalPresent">
+
+0
+
+</div>
+
+<div>
+Présents
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<i
+class="fa-solid fa-user-xmark"
+style="color:#c62828;">
+</i>
+
+<div
+class="stat-number"
+id="totalAbsent">
+
+0
+
+</div>
+
+<div>
+Absents
+</div>
+
+</div>
+
+
+<div class="stat-card">
+
+<i class="fa-solid fa-percent"></i>
+
+<div
+class="stat-number"
+id="presencePercentage">
+
+0%
+
+</div>
+
+<div>
+Taux
+</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3 id="currentSectionTitle">
+</h3>
+
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>#</th>
+
+<th>Année Bac</th>
+
+<th>Matricule</th>
+
+<th>Nom</th>
+
+<th>Prénom</th>
+
+<th>Section</th>
+
+<th>Groupe</th>
+
+<th>Présence</th>
+
+<th>Absences</th>
+
+</tr>
+
+</thead>
+
+<tbody id="attendanceBody">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+<i class="fa-solid fa-clock-rotate-left"></i>
+
+Historique des séances
+
+</h3>
+
+<div id="attendanceHistory"></div>
+
+</div>
+
 
 </section>
 
@@ -1041,121 +2060,95 @@ src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
      NOTES
 ========================================================= -->
 
-<section id="page-notes" class="page">
-
-    <div class="page-header">
-
-        <span class="eyebrow">ÉVALUATION</span>
-
-        <h2>
-            Gestion des notes
-        </h2>
-
-        <p>
-            Contrôle continu sur 20.
-        </p>
-
-    </div>
+<section
+id="notes"
+class="page">
 
 
-    <div class="grading-grid">
+<h1 class="section-title">
 
-        <div class="grading-card">
-            <i class="fa-solid fa-user-clock"></i>
-            <span>Présence</span>
-            <strong>05 / 20</strong>
-        </div>
+📝
 
-        <div class="grading-card">
-            <i class="fa-solid fa-file-pen"></i>
-            <span>Interrogation</span>
-            <strong>10 / 20</strong>
-        </div>
+<span
+data-fr="Notes du contrôle continu"
+data-en="Continuous Assessment Grades">
 
-        <div class="grading-card">
-            <i class="fa-solid fa-comments"></i>
-            <span>Participation</span>
-            <strong>05 / 20</strong>
-        </div>
+Notes du contrôle continu
 
-        <div class="grading-card total">
-            <i class="fa-solid fa-star"></i>
-            <span>Total</span>
-            <strong>/20</strong>
-        </div>
+</span>
 
-    </div>
+</h1>
 
 
-    <div class="info-box">
+<div class="card">
 
-        <i class="fa-solid fa-circle-info"></i>
+<p
+data-fr="La note de contrôle continu est composée de la présence, de l'interrogation et du devoir."
+data-en="The continuous assessment grade consists of attendance, the test and the assignment.">
 
-        <p>
-            Le barème de base est : 5 points pour la présence,
-            10 points pour l'interrogation et 5 points pour
-            la participation / devoir maison.
-            La pénalité d'absence peut être paramétrée à
-            0,5 point par absence.
-        </p>
+La note de contrôle continu est composée de la présence, de l'interrogation et du devoir.
 
-    </div>
+</p>
 
 
-    <div class="control-panel">
+<p>
 
-        <div class="field">
+<strong>
+Note Présence =
+</strong>
 
-            <label>
-                Groupe
-            </label>
+max(0 ; 5 − 0.5 × Absences non justifiées)
 
-            <select id="gradesGroup">
-
-                <option value="01">Groupe 01</option>
-                <option value="02">Groupe 02</option>
-
-            </select>
-
-        </div>
-
-        <button id="calculateGrades" class="btn primary">
-            <i class="fa-solid fa-calculator"></i>
-            Calculer les notes
-        </button>
-
-        <button id="exportGrades" class="btn secondary">
-            <i class="fa-solid fa-file-excel"></i>
-            Export Excel
-        </button>
-
-    </div>
+</p>
 
 
-    <div class="table-container">
+<p>
 
-        <table id="gradesTable">
+<strong>
+CC =
+</strong>
 
-            <thead>
+Présence /5 +
+Interrogation /10 +
+Devoir /5
 
-                <tr>
-                    <th>#</th>
-                    <th>Nom & prénom</th>
-                    <th>Absence /5</th>
-                    <th>Interrogation /10</th>
-                    <th>Participation /5</th>
-                    <th>Devoir maison</th>
-                    <th>Total /20</th>
-                    <th>Observation</th>
-                </tr>
+</p>
 
-            </thead>
+</div>
 
-            <tbody id="gradesBody"></tbody>
 
-        </table>
+<div class="card">
 
-    </div>
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Étudiant</th>
+
+<th>Présence /5</th>
+
+<th>Interrogation /10</th>
+
+<th>Devoir /5</th>
+
+<th>CC /20</th>
+
+</tr>
+
+</thead>
+
+<tbody id="gradesBody">
+</tbody>
+
+</table>
+
+</div>
+
+</div>
 
 </section>
 
@@ -1164,81 +2157,25 @@ src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
      EXAMENS
 ========================================================= -->
 
-<section id="page-examens" class="page">
-
-    <div class="page-header">
-
-        <span class="eyebrow">BANQUE D'ÉVALUATIONS</span>
-
-        <h2>
-            Examens & contrôles continus
-        </h2>
-
-        <p>
-            Banque de sujets et annales.
-        </p>
-
-    </div>
+<section
+id="examens"
+class="page">
 
 
-    <div class="exam-grid">
+<h1 class="section-title"
+data-fr="Examens et solutions"
+data-en="Exams and Solutions">
 
-        <article class="exam-card">
-            <div class="exam-icon">
-                <i class="fa-solid fa-building-columns"></i>
-            </div>
-            <span>ENSTP</span>
-            <h3>École Nationale Supérieure des Travaux Publics</h3>
-            <p>Examens et contrôles de Mécanique des Structures.</p>
-            <button class="btn secondary">
-                <i class="fa-solid fa-folder-open"></i>
-                Ouvrir
-            </button>
-        </article>
+Examens et solutions
+
+</h1>
 
 
-        <article class="exam-card">
-            <div class="exam-icon">
-                <i class="fa-solid fa-university"></i>
-            </div>
-            <span>UNIVERSITÉ</span>
-            <h3>Université de Biskra</h3>
-            <p>Annales et sujets de mécanique.</p>
-            <button class="btn secondary">
-                <i class="fa-solid fa-file-pdf"></i>
-                PDF
-            </button>
-        </article>
+<div
+id="examsContainer"
+class="grid grid-2">
+</div>
 
-
-        <article class="exam-card">
-            <div class="exam-icon">
-                <i class="fa-solid fa-university"></i>
-            </div>
-            <span>UNIVERSITÉ</span>
-            <h3>Université de Batna</h3>
-            <p>Sujets et applications structurales.</p>
-            <button class="btn secondary">
-                <i class="fa-solid fa-file-pdf"></i>
-                PDF
-            </button>
-        </article>
-
-
-        <article class="exam-card">
-            <div class="exam-icon">
-                <i class="fa-solid fa-university"></i>
-            </div>
-            <span>UNIVERSITÉ</span>
-            <h3>Université de Tlemcen</h3>
-            <p>Examens et contrôles.</p>
-            <button class="btn secondary">
-                <i class="fa-solid fa-file-pdf"></i>
-                PDF
-            </button>
-        </article>
-
-    </div>
 
 </section>
 
@@ -1247,220 +2184,216 @@ src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
      RESSOURCES
 ========================================================= -->
 
-<section id="page-ressources" class="page">
-
-    <div class="page-header">
-
-        <span class="eyebrow">BIBLIOTHÈQUE TECHNIQUE</span>
-
-        <h2>
-            Ressources pédagogiques
-        </h2>
-
-        <p>
-            Supports complémentaires pour approfondir le cours.
-        </p>
-
-    </div>
+<section
+id="ressources"
+class="page">
 
 
-    <div class="resources-grid">
+<h1 class="section-title"
+data-fr="Ressources pédagogiques et scientifiques"
+data-en="Educational and Scientific Resources">
 
-        <article class="resource-card">
-            <div>
-                <i class="fa-solid fa-book"></i>
-            </div>
-            <h3>Livres</h3>
-            <p>
-                Ouvrages de mécanique des structures,
-                résistance des matériaux et calcul.
-            </p>
-            <button class="btn secondary">Explorer</button>
-        </article>
+Ressources pédagogiques et scientifiques
+
+</h1>
 
 
-        <article class="resource-card">
-            <div>
-                <i class="fa-solid fa-file-lines"></i>
-            </div>
-            <h3>Cours</h3>
-            <p>
-                Polycopiés, notes et documents pédagogiques.
-            </p>
-            <button class="btn secondary">Explorer</button>
-        </article>
+<div
+id="resourcesContainer"
+class="grid grid-3">
+</div>
 
-
-        <article class="resource-card">
-            <div>
-                <i class="fa-brands fa-youtube"></i>
-            </div>
-            <h3>Vidéos</h3>
-            <p>
-                Tutoriels et démonstrations.
-            </p>
-            <button class="btn secondary" data-page-target="videos">
-                Voir les vidéos
-            </button>
-        </article>
-
-
-        <article class="resource-card">
-            <div>
-                <i class="fa-solid fa-newspaper"></i>
-            </div>
-            <h3>Articles scientifiques</h3>
-            <p>
-                Articles et références scientifiques spécifiques.
-            </p>
-            <button class="btn secondary">Explorer</button>
-        </article>
-
-    </div>
 
 </section>
 
 
 <!-- =========================================================
-     CONTACT
+     ENSEIGNANT
 ========================================================= -->
 
-<section id="page-contact" class="page">
-
-    <div class="page-header">
-
-        <span class="eyebrow">ENSEIGNANT</span>
-
-        <h2>
-            Contact & profils scientifiques
-        </h2>
-
-        <p>
-            Informations et profils professionnels.
-        </p>
-
-    </div>
+<section
+id="enseignant"
+class="page">
 
 
-    <div class="profile-card">
+<h1 class="section-title"
+data-fr="Enseignant"
+data-en="Instructor">
 
-        <div class="profile-avatar">
-            <i class="fa-solid fa-user-tie"></i>
-        </div>
+Enseignant
 
-        <div>
-
-            <span class="eyebrow">
-                ENSTP
-            </span>
-
-            <h2>
-                Dr. Assas Taqiyeddine
-            </h2>
-
-            <p>
-                Maître-assistant (Classe B)
-            </p>
-
-            <p>
-                École Nationale Supérieure des Travaux Publics
-            </p>
-
-        </div>
-
-    </div>
+</h1>
 
 
-    <div class="contact-grid">
+<div class="card">
 
-        <a
-        class="contact-card"
-        href="mailto:t.assas@enstp.edu.dz">
-
-            <i class="fa-solid fa-envelope"></i>
-
-            <div>
-                <strong>E-mail</strong>
-                <span>t.assas@enstp.edu.dz</span>
-            </div>
-
-            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-
-        </a>
+<h2>
+Dr. Assas Taqiyeddine
+</h2>
 
 
-        <a
-        class="contact-card"
-        href="https://scholar.google.com/citations?user=Gk1u97UAAAAJ"
-        target="_blank">
+<p>
 
-            <i class="fa-solid fa-graduation-cap"></i>
+<strong>
+Grade :
+</strong>
 
-            <div>
-                <strong>Google Scholar</strong>
-                <span>Profil scientifique</span>
-            </div>
+Maître-assistant
 
-            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-
-        </a>
+</p>
 
 
-        <a
-        class="contact-card"
-        href="https://orcid.org/0009-0011-4288-2908"
-        target="_blank">
+<p>
 
-            <i class="fa-brands fa-orcid"></i>
+<strong>
+Établissement :
+</strong>
 
-            <div>
-                <strong>ORCID</strong>
-                <span>0009-0011-4288-2908</span>
-            </div>
+École Nationale Supérieure des Travaux Publics — Kouba, Alger
 
-            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-
-        </a>
+</p>
 
 
-        <a
-        class="contact-card"
-        href="https://www.linkedin.com/in/taqiyeddine-assas-770696378/"
-        target="_blank">
+<p>
 
-            <i class="fa-brands fa-linkedin"></i>
+<strong>
+Département :
+</strong>
 
-            <div>
-                <strong>LinkedIn</strong>
-                <span>Taqiyeddine Assas</span>
-            </div>
+Infrastructures de Base
 
-            <i class="fa-solid fa-arrow-up-right-from-square"></i>
-
-        </a>
+</p>
 
 
-        <a
-        class="contact-card"
-        href="https://www.researchgate.net/profile/Taqiyeddine-Assas"
-        target="_blank">
+<p>
 
-            <i class="fa-brands fa-researchgate"></i>
+<strong>
+Matière :
+</strong>
 
-            <div>
-                <strong>ResearchGate</strong>
-                <span>Taqiyeddine Assas</span>
-            </div>
+Mécanique des Structures
 
-            <i class="fa-solid fa-arrow-up-right-from-square"></i>
+</p>
 
-        </a>
 
-    </div>
+<p>
+
+<strong>
+Année :
+</strong>
+
+2026 / 2027
+
+</p>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+🌐 Contact
+</h3>
+
+
+<div class="social-grid">
+
+
+<a
+class="social-link linkedin"
+href="https://www.linkedin.com/in/taqiyeddine-assas-770696378/"
+target="_blank">
+
+<i class="fa-brands fa-linkedin-in"></i>
+
+LinkedIn
+
+</a>
+
+
+<a
+class="social-link researchgate"
+href="https://www.researchgate.net/profile/Taqiyeddine-Assas"
+target="_blank">
+
+<i class="fa-brands fa-researchgate"></i>
+
+ResearchGate
+
+</a>
+
+
+<a
+class="social-link facebook"
+href="https://www.facebook.com/"
+target="_blank">
+
+<i class="fa-brands fa-facebook-f"></i>
+
+Facebook
+
+</a>
+
+
+<a
+class="social-link scholar"
+href="https://scholar.google.com/citations?user=Gk1u97UAAAAJ"
+target="_blank">
+
+<i class="fa-solid fa-graduation-cap"></i>
+
+Google Scholar
+
+</a>
+
+
+<a
+class="social-link email"
+href="mailto:t.assas@enstp.educ.dz">
+
+<i class="fa-solid fa-envelope"></i>
+
+Email
+
+</a>
+
+
+</div>
+
+</div>
 
 </section>
 
+
 </main>
+
+
+<!-- =========================================================
+     MODAL
+========================================================= -->
+
+<div
+id="mainModal"
+class="modal"
+onclick="closeModal(event)">
+
+<div
+class="modal-content"
+onclick="event.stopPropagation()">
+
+<span
+class="close-modal"
+onclick="closeMainModal()">
+
+&times;
+
+</span>
+
+<div id="modalBody"></div>
+
+</div>
+
+</div>
 
 
 <!-- =========================================================
@@ -1469,136 +2402,2648 @@ src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
 
 <footer>
 
-    <div class="footer-main">
+<strong>
+ENSTP Kouba — Alger
+</strong>
 
-        <div>
+<br>
 
-            <img
-            src="assets/logo-enstp.png"
-            alt="ENSTP">
+Mécanique des Structures
 
-            <h3>
-                École Nationale Supérieure
-                des Travaux Publics
-            </h3>
+<br>
 
-            <p>
-                المدرسة الوطنية العليا للأشغال العمومية
-            </p>
+Dr. Assas Taqiyeddine
 
-            <p>
-                HIGHER NATIONAL SCHOOL OF PUBLIC WORKS
-            </p>
+<br>
 
-        </div>
+2026 / 2027
 
+<br><br>
 
-        <div>
-
-            <h3>
-                Mécanique des Structures
-            </h3>
-
-            <button data-page-target="programme">
-                Programme
-            </button>
-
-            <button data-page-target="cours">
-                Cours
-            </button>
-
-            <button data-page-target="videos">
-                Vidéos
-            </button>
-
-            <button data-page-target="ressources">
-                Ressources
-            </button>
-
-        </div>
-
-
-        <div>
-
-            <h3>
-                Navigation
-            </h3>
-
-            <button data-page-target="objectifs">
-                Objectifs
-            </button>
-
-            <button data-page-target="presence">
-                Présence
-            </button>
-
-            <button data-page-target="notes">
-                Notes
-            </button>
-
-            <button data-page-target="examens">
-                Examens
-            </button>
-
-        </div>
-
-
-        <div>
-
-            <h3>
-                Contact
-            </h3>
-
-            <a href="mailto:t.assas@enstp.edu.dz">
-                <i class="fa-solid fa-envelope"></i>
-                t.assas@enstp.edu.dz
-            </a>
-
-            <span>
-                <i class="fa-solid fa-location-dot"></i>
-                Kouba — Alger
-            </span>
-
-        </div>
-
-    </div>
-
-
-    <div class="footer-bottom">
-
-        <span>
-            © 2026–2027 ENSTP — Mécanique des Structures
-        </span>
-
-        <span>
-            Dr. Assas Taqiyeddine
-        </span>
-
-    </div>
+© ENSTP — Educational Platform
 
 </footer>
 
 
 <!-- =========================================================
-     BACK TO TOP
+     JAVASCRIPT
 ========================================================= -->
 
-<button id="backTop" class="back-top">
-    <i class="fa-solid fa-arrow-up"></i>
+<script>
+
+
+/* =========================================================
+   LANGUAGE SYSTEM
+========================================================= */
+
+let currentLanguage =
+localStorage.getItem("platformLanguage")
+|| "fr";
+
+
+function toggleLanguage(){
+
+    currentLanguage =
+    currentLanguage === "fr"
+    ? "en"
+    : "fr";
+
+
+    localStorage.setItem(
+        "platformLanguage",
+        currentLanguage
+    );
+
+
+    applyLanguage();
+
+    renderObjectives();
+
+    renderChapters();
+
+    renderVideos();
+
+}
+
+
+function applyLanguage(){
+
+    document.documentElement.lang =
+    currentLanguage;
+
+
+    document
+    .querySelectorAll(
+        "[data-fr][data-en]"
+    )
+    .forEach(element => {
+
+        element.textContent =
+        element.getAttribute(
+            "data-" +
+            currentLanguage
+        );
+
+    });
+
+
+    document.getElementById(
+        "languageText"
+    ).textContent =
+
+    currentLanguage === "fr"
+    ? "English"
+    : "Français";
+
+}
+
+
+/* =========================================================
+   STUDENTS
+========================================================= */
+
+const students = [
+
+/* =========================
+   SECTION 01 / GROUPE 01
+========================= */
+
+["2023","39411920","AHMID","Ala Mohammed Said","01"],
+["2022","31472814","ALLAKA","Youcef","01"],
+["2022","33037209","AMGHAR","Akila","01"],
+["2022","36265017","ARAAR","Mohammed Taha Yassine","01"],
+["2023","35469213","AZIZI","Mohamed Abdelhakim","01"],
+["2023","31426802","BAKOUR","Bilal","01"],
+["2022","31405410","BELLAHSENE","Yakoub","01"],
+["2023","32359503","BENALLAL","Ibrahim","01"],
+["2022","32490908","BENCHIBANE","Chaima","01"],
+["2023","32385219","BENMEZIANE","Meriem","01"],
+["2023","35402106","BERGAS","Islam","01"],
+["2023","35025308","BOUBECHICHE","Aymen Abderrahmane","01"],
+["2023","33284706","BOUBRIOUA","Rima","01"],
+["2023","34048304","BOUGHANEM","Anouar","01"],
+["2023","32151207","CHERIBI","Maria Lina","01"],
+["2023","34151803","DAGHBOUCHE","Zied","01"],
+["2023","31568209","DJABALI","Abderraouf","01"],
+["2023","36384404","DRICI","Ayoub Abdessabour","01"],
+["2023","32024905","ELKHERARBA","Nor El Houda","01"],
+["2023","34471615","ELOUAERE","Mazin","01"],
+["2023","34543106","GACEM","Salih","01"],
+["2023","38004518","GUENDOUZI","Khalil","01"],
+["2022","32031804","HARICHANE","Rihab","01"],
+["2023","34151807","HARKATI","Chiheb","01"],
+["2023","34469616","HEMICI","Ismail","01"],
+["2022","32108108","HEMICI","Oualid","01"],
+["2023","34021617","KHELIFI","Zakarya","01"],
+["2023","31425018","KHEZZANE","Meriem","01"],
+["2023","31262819","LADJALI","Maria","01"],
+["2023","35410008","MADA","Hamza","01"],
+["2023","33067417","MESSIOUNI","Abdeslam","01"],
+["2022","34486609","OUARET","Mouaadh","01"],
+["2023","34151811","OUNISSI","Mohamed Amine","01"],
+["2021","33052865","ROUABAH","Tarek","01"],
+["2023","35629701","SAOUDI","Ramzi","01"],
+["2023","38004019","SEBAI","Ibrahim","01"],
+["2023","32580608","TAS","Cherif","01"],
+["2023","36144007","YAHIAOUI","Sohaib","01"],
+["2023","33055908","YOUCEF KHOUDJA","Zouina","01"],
+["2023","37642302","ZANOUNE","Abd Elhadi","01"],
+
+
+/* =========================
+   SECTION 02 / GROUPE 02
+========================= */
+
+["2022","33151616","ACHIT","Soundous","02"],
+["2023","32214209","ASSEB","Lyna","02"],
+["2023","31531414","BAKHOUCHE","Nouha","02"],
+["2023","31518818","BELARIF","Mohamed Ayoub","02"],
+["2023","32285314","BENKHELIFA","Leila","02"],
+["2023","35191812","BENLAALMI","Soundous Yara","02"],
+["2023","32213609","BENSENOUSSI","Hibet Allah","02"],
+["2023","33289613","BOUABSA","Oussama","02"],
+["2023","32497702","BOUCHERIT","Mohammed","02"],
+["2023","31347601","BOUDI","Aya","02"],
+["2023","31031517","BOULDJENNET","Yousra","02"],
+["2023","31573012","CHALABI","Mohamed Amir","02"],
+["2023","31527603","CHAMBI","Zakaria","02"],
+["2022","32107213","CHEBATA","Imane","02"],
+["2023","31673206","CHEBIRA","Meriem","02"],
+["2023","38159313","DAHMANI","Mimouna Mouna","02"],
+["2022","31568320","DJAOUADI","Hind","02"],
+["2023","31734413","DJENANE","Bilal","02"],
+["2023","32164103","DJERADI","Aboubaker","02"],
+["2023","31729113","DORBANE","Zineb","02"],
+["2023","31202604","FEKIR","Mohamed Wassim","02"],
+["2023","31553413","HAKEM","Sofia Rania","02"],
+["2023","32518514","HAMEIDIA","Maria","02"],
+["2023","31717707","KARAI","Mohamed Hocine","02"],
+["2023","34434220","KERROUCHE","Noureddine","02"],
+["2023","34503608","KOUADRA","Abdel Hadi","02"],
+["2023","33252305","LADJEROUD","Adam","02"],
+["2022","32459717","MAHMOUDI","Adil Elarabi","02"],
+["2023","31369615","MAOUCHE","Amina","02"],
+["2023","33374912","MEGARI","Nihel Kaouter","02"],
+["2023","32497618","NEMROUD","Faiz","02"],
+["2022","31320814","OUAIL","Chourouk","02"],
+["2023","32276802","REZAK","Ryma","02"],
+["2023","32396603","SAAD EDINE","Yasser","02"],
+["2023","35548310","SALEM","Abderrahmane","02"],
+["2023","31518015","SAMAH","Mohamed El Mahdi","02"],
+["2023","32495519","TAIBI","Mohamed Islam","02"],
+["2022","33150216","TELDJOUNE","Yanes","02"],
+["2023","32215220","TOUMACHE","Sid Ahmed","02"],
+["2023","32300108","TURKMAN","Mohamed Belkacem","02"],
+["2022","33150517","ZEMARI","Manel","02"]
+
+];
+
+
+/* =========================================================
+   CHAPTER DATA
+========================================================= */
+
+const chapters = [
+
+{
+id:1,
+
+titleFR:
+"Chapter I: Influence Lines of Determinate and Indeterminate Structures",
+
+titleEN:
+"Chapter I: Influence Lines of Determinate and Indeterminate Structures",
+
+descriptionFR:
+"Influence Lines of Determinate and Indeterminate Structures",
+
+descriptionEN:
+"Influence Lines of Determinate and Indeterminate Structures",
+
+sections:[
+
+"I.1. Introduction",
+
+"I.2. Influence lines for beams: Static–analytical approach",
+
+"I.3. Müller–Breslau principle: kinematic–qualitative approach",
+
+"I.4. Influence lines for Girders with floor systems",
+
+"I.5. Influence lines for Trusses",
+
+"I.6. Influence lines for Frames",
+
+"I.7. Applications of influence lines",
+
+"I.7.1. Response at a particular location due to a single moving concentrated load",
+
+"I.7.2. Response at a particular location due to a uniformly distributed live load",
+
+"I.7.3. Response at a particular location due to a series of moving concentrated loads",
+
+"I.7.4. Absolute maximum response",
+
+"I.8. Problems"
+
+],
+
+videos:[
+
+"Introduction to Influence Lines",
+
+"Influence Lines for Beams",
+
+"Static Analytical Approach",
+
+"Müller-Breslau Principle",
+
+"Influence Lines for Girders",
+
+"Influence Lines for Floor Systems",
+
+"Influence Lines for Trusses",
+
+"Influence Lines for Frames",
+
+"Moving Loads Applications",
+
+"Absolute Maximum Response"
+
+]
+
+},
+
+
+{
+id:2,
+
+titleFR:"Chapter II: Cables",
+
+titleEN:"Chapter II: Cables",
+
+descriptionFR:"Cables",
+
+descriptionEN:"Cables",
+
+sections:[
+
+"II.1. INTRODUCTION",
+
+"II.2. CHARACTERISTICS AND WORKING MODE OF A CABLE",
+
+"II.3. CABLE SUBJECTED TO CONCENTRATED LOADS",
+
+"II.4. CABLE SUBJECTED TO A UNIFORM HORIZONTALLY DISTRIBUTED LOAD",
+
+"II.5. CABLE UNDER ITS OWN WEIGHT",
+
+"II.6. APPLICATION TO THE SUSPENDED BRIDGE",
+
+"II.7. PROBLEMS"
+
+],
+
+videos:[
+
+"Introduction to Cable Structures",
+
+"Characteristics and Working Mode of a Cable",
+
+"Cable Subjected to Concentrated Loads",
+
+"Cable Subjected to Uniform Load",
+
+"Parabolic Cable",
+
+"Cable Under Its Own Weight",
+
+"Catenary",
+
+"Suspension Bridge",
+
+"Cable Tension",
+
+"Cable Problems"
+
+]
+
+},
+
+
+{
+id:3,
+
+titleFR:"Chapter III: Arch — Isostatic Arches",
+
+titleEN:"Chapter III: Arch — Isostatic Arches",
+
+descriptionFR:"Isostatic Arches",
+
+descriptionEN:"Isostatic Arches",
+
+sections:[
+
+"III.1. INTRODUCTION",
+
+"III.2. LINEAR ARCHES",
+
+"III.3. TRI-ARTICULATED ARCHES",
+
+"III.4. PROBLEMS"
+
+],
+
+videos:[
+
+"Introduction to Arches",
+
+"Isostatic Arches",
+
+"Linear Arches",
+
+"Three-Hinged Arches",
+
+"Arch Reactions",
+
+"Horizontal Thrust",
+
+"Normal Force in Arches",
+
+"Shear Force in Arches",
+
+"Bending Moment in Arches",
+
+"Arch Problems"
+
+]
+
+},
+
+
+{
+id:4,
+
+titleFR:"Chapter IV: Rectangular Thin Elastic Plates",
+
+titleEN:"Chapter IV: Rectangular Thin Elastic Plates",
+
+descriptionFR:
+"Théorie Elastiques des Plaques Minces Rectangulaires",
+
+descriptionEN:
+"Elastic Theory of Thin Rectangular Plates",
+
+sections:[
+
+"V.1. DEFINITION D’UNE PLAQUE MINCE - HYPOTHESES DE KIRCHOFF",
+
+"V.2. EQUATION DIFFERENTIELLE DE LAGRANGE-SOLUTION EXACTE",
+
+"V.3. SOLUTION DE NAVIER EN DOUBLE SERIE DE FOURIER POUR PANNEAU DE DALLE RECTANGULAIRE ISOSTATIQUE",
+
+"V.4. CALCUL PRATIQUE SELON L’EUROCODEC2",
+
+"V.5. SERIE D’EXERCICES"
+
+],
+
+videos:[
+
+"Thin Elastic Plates",
+
+"Kirchhoff Plate Theory",
+
+"Kirchhoff Hypotheses",
+
+"Lagrange Differential Equation",
+
+"Exact Solution of Thin Plates",
+
+"Navier Double Fourier Series",
+
+"Simply Supported Rectangular Plate",
+
+"Plate Bending",
+
+"Eurocode 2 Plate Design",
+
+"Thin Plate Exercises"
+
+]
+
+},
+
+
+{
+id:5,
+
+titleFR:
+"Chapter V: Crossed Beam Network — Réseaux des Poutres Croisées",
+
+titleEN:
+"Chapter V: Crossed Beam Network",
+
+descriptionFR:
+"Réseaux des Poutres Croisées",
+
+descriptionEN:
+"Crossed Beam Network",
+
+sections:[
+
+"VI.1 INTRODUCTION",
+
+"VI.2 HYPOTHESES DE CALCUL",
+
+"VI.3 MECANISME DE TRANSFERT DES CHARGES VERTICALES",
+
+"VI.4 APPLICATION DE LA METHODE AU CALCUL DES DALLES PLEINES",
+
+"VI.5 PARTICIPATION DES POUTRES PARALLELES AU TRANSFERT DES CHARGES DANS UN PONT A POUTRES MULTIPLES",
+
+"VI.6 SERIE D’EXERCICES",
+
+"VI.7 ANNEXE"
+
+],
+
+videos:[
+
+"Crossed Beam Networks",
+
+"Grid Structures",
+
+"Calculation Assumptions",
+
+"Vertical Load Transfer",
+
+"Load Distribution in Beam Grids",
+
+"Solid Slab Analysis",
+
+"Parallel Beam Contribution",
+
+"Multi Girder Bridges",
+
+"Beam Grid Applications",
+
+"Crossed Beam Exercises"
+
+]
+
+},
+
+
+{
+id:6,
+
+titleFR:
+"Chapter VI: Torsion — Torsion Pure Libre et Uniforme Des Poutres",
+
+titleEN:
+"Chapter VI: Torsion — Pure, Free and Uniform Torsion of Beams",
+
+descriptionFR:
+"Torsion Pure Libre et Uniforme Des Poutres",
+
+descriptionEN:
+"Pure, Free and Uniform Torsion of Beams",
+
+sections:[
+
+"IV.1. INTRODUCTION",
+
+"IV.2. TORSION D'UNE BARRE CIRCULAIRE",
+
+"IV.3. TORSION D’UNE BARRE DE SECTIONS TRANSVERSALES MASSIVES ‘PLEINES’",
+
+"IV.4. TORSION D’UNE BARRE DE SECTIONS TRANSVERSALES OUVERTES A PAROIS MINCES",
+
+"IV.5. TORSION D’UNE BARRE DE SECTIONS TRANSVERSALES FERMEES (TUBULAIRES) A PAROIS MINCES",
+
+"IV.6. LA TORSION DANS L’OUVRAGE D’ART ‘PONT’",
+
+"IV.7. SERIE D’EXERCICES"
+
+],
+
+videos:[
+
+"Introduction to Torsion",
+
+"Torsion of Circular Bars",
+
+"Torsion of Solid Sections",
+
+"Pure Torsion",
+
+"Saint Venant Torsion",
+
+"Thin Walled Open Sections",
+
+"Thin Walled Closed Sections",
+
+"Tubular Sections",
+
+"Torsion in Bridges",
+
+"Torsion Exercises"
+
+]
+
+}
+
+];
+
+
+/* =========================================================
+   OBJECTIVES
+========================================================= */
+
+function renderObjectives(){
+
+const container =
+document.getElementById(
+"objectivesContainer"
+);
+
+container.innerHTML="";
+
+
+chapters.forEach(chapter=>{
+
+container.innerHTML += `
+
+<div class="card">
+
+<h2>
+${chapter.titleFR}
+</h2>
+
+<ul>
+
+${chapter.sections
+.map(section=>`
+<li>
+${section}
+</li>
+`)
+.join("")}
+
+</ul>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+/* =========================================================
+   COURSES
+========================================================= */
+
+function renderChapters(){
+
+const container =
+document.getElementById(
+"chaptersContainer"
+);
+
+container.innerHTML="";
+
+
+chapters.forEach(chapter=>{
+
+const title =
+currentLanguage==="fr"
+? chapter.titleFR
+: chapter.titleEN;
+
+
+container.innerHTML += `
+
+<div class="chapter-card">
+
+<span class="chapter-number">
+${chapter.id}
+</span>
+
+
+<h3>
+${title}
+</h3>
+
+
+<p>
+${
+currentLanguage==="fr"
+? chapter.descriptionFR
+: chapter.descriptionEN
+}
+</p>
+
+
+<div>
+
+<button
+class="btn btn-primary"
+onclick="openChapter(${chapter.id})">
+
+🌐
+Web Interactive
+
 </button>
 
 
-<!-- =========================================================
-     TOAST
-========================================================= -->
+<button
+class="btn btn-light"
+onclick="openPDF(${chapter.id},'course')">
 
-<div id="toast" class="toast">
-    <i class="fa-solid fa-circle-check"></i>
-    <span id="toastText">Opération effectuée.</span>
+📄
+Course PDF
+
+</button>
+
+
+<button
+class="btn btn-success"
+onclick="openTD(${chapter.id})">
+
+🧮
+TD & Application
+
+</button>
+
+
+<button
+class="btn btn-warning"
+onclick="openPDF(${chapter.id},'td')">
+
+📕
+TD PDF
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+/* =========================================================
+   OPEN CHAPTER
+========================================================= */
+
+function openChapter(id){
+
+const chapter =
+chapters.find(
+x=>x.id===id
+);
+
+let html=`
+
+<h2>
+${chapter.titleFR}
+</h2>
+
+
+<p>
+${chapter.descriptionFR}
+</p>
+
+
+<hr>
+
+
+<h3>
+Programme du chapitre
+</h3>
+
+
+<div>
+
+${chapter.sections
+.map(
+section=>`
+<div class="card">
+${section}
+</div>
+`
+)
+.join("")}
+
 </div>
 
 
-<script src="app.js"></script>
+<hr>
+
+
+<h3>
+🎥 Vidéos pédagogiques
+</h3>
+
+
+<div class="grid grid-2">
+
+`;
+
+
+chapter.videos.forEach(
+(video,index)=>{
+
+const query =
+encodeURIComponent(
+video+
+" structural mechanics"
+);
+
+
+html += `
+
+<div class="resource-card">
+
+<strong>
+Video ${index+1}
+</strong>
+
+<h4>
+${video}
+</h4>
+
+
+<a
+class="btn btn-danger"
+target="_blank"
+href="https://www.youtube.com/results?search_query=${query}">
+
+<i class="fa-brands fa-youtube"></i>
+
+YouTube
+
+</a>
+
+</div>
+
+`;
+
+});
+
+
+html +=`
+
+</div>
+
+
+<hr>
+
+
+<div class="grid grid-3">
+
+
+<div class="resource-card">
+
+<div class="resource-icon">
+🌐
+</div>
+
+<h3>
+Web Interactive
+</h3>
+
+<button
+class="btn btn-primary"
+onclick="openInteractive(${id})">
+
+Ouvrir
+
+</button>
+
+</div>
+
+
+<div class="resource-card">
+
+<div class="resource-icon">
+📄
+</div>
+
+<h3>
+Course PDF
+</h3>
+
+<button
+class="btn btn-light"
+onclick="openPDF(${id},'course')">
+
+Ouvrir
+
+</button>
+
+</div>
+
+
+<div class="resource-card">
+
+<div class="resource-icon">
+📕
+</div>
+
+<h3>
+TD PDF
+</h3>
+
+<button
+class="btn btn-warning"
+onclick="openPDF(${id},'td')">
+
+Ouvrir
+
+</button>
+
+</div>
+
+</div>
+
+`;
+
+
+openModal(html);
+
+}
+
+
+/* =========================================================
+   INTERACTIVE
+========================================================= */
+
+function openInteractive(id){
+
+const chapter =
+chapters.find(
+x=>x.id===id
+);
+
+
+openModal(`
+
+<h2>
+🌐 Web Interactive
+</h2>
+
+<h3>
+${chapter.titleFR}
+</h3>
+
+<div class="grid grid-2">
+
+<div class="card">
+
+<h3>
+📖 Théorie
+</h3>
+
+<p>
+Cours théorique interactif.
+</p>
+
+<button
+class="btn btn-primary"
+onclick="alert('Module théorique')">
+
+Ouvrir
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+🧮 Calcul
+</h3>
+
+<p>
+Applications numériques.
+</p>
+
+<button
+class="btn btn-success"
+onclick="alert('Module de calcul')">
+
+Ouvrir
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+📐 Exercices
+</h3>
+
+<p>
+Série d'exercices interactifs.
+</p>
+
+<button
+class="btn btn-warning"
+onclick="alert('Module exercices')">
+
+Ouvrir
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+📊 Simulation
+</h3>
+
+<p>
+Applications et simulations.
+</p>
+
+<button
+class="btn btn-dark"
+onclick="alert('Module simulation')">
+
+Ouvrir
+
+</button>
+
+</div>
+
+</div>
+
+`);
+
+}
+
+
+/* =========================================================
+   TD
+========================================================= */
+
+function openTD(id){
+
+const chapter =
+chapters.find(
+x=>x.id===id
+);
+
+
+openModal(`
+
+<h2>
+🧮 TD & Applications
+</h2>
+
+<h3>
+${chapter.titleFR}
+</h3>
+
+
+<div class="card">
+
+<h3>
+Exercice 01
+</h3>
+
+<p>
+Application fondamentale du chapitre.
+</p>
+
+<button
+class="btn btn-primary"
+onclick="
+alert('Solution de l’exercice')">
+
+Voir la solution
+
+</button>
+
+</div>
+
+
+<div class="card">
+
+<h3>
+Exercice 02
+</h3>
+
+<p>
+Application numérique.
+</p>
+
+<button
+class="btn btn-primary"
+onclick="
+alert('Solution de l’exercice')">
+
+Voir la solution
+
+</button>
+
+</div>
+
+`);
+
+}
+
+
+/* =========================================================
+   PDF
+========================================================= */
+
+function openPDF(id,type){
+
+const chapter =
+chapters.find(
+x=>x.id===id
+);
+
+
+const filename =
+type==="course"
+? `pdf/chapitre-${String(id).padStart(2,"0")}-cours.pdf`
+: `pdf/chapitre-${String(id).padStart(2,"0")}-td.pdf`;
+
+
+openModal(`
+
+<h2>
+📄 PDF
+</h2>
+
+<h3>
+${chapter.titleFR}
+</h3>
+
+<p>
+
+Fichier :
+
+</p>
+
+<code>
+${filename}
+</code>
+
+
+<br><br>
+
+
+<a
+href="${filename}"
+target="_blank"
+class="btn btn-primary">
+
+Ouvrir le PDF
+
+</a>
+
+`);
+
+}
+
+
+/* =========================================================
+   VIDEOS
+========================================================= */
+
+function renderVideos(){
+
+const container =
+document.getElementById(
+"videosContainer"
+);
+
+
+const filter =
+document.getElementById(
+"videoChapterFilter"
+).value;
+
+
+container.innerHTML="";
+
+
+chapters
+.filter(
+chapter=>
+filter==="all" ||
+String(chapter.id)===filter
+)
+.forEach(
+chapter=>{
+
+chapter.videos.forEach(
+(video,index)=>{
+
+const query =
+encodeURIComponent(
+video+
+" structural mechanics"
+);
+
+
+container.innerHTML += `
+
+<div class="resource-card">
+
+<strong>
+Chapter ${chapter.id}
+—
+Video ${index+1}
+</strong>
+
+<h3>
+${video}
+</h3>
+
+
+<a
+class="btn btn-danger"
+target="_blank"
+href="https://www.youtube.com/results?search_query=${query}">
+
+<i class="fa-brands fa-youtube"></i>
+
+YouTube
+
+</a>
+
+</div>
+
+`;
+
+});
+
+});
+
+}
+
+
+/* =========================================================
+   PRESENCE
+========================================================= */
+
+function today(){
+
+const d =
+new Date();
+
+
+return (
+
+d.getFullYear()+
+"-"+
+String(
+d.getMonth()+1
+).padStart(2,"0")+
+"-"+
+String(
+d.getDate()
+).padStart(2,"0")
+
+);
+
+}
+
+
+function formatDate(date){
+
+if(!date)
+return "";
+
+
+const p =
+date.split("-");
+
+
+return p[2]+"/"+p[1]+"/"+p[0];
+
+}
+
+
+function syncGroupWithSection(){
+
+const section =
+document.getElementById(
+"presenceSection"
+).value;
+
+
+document.getElementById(
+"presenceGroup"
+).value =
+section;
+
+
+updatePresenceList();
+
+}
+
+
+function getCurrentStudents(){
+
+const group =
+document.getElementById(
+"presenceGroup"
+).value;
+
+
+const search =
+document.getElementById(
+"studentSearch"
+).value
+.toLowerCase()
+.trim();
+
+
+return students
+.filter(student=>{
+
+const text =
+student.join(" ")
+.toLowerCase();
+
+
+return (
+student[4]===group &&
+text.includes(search)
+);
+
+});
+
+}
+
+
+function presenceKey(
+id,
+date
+){
+
+return `
+presence_${date}_${id}
+`;
+
+}
+
+
+function getPresence(
+id,
+date
+){
+
+return localStorage.getItem(
+presenceKey(id,date)
+)||"present";
+
+}
+
+
+function totalAbsences(id){
+
+let count=0;
+
+
+for(
+let i=0;
+i<localStorage.length;
+i++
+){
+
+const key =
+localStorage.key(i);
+
+
+if(
+key &&
+key.startsWith("presence_") &&
+key.endsWith("_"+id)
+){
+
+if(
+localStorage.getItem(key)
+==="absent"
+){
+
+count++;
+
+}
+
+}
+
+}
+
+
+return count;
+
+}
+
+
+function updatePresenceList(){
+
+const section =
+document.getElementById(
+"presenceSection"
+).value;
+
+
+const group =
+document.getElementById(
+"presenceGroup"
+).value;
+
+
+const date =
+document.getElementById(
+"presenceDate"
+).value;
+
+
+const list =
+getCurrentStudents();
+
+
+document.getElementById(
+"currentSectionTitle"
+).textContent =
+
+`Section ${section}
+—
+Groupe ${group}
+—
+${formatDate(date)}`;
+
+
+document.getElementById(
+"presenceSessionInfo"
+).innerHTML = `
+
+<strong>Date :</strong>
+${formatDate(date)}
+
+&nbsp; | &nbsp;
+
+<strong>Section :</strong>
+${section}
+
+&nbsp; | &nbsp;
+
+<strong>Groupe :</strong>
+${group}
+
+&nbsp; | &nbsp;
+
+<strong>Effectif :</strong>
+${list.length}
+
+`;
+
+
+const body =
+document.getElementById(
+"attendanceBody"
+);
+
+
+body.innerHTML="";
+
+
+list.forEach(
+(student,index)=>{
+
+const status =
+getPresence(
+student[1],
+date
+);
+
+
+const absences =
+totalAbsences(
+student[1]
+);
+
+
+body.innerHTML += `
+
+<tr>
+
+<td>
+${index+1}
+</td>
+
+<td>
+${student[0]}
+</td>
+
+<td>
+${student[1]}
+</td>
+
+<td>
+${student[2]}
+</td>
+
+<td>
+${student[3]}
+</td>
+
+<td>
+Section ${section}
+</td>
+
+<td>
+Groupe ${group}
+</td>
+
+<td>
+
+<button
+class="btn ${
+status==="present"
+?"btn-success"
+:"btn-danger"
+}"
+onclick="
+togglePresence(
+'${student[1]}'
+)">
+
+<i class="fa-solid ${
+status==="present"
+?"fa-check"
+:"fa-xmark"
+}"></i>
+
+${
+status==="present"
+?"Présent"
+:"Absent"
+}
+
+</button>
+
+</td>
+
+<td>
+<strong>
+${absences}
+</strong>
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+updatePresenceStats();
+
+renderAttendanceHistory();
+
+}
+
+
+function togglePresence(id){
+
+const date =
+document.getElementById(
+"presenceDate"
+).value;
+
+
+const key =
+presenceKey(
+id,
+date
+);
+
+
+const current =
+getPresence(
+id,
+date
+);
+
+
+localStorage.setItem(
+key,
+current==="present"
+?"absent"
+:"present"
+);
+
+
+updatePresenceList();
+
+}
+
+
+function markAllPresent(){
+
+const date =
+document.getElementById(
+"presenceDate"
+).value;
+
+
+getCurrentStudents()
+.forEach(student=>{
+
+localStorage.setItem(
+
+presenceKey(
+student[1],
+date
+),
+
+"present"
+
+);
+
+});
+
+
+updatePresenceList();
+
+}
+
+
+function markAllAbsent(){
+
+const date =
+document.getElementById(
+"presenceDate"
+).value;
+
+
+getCurrentStudents()
+.forEach(student=>{
+
+localStorage.setItem(
+
+presenceKey(
+student[1],
+date
+),
+
+"absent"
+
+);
+
+});
+
+
+updatePresenceList();
+
+}
+
+
+function updatePresenceStats(){
+
+const date =
+document.getElementById(
+"presenceDate"
+).value;
+
+
+const list =
+getCurrentStudents();
+
+
+let present=0;
+
+
+list.forEach(student=>{
+
+if(
+getPresence(
+student[1],
+date
+)==="present"
+){
+
+present++;
+
+}
+
+});
+
+
+const absent =
+list.length-present;
+
+
+document.getElementById(
+"totalStudentsPresence"
+).textContent =
+list.length;
+
+
+document.getElementById(
+"totalPresent"
+).textContent =
+present;
+
+
+document.getElementById(
+"totalAbsent"
+).textContent =
+absent;
+
+
+document.getElementById(
+"presencePercentage"
+).textContent =
+
+list.length
+?
+(
+present/list.length*100
+).toFixed(1)+"%"
+:
+"0%";
+
+}
+
+
+/* =========================================================
+   SAVE SESSION
+========================================================= */
+
+function saveCurrentSession(){
+
+const date =
+document.getElementById(
+"presenceDate"
+).value;
+
+
+const section =
+document.getElementById(
+"presenceSection"
+).value;
+
+
+const group =
+document.getElementById(
+"presenceGroup"
+).value;
+
+
+const data =
+getCurrentStudents()
+.map(student=>({
+
+id:student[1],
+
+status:
+getPresence(
+student[1],
+date
+)
+
+}));
+
+
+localStorage.setItem(
+
+`session_${date}_${section}_${group}`,
+
+JSON.stringify(data)
+
+);
+
+
+alert(
+"Présence enregistrée avec succès."
+);
+
+
+renderAttendanceHistory();
+
+}
+
+
+/* =========================================================
+   HISTORY
+========================================================= */
+
+function renderAttendanceHistory(){
+
+const container =
+document.getElementById(
+"attendanceHistory"
+);
+
+
+const section =
+document.getElementById(
+"presenceSection"
+).value;
+
+
+const group =
+document.getElementById(
+"presenceGroup"
+).value;
+
+
+let sessions=[];
+
+
+for(
+let i=0;
+i<localStorage.length;
+i++
+){
+
+const key =
+localStorage.key(i);
+
+
+if(
+key &&
+key.startsWith("session_")
+){
+
+const parts =
+key.split("_");
+
+
+if(
+parts[2]===section &&
+parts[3]===group
+){
+
+sessions.push({
+date:parts[1],
+key:key
+});
+
+}
+
+}
+
+}
+
+
+sessions.sort(
+(a,b)=>
+b.date.localeCompare(a.date)
+);
+
+
+if(!sessions.length){
+
+container.innerHTML=
+"<p>Aucune séance enregistrée.</p>";
+
+return;
+
+}
+
+
+let html=`
+
+<div class="table-wrapper">
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>Date</th>
+
+<th>Section</th>
+
+<th>Groupe</th>
+
+<th>Présents</th>
+
+<th>Absents</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+`;
+
+
+sessions.forEach(
+session=>{
+
+const data =
+JSON.parse(
+localStorage.getItem(
+session.key
+)||"[]"
+);
+
+
+const present =
+data.filter(
+x=>x.status==="present"
+).length;
+
+
+const absent =
+data.filter(
+x=>x.status==="absent"
+).length;
+
+
+html+=`
+
+<tr>
+
+<td>
+${formatDate(session.date)}
+</td>
+
+<td>
+${section}
+</td>
+
+<td>
+${group}
+</td>
+
+<td>
+${present}
+</td>
+
+<td>
+${absent}
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+html+=`
+
+</tbody>
+
+</table>
+
+</div>
+
+`;
+
+
+container.innerHTML=html;
+
+}
+
+
+/* =========================================================
+   PRINT
+========================================================= */
+
+function printAttendance(){
+
+const date =
+document.getElementById(
+"presenceDate"
+).value;
+
+
+const section =
+document.getElementById(
+"presenceSection"
+).value;
+
+
+const group =
+document.getElementById(
+"presenceGroup"
+).value;
+
+
+const list =
+getCurrentStudents();
+
+
+let rows="";
+
+
+list.forEach(
+(student,index)=>{
+
+const status =
+getPresence(
+student[1],
+date
+);
+
+
+rows+=`
+
+<tr>
+
+<td>
+${index+1}
+</td>
+
+<td>
+${student[1]}
+</td>
+
+<td>
+${student[2]}
+</td>
+
+<td>
+${student[3]}
+</td>
+
+<td>
+${status==="present"
+?"PRÉSENT"
+:"ABSENT"}
+</td>
+
+</tr>
+
+`;
+
+});
+
+
+const win =
+window.open(
+"",
+"_blank"
+);
+
+
+win.document.write(`
+
+<html>
+
+<head>
+
+<title>
+Présence
+</title>
+
+<style>
+
+body{
+font-family:Arial;
+padding:30px;
+}
+
+h1,h2{
+text-align:center;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+th,td{
+border:1px solid #333;
+padding:8px;
+}
+
+th{
+background:#eee;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<h1>
+ÉCOLE NATIONALE SUPÉRIEURE
+DES TRAVAUX PUBLICS
+</h1>
+
+<h2>
+Mécanique des Structures
+</h2>
+
+<p>
+
+Date :
+<strong>
+${formatDate(date)}
+</strong>
+
+&nbsp;&nbsp;
+
+Section :
+<strong>
+${section}
+</strong>
+
+&nbsp;&nbsp;
+
+Groupe :
+<strong>
+${group}
+</strong>
+
+</p>
+
+<table>
+
+<thead>
+
+<tr>
+
+<th>N°</th>
+<th>Matricule</th>
+<th>Nom</th>
+<th>Prénom</th>
+<th>Présence</th>
+
+</tr>
+
+</thead>
+
+<tbody>
+
+${rows}
+
+</tbody>
+
+</table>
+
+<br><br>
+
+<strong>
+Enseignant :
+</strong>
+
+Dr. Assas Taqiyeddine
 
 </body>
+
+</html>
+
+`);
+
+
+win.document.close();
+
+win.print();
+
+}
+
+
+/* =========================================================
+   CSV
+========================================================= */
+
+function exportAttendanceCSV(){
+
+const date =
+document.getElementById(
+"presenceDate"
+).value;
+
+
+const section =
+document.getElementById(
+"presenceSection"
+).value;
+
+
+const group =
+document.getElementById(
+"presenceGroup"
+).value;
+
+
+let csv=
+"N°;Année Bac;Matricule;Nom;Prénom;Section;Groupe;Date;Présence;Absences\n";
+
+
+getCurrentStudents()
+.forEach(
+(student,index)=>{
+
+csv+=
+
+`${index+1};`+
+`${student[0]};`+
+`${student[1]};`+
+`"${student[2]}";`+
+`"${student[3]}";`+
+`${section};`+
+`${group};`+
+`${formatDate(date)};`+
+`${getPresence(student[1],date)};`+
+`${totalAbsences(student[1])}\n`;
+
+});
+
+
+const blob =
+new Blob(
+["\ufeff"+csv],
+{
+type:
+"text/csv;charset=utf-8"
+}
+);
+
+
+const url =
+URL.createObjectURL(blob);
+
+
+const a =
+document.createElement("a");
+
+
+a.href=url;
+
+
+a.download=
+`presence_${section}_${group}_${date}.csv`;
+
+
+a.click();
+
+
+URL.revokeObjectURL(url);
+
+}
+
+
+/* =========================================================
+   NOTES
+========================================================= */
+
+function renderGrades(){
+
+const body =
+document.getElementById(
+"gradesBody"
+);
+
+
+body.innerHTML="";
+
+
+students.forEach(
+student=>{
+
+const key =
+"grade_"+student[1];
+
+
+const data =
+JSON.parse(
+localStorage.getItem(key)
+||
+'{"test":0,"assignment":0}'
+);
+
+
+const presence =
+Math.max(
+0,
+5-
+.5*
+totalAbsences(
+student[1]
+)
+);
+
+
+const total =
+Math.min(
+20,
+presence+
+Number(data.test)+
+Number(data.assignment)
+);
+
+
+body.innerHTML += `
+
+<tr>
+
+<td>
+
+<strong>
+${student[2]}
+</strong>
+
+${student[3]}
+
+<br>
+
+<small>
+${student[1]}
+</small>
+
+</td>
+
+
+<td>
+${presence.toFixed(2)}
+</td>
+
+
+<td>
+
+<input
+class="input"
+type="number"
+min="0"
+max="10"
+step=".25"
+value="${data.test}"
+onchange="
+saveGrade(
+'${student[1]}',
+'test',
+this.value
+)">
+
+</td>
+
+
+<td>
+
+<input
+class="input"
+type="number"
+min="0"
+max="5"
+step=".25"
+value="${data.assignment}"
+onchange="
+saveGrade(
+'${student[1]}',
+'assignment',
+this.value
+)">
+
+</td>
+
+
+<td>
+
+<strong>
+${total.toFixed(2)}
+</strong>
+
+</td>
+
+</tr>
+
+`;
+
+});
+
+}
+
+
+function saveGrade(
+id,
+field,
+value
+){
+
+const key =
+"grade_"+id;
+
+
+const data =
+JSON.parse(
+localStorage.getItem(key)
+||
+'{"test":0,"assignment":0}'
+);
+
+
+data[field]=Number(value);
+
+
+localStorage.setItem(
+key,
+JSON.stringify(data)
+);
+
+
+renderGrades();
+
+}
+
+
+/* =========================================================
+   EXAMS
+========================================================= */
+
+function renderExams(){
+
+const container =
+document.getElementById(
+"examsContainer"
+);
+
+
+const universities=[
+
+"ENSTP Kouba",
+
+"USTHB Alger",
+
+"Université de Biskra",
+
+"Université de Batna 2",
+
+"Université de Blida 1",
+
+"Université de Tlemcen",
+
+"Université de Sétif 1",
+
+"Université de Constantine"
+
+];
+
+
+universities.forEach(
+university=>{
+
+container.innerHTML+=`
+
+<div class="card">
+
+<h3>
+🎓 ${university}
+</h3>
+
+<p>
+Mécanique des Structures
+</p>
+
+
+<button
+class="btn btn-primary"
+onclick="resourceMessage('Examen')">
+
+📄 Examen
+
+</button>
+
+
+<button
+class="btn btn-success"
+onclick="resourceMessage('Solution')">
+
+✅ Solution
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+/* =========================================================
+   RESOURCES
+========================================================= */
+
+function renderResources(){
+
+const container =
+document.getElementById(
+"resourcesContainer"
+);
+
+
+container.innerHTML="";
+
+
+chapters.forEach(
+chapter=>{
+
+container.innerHTML+=`
+
+<div class="resource-card">
+
+<div class="resource-icon">
+📚
+</div>
+
+<h3>
+Chapter ${chapter.id}
+</h3>
+
+<p>
+${chapter.titleFR}
+</p>
+
+
+<button
+class="btn btn-primary"
+onclick="openChapter(${chapter.id})">
+
+Ressources
+
+</button>
+
+</div>
+
+`;
+
+});
+
+}
+
+
+/* =========================================================
+   RESOURCE MESSAGE
+========================================================= */
+
+function resourceMessage(type){
+
+openModal(`
+
+<h2>
+📚 ${type}
+</h2>
+
+<p>
+
+Vous pouvez placer ici
+le document PDF correspondant.
+
+</p>
+
+<code>
+documents/
+</code>
+
+`);
+
+}
+
+
+/* =========================================================
+   NAVIGATION
+========================================================= */
+
+function showPage(
+pageId,
+button
+){
+
+document
+.querySelectorAll(".page")
+.forEach(
+page=>
+page.classList.remove("active")
+);
+
+
+document.getElementById(
+pageId
+).classList.add("active");
+
+
+document
+.querySelectorAll(".nav-btn")
+.forEach(
+btn=>
+btn.classList.remove("active")
+);
+
+
+if(button){
+
+button.classList.add("active");
+
+}
+
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
+}
+
+
+/* =========================================================
+   MODAL
+========================================================= */
+
+function openModal(html){
+
+document.getElementById(
+"modalBody"
+).innerHTML=html;
+
+
+document.getElementById(
+"mainModal"
+).style.display="block";
+
+}
+
+
+function closeMainModal(){
+
+document.getElementById(
+"mainModal"
+).style.display="none";
+
+}
+
+
+function closeModal(event){
+
+if(
+event.target.id==="mainModal"
+){
+
+closeMainModal();
+
+}
+
+}
+
+
+/* =========================================================
+   INITIALIZATION
+========================================================= */
+
+document.addEventListener(
+"DOMContentLoaded",
+()=>{
+
+applyLanguage();
+
+renderObjectives();
+
+renderChapters();
+
+renderVideos();
+
+renderGrades();
+
+renderExams();
+
+renderResources();
+
+
+document.getElementById(
+"presenceDate"
+).value=
+today();
+
+
+syncGroupWithSection();
+
+});
+
+</script>
+
+
+</body>
+
 </html>
