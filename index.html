@@ -3856,14 +3856,16 @@ currentLanguage==="fr"
 
 <div>
 
-<button
+<a
 class="btn btn-primary"
-onclick="openChapter(${chapter.id})">
+href="cours/chapter-${chapter.id}.html"
+target="_blank"
+rel="noopener">
 
 🌐
 Web Interactive
 
-</button>
+</a>
 
 
 <button
@@ -4027,13 +4029,15 @@ html +=`
 Web Interactive
 </h3>
 
-<button
+<a
 class="btn btn-primary"
-onclick="openInteractive(${id})">
+href="cours/chapter-${id}.html"
+target="_blank"
+rel="noopener">
 
 Ouvrir
 
-</button>
+</a>
 
 </div>
 
