@@ -5695,12 +5695,36 @@ document.getElementById(
 "examsContainer"
 );
 
-container.innerHTML = `
+const universities = [
+
+"ENSTP Kouba",
+
+"USTHB Alger",
+
+"Université de Biskra",
+
+"Université de Batna 2",
+
+"Université de Blida 1",
+
+"Université de Tlemcen",
+
+"Université de Sétif 1",
+
+"Université de Constantine"
+
+];
+
+container.innerHTML = "";
+
+universities.forEach((university, index)=>{
+
+container.innerHTML += `
 
 <div class="card">
 
 <h3>
-🎓 ENSTP Kouba
+🎓 ${university}
 </h3>
 
 <p>
@@ -5709,7 +5733,7 @@ Mécanique des Structures
 
 <button
 class="btn btn-primary"
-onclick="openExamYears()">
+onclick="openUniversityExams(${index})">
 
 📄 Examen
 
@@ -5719,10 +5743,41 @@ onclick="openExamYears()">
 
 `;
 
+});
+
 }
 
 
-function openExamYears(){
+function openUniversityExams(universityIndex){
+
+const universities = [
+
+"ENSTP Kouba",
+"USTHB Alger",
+"Université de Biskra",
+"Université de Batna 2",
+"Université de Blida 1",
+"Université de Tlemcen",
+"Université de Sétif 1",
+"Université de Constantine"
+
+];
+
+const universityFolders = [
+
+"ENSTP-Kouba",
+"USTHB-Alger",
+"Universite-de-Biskra",
+"Universite-de-Batna-2",
+"Universite-de-Blida-1",
+"Universite-de-Tlemcen",
+"Universite-de-Setif-1",
+"Universite-de-Constantine"
+
+];
+
+const university = universities[universityIndex];
+const folder = universityFolders[universityIndex];
 
 openModal(`
 
@@ -5731,14 +5786,14 @@ openModal(`
 </h2>
 
 <p>
-🎓 ENSTP Kouba
+🎓 ${university}
 </p>
 
 <div class="grid grid-3" style="margin-top:20px;">
 
 <a
 class="btn btn-primary"
-href="examens/Examen-2023.pdf"
+href="examens/${folder}/Examen-2023.pdf"
 target="_blank"
 rel="noopener">
 
@@ -5748,7 +5803,7 @@ rel="noopener">
 
 <a
 class="btn btn-primary"
-href="examens/Examen-2024.pdf"
+href="examens/${folder}/Examen-2024.pdf"
 target="_blank"
 rel="noopener">
 
@@ -5758,7 +5813,7 @@ rel="noopener">
 
 <a
 class="btn btn-primary"
-href="examens/Examen-2025.pdf"
+href="examens/${folder}/Examen-2025.pdf"
 target="_blank"
 rel="noopener">
 
@@ -5771,6 +5826,7 @@ rel="noopener">
 `);
 
 }
+
 
 
 /* =========================================================
