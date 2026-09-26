@@ -5695,58 +5695,23 @@ document.getElementById(
 "examsContainer"
 );
 
-
-const universities=[
-
-"ENSTP Kouba",
-
-"USTHB Alger",
-
-"Université de Biskra",
-
-"Université de Batna 2",
-
-"Université de Blida 1",
-
-"Université de Tlemcen",
-
-"Université de Sétif 1",
-
-"Université de Constantine"
-
-];
-
-
-universities.forEach(
-university=>{
-
-container.innerHTML+=`
+container.innerHTML = `
 
 <div class="card">
 
 <h3>
-🎓 ${university}
+🎓 ENSTP Kouba
 </h3>
 
 <p>
 Mécanique des Structures
 </p>
 
-
 <button
 class="btn btn-primary"
-onclick="resourceMessage('Examen')">
+onclick="openExamYears()">
 
 📄 Examen
-
-</button>
-
-
-<button
-class="btn btn-success"
-onclick="resourceMessage('Solution')">
-
-✅ Solution
 
 </button>
 
@@ -5754,7 +5719,56 @@ onclick="resourceMessage('Solution')">
 
 `;
 
-});
+}
+
+
+function openExamYears(){
+
+openModal(`
+
+<h2>
+📄 Examens — Mécanique des Structures
+</h2>
+
+<p>
+🎓 ENSTP Kouba
+</p>
+
+<div class="grid grid-3" style="margin-top:20px;">
+
+<a
+class="btn btn-primary"
+href="examens/Examen-2023.pdf"
+target="_blank"
+rel="noopener">
+
+📄 2023
+
+</a>
+
+<a
+class="btn btn-primary"
+href="examens/Examen-2024.pdf"
+target="_blank"
+rel="noopener">
+
+📄 2024
+
+</a>
+
+<a
+class="btn btn-primary"
+href="examens/Examen-2025.pdf"
+target="_blank"
+rel="noopener">
+
+📄 2025
+
+</a>
+
+</div>
+
+`);
 
 }
 
