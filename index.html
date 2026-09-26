@@ -688,6 +688,72 @@ tr:hover td{
 }
 
 
+
+/* =========================================================
+   RESOURCE LIBRARY
+========================================================= */
+
+.resource-library-card{
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:20px;
+    background:linear-gradient(180deg,#ffffff,#f7fbff);
+    box-shadow:0 6px 18px rgba(0,0,0,.05);
+    transition:.25s;
+}
+
+.resource-library-card:hover{
+    transform:translateY(-4px);
+    box-shadow:0 10px 25px rgba(0,0,0,.08);
+}
+
+.resource-library-card h4{
+    margin:8px 0 10px;
+}
+
+.resource-count{
+    display:inline-block;
+    margin:8px 0 14px;
+    padding:5px 10px;
+    border-radius:999px;
+    background:#eef5ff;
+    font-size:.85rem;
+}
+
+.book-list{
+    display:grid;
+    gap:14px;
+    margin-top:18px;
+}
+
+.book-item{
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:16px;
+    background:#fff;
+}
+
+.book-item h4{
+    margin:0 0 6px;
+}
+
+.book-author{
+    font-weight:700;
+    margin-bottom:6px;
+}
+
+.book-topic{
+    color:#64748b;
+    font-size:.94rem;
+}
+
+.resource-modal-title{
+    display:flex;
+    gap:12px;
+    align-items:center;
+    margin-bottom:6px;
+}
+
 /* =========================================================
    SOCIAL
 ========================================================= */
@@ -941,6 +1007,45 @@ footer{
 
 }
 
+</style>
+
+
+<style>
+.pdf-intro {
+    margin: 15px 0 20px;
+    color: #475569;
+}
+
+.pdf-book-item {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.pdf-book-icon {
+    font-size: 32px;
+    flex-shrink: 0;
+}
+
+.pdf-book-info {
+    flex: 1;
+}
+
+.pdf-button {
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+@media (max-width: 700px) {
+    .pdf-book-item {
+        flex-wrap: wrap;
+    }
+
+    .pdf-button {
+        width: 100%;
+        text-align: center;
+    }
+}
 </style>
 
 </head>
@@ -5655,84 +5760,282 @@ onclick="resourceMessage('Solution')">
 
 
 /* =========================================================
-   RESOURCES
+   BIBLIOGRAPHIC RESOURCE LIBRARY
 ========================================================= */
 
-function renderResources(){
+const resourceLibrary = {
 
-const container =
-document.getElementById(
-"resourcesContainer"
-);
+1: [
+ {title:"Structural Analysis", author:"R. C. Hibbeler", topic:"Influence lines, moving loads, beams, trusses and frames."},
+ {title:"Structural Analysis", author:"Aslam Kassimali", topic:"Analysis of determinate and indeterminate structures and influence lines."},
+ {title:"Structural Analysis: A Classical and Matrix Approach", author:"G. S. Williams", topic:"Classical structural analysis, internal forces and structural response."},
+ {title:"Structural Analysis and Design", author:"A. Ghali, A. Neville & T. G. Brown", topic:"Advanced structural analysis and applications."}
+],
 
+2: [
+ {title:"Structural Analysis", author:"R. C. Hibbeler", topic:"Cable structures, equilibrium and structural analysis."},
+ {title:"Structural Analysis", author:"Aslam Kassimali", topic:"Cable systems and structural equilibrium concepts."},
+ {title:"Theory of Structures", author:"S. P. Timoshenko & D. H. Young", topic:"Classical treatment of cables and structural systems."},
+ {title:"Analysis of Structures", author:"G. S. Ramaswamy", topic:"Cable and suspension structural systems."}
+],
 
-container.innerHTML="";
+3: [
+ {title:"Structural Analysis", author:"R. C. Hibbeler", topic:"Three-hinged arches, reactions, internal forces and applications."},
+ {title:"Structural Analysis", author:"Aslam Kassimali", topic:"Analysis of arches and other determinate structures."},
+ {title:"Theory of Structures", author:"S. P. Timoshenko & D. H. Young", topic:"Classical theory and analysis of arches."},
+ {title:"Analysis of Structures", author:"G. S. Ramaswamy", topic:"Structural systems including arches and their applications."}
+],
 
+4: [
+ {title:"Theory of Plates and Shells", author:"S. Timoshenko & S. Woinowsky-Krieger", topic:"Elastic theory of thin plates, bending and classical plate solutions."},
+ {title:"Theory of Elasticity", author:"S. Timoshenko & J. N. Goodier", topic:"Elasticity fundamentals and analytical solutions for plates."},
+ {title:"Theory and Analysis of Elastic Plates", author:"J. N. Reddy", topic:"Classical and modern methods for thin elastic plates."},
+ {title:"Structural Analysis: Plates and Slabs", author:"R. C. Hibbeler", topic:"Structural behaviour, bending and practical analysis concepts."}
+],
 
-chapters.forEach(
-chapter=>{
+5: [
+ {title:"Structural Analysis", author:"Aslam Kassimali", topic:"Analysis of beam systems, load distribution and indeterminate structures."},
+ {title:"Structural Analysis", author:"R. C. Hibbeler", topic:"Beam systems, structural modelling and load effects."},
+ {title:"Theory of Structures", author:"S. P. Timoshenko & D. H. Young", topic:"Classical analysis of beam systems and structural grids."},
+ {title:"Design of Structural Elements", author:"W. M. C. McKenzie", topic:"Practical structural systems and load-transfer principles."}
+],
 
-container.innerHTML+=`
+6: [
+ {title:"Mechanics of Materials", author:"R. C. Hibbeler", topic:"Torsion of circular shafts, shear stress, angle of twist and strength."},
+ {title:"Mechanics of Materials", author:"F. P. Beer, E. R. Johnston Jr. et al.", topic:"Torsion, stress distribution and deformation of shafts."},
+ {title:"Theory of Elasticity", author:"S. Timoshenko & J. N. Goodier", topic:"Elastic torsion and three-dimensional elasticity."},
+ {title:"Advanced Strength and Applied Elasticity", author:"A. C. Ugural & S. K. Fenster", topic:"Torsion, elasticity and advanced mechanics of structural members."}
+]
 
-<div class="resource-card">
-
-<div class="resource-icon">
-📚
-</div>
-
-<h3>
-Chapter ${chapter.id}
-</h3>
-
-<p>
-${chapter.titleFR}
-</p>
-
-
-<button
-class="btn btn-primary"
-onclick="openChapter(${chapter.id})">
-
-Ressources
-
-</button>
-
-</div>
-
-`;
-
-});
-
-}
+};
 
 
 /* =========================================================
-   RESOURCE MESSAGE
+   RESOURCES
 ========================================================= */
+
+
+/* =========================================================
+   RESSOURCES PDF — BIBLIOTHÈQUE PAR CHAPITRE
+========================================================= */
+
+const pdfLibrary = {
+    1: [
+        {
+            title: "Structural Analysis — R. C. Hibbeler",
+            file: "ressources/chapter-1/Hibbeler-Structural-Analysis.pdf"
+        },
+        {
+            title: "Structural Analysis — Aslam Kassimali",
+            file: "ressources/chapter-1/Kassimali-Structural-Analysis.pdf"
+        },
+        {
+            title: "Influence Lines — Structural Analysis",
+            file: "ressources/chapter-1/Influence-Lines.pdf"
+        },
+        {
+            title: "Theory of Structures",
+            file: "ressources/chapter-1/Theory-of-Structures.pdf"
+        }
+    ],
+
+    2: [
+        {
+            title: "Structural Analysis — R. C. Hibbeler",
+            file: "ressources/chapter-2/Hibbeler-Structural-Analysis.pdf"
+        },
+        {
+            title: "Structural Analysis — Aslam Kassimali",
+            file: "ressources/chapter-2/Kassimali-Structural-Analysis.pdf"
+        },
+        {
+            title: "Cable Structures — Theory and Analysis",
+            file: "ressources/chapter-2/Cable-Structures.pdf"
+        },
+        {
+            title: "Theory of Structures",
+            file: "ressources/chapter-2/structure en cable .pdf"
+        }
+    ],
+
+    3: [
+        {
+            title: "Structural Analysis — R. C. Hibbeler",
+            file: "ressources/chapter-3/Hibbeler-Structural-Analysis.pdf"
+        },
+        {
+            title: "Structural Analysis — Aslam Kassimali",
+            file: "ressources/chapter-3/Kassimali-Structural-Analysis.pdf"
+        },
+        {
+            title: "Theory of Structures — Timoshenko & Young",
+            file: "ressources/chapter-3/Theory-of-Structures.pdf"
+        },
+        {
+            title: "Analysis of Structures — Arches",
+            file: "ressources/chapter-3/Analysis-of-Structures-Arches.pdf"
+        }
+    ],
+
+    4: [
+        {
+            title: "Theory of Plates and Shells — Timoshenko & Woinowsky-Krieger",
+            file: "ressources/chapter-4/Theory-of-Plates-and-Shells.pdf"
+        },
+        {
+            title: "Theory of Elasticity — Timoshenko & Goodier",
+            file: "ressources/chapter-4/Theory-of-Elasticity.pdf"
+        },
+        {
+            title: "Theory and Analysis of Elastic Plates — J. N. Reddy",
+            file: "ressources/chapter-4/Reddy-Elastic-Plates.pdf"
+        },
+        {
+            title: "Thin Plate Theory",
+            file: "ressources/chapter-4/Thin-Plate-Theory.pdf"
+        }
+    ],
+
+    5: [
+        {
+            title: "Structural Analysis — Aslam Kassimali",
+            file: "ressources/chapter-5/Kassimali-Structural-Analysis.pdf"
+        },
+        {
+            title: "Structural Analysis — R. C. Hibbeler",
+            file: "ressources/chapter-5/Hibbeler-Structural-Analysis.pdf"
+        },
+        {
+            title: "Theory of Structures",
+            file: "ressources/chapter-5/Theory-of-Structures.pdf"
+        },
+        {
+            title: "Structural Grids and Beam Networks",
+            file: "ressources/chapter-5/Structural-Grids.pdf"
+        }
+    ],
+
+    6: [
+        {
+            title: "Mechanics of Materials — R. C. Hibbeler",
+            file: "ressources/chapter-6/Hibbeler-Mechanics-of-Materials.pdf"
+        },
+        {
+            title: "Mechanics of Materials — Beer & Johnston",
+            file: "ressources/chapter-6/Beer-Johnston-Mechanics-of-Materials.pdf"
+        },
+        {
+            title: "Theory of Elasticity — Timoshenko & Goodier",
+            file: "ressources/chapter-6/Theory-of-Elasticity.pdf"
+        },
+        {
+            title: "Advanced Strength and Applied Elasticity",
+            file: "ressources/chapter-6/Advanced-Strength-Elasticity.pdf"
+        }
+    ]
+};
+
+
+function renderResources(){
+
+    const container = document.getElementById("resourcesContainer");
+
+    if(!container) return;
+
+    container.innerHTML = "";
+
+    chapters.forEach(function(chapter){
+
+        const books = pdfLibrary[chapter.id] || [];
+        const title = chapter.titleEN || chapter.titleFR;
+
+        let html = "";
+
+        html += '<div class="resource-library-card">';
+        html += '<div class="resource-icon">📚</div>';
+        html += '<h3>Chapter ' + chapter.id + '</h3>';
+        html += '<p><strong>' + title + '</strong></p>';
+        html += '<span class="resource-count">' + books.length + ' fichiers PDF</span>';
+
+        html += '<button class="btn btn-primary" onclick="openPdfLibrary(' + chapter.id + ')">';
+        html += '📖 Voir les PDF';
+        html += '</button>';
+
+        html += '</div>';
+
+        container.innerHTML += html;
+    });
+}
+
+
+function openPdfLibrary(id){
+
+    const chapter = chapters.find(function(item){
+        return item.id === id;
+    });
+
+    const books = pdfLibrary[id] || [];
+
+    if(!chapter) return;
+
+    const title = chapter.titleEN || chapter.titleFR;
+
+    let html = "";
+
+    html += '<div class="pdf-library-modal">';
+    html += '<div class="resource-modal-title">';
+    html += '<div class="resource-icon">📚</div>';
+    html += '<div>';
+    html += '<h2>Chapter ' + chapter.id + '</h2>';
+    html += '<p><strong>' + title + '</strong></p>';
+    html += '</div>';
+    html += '</div>';
+
+    html += '<p class="pdf-intro">';
+    html += 'Livres et documents PDF disponibles pour ce chapitre.';
+    html += '</p>';
+
+    html += '<div class="book-list">';
+
+    books.forEach(function(book, index){
+
+        html += '<div class="book-item pdf-book-item">';
+
+        html += '<div class="pdf-book-icon">📕</div>';
+
+        html += '<div class="pdf-book-info">';
+        html += '<h4>' + (index + 1) + '. ' + book.title + '</h4>';
+        html += '<div class="book-topic">Document PDF</div>';
+        html += '</div>';
+
+        html += '<a href="' + book.file + '"';
+        html += ' target="_blank" rel="noopener"';
+        html += ' class="btn btn-primary pdf-button">';
+        html += '📄 Ouvrir le PDF';
+        html += '</a>';
+
+        html += '</div>';
+    });
+
+    html += '</div>';
+    html += '</div>';
+
+    openModal(html);
+}
+
+
+/* Compatibilité avec les anciens appels */
+function openResourceLibrary(id){
+    openPdfLibrary(id);
+}
 
 function resourceMessage(type){
 
-openModal(`
-
-<h2>
-📚 ${type}
-</h2>
-
-<p>
-
-Vous pouvez placer ici
-le document PDF correspondant.
-
-</p>
-
-<code>
-documents/
-</code>
-
-`);
-
+    openModal(
+        '<h2>📚 ' + type + '</h2>' +
+        '<p>Placez le fichier PDF correspondant dans le dossier <code>ressources/</code>.</p>'
+    );
 }
-
 
 /* =========================================================
    NAVIGATION
