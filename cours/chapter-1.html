@@ -1,0 +1,3499 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Influence Lines of determinate and Indeterminate Structures</title>
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['\\(', '\\)']],
+    displayMath: [['\\[', '\\]']],
+    processEscapes: true
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<style>
+  :root {
+    --bg: #f7f9fc;
+    --fg: #1a1a2e;
+    --accent: #0f3460;
+    --accent2: #e94560;
+    --card: #ffffff;
+    --border: #dbe2ea;
+    --shadow: 0 4px 14px rgba(0,0,0,0.06);
+  }
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body {
+    margin: 0;
+    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    background: var(--bg);
+    color: var(--fg);
+    line-height: 1.65;
+  }
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: linear-gradient(90deg, var(--accent), #16213e);
+    color: #fff;
+    padding: 14px 24px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: var(--shadow);
+  }
+  header h1 {
+    margin: 0;
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: .3px;
+  }
+  header button {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #fff;
+    padding: 6px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: .85rem;
+    transition: background .2s;
+  }
+  header button:hover { background: rgba(255,255,255,0.22); }
+  .layout {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px;
+    gap: 24px;
+  }
+  aside.toc {
+    width: 260px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 70px;
+    align-self: flex-start;
+    background: var(--card);
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+    max-height: calc(100vh - 90px);
+    overflow-y: auto;
+  }
+  aside.toc h2 {
+    margin: 0 0 10px;
+    font-size: .95rem;
+    color: var(--accent);
+    border-bottom: 2px solid var(--accent2);
+    padding-bottom: 6px;
+  }
+  aside.toc ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  aside.toc li {
+    margin: 6px 0;
+    font-size: .88rem;
+  }
+  aside.toc a {
+    color: var(--fg);
+    text-decoration: none;
+    display: block;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: background .15s;
+  }
+  aside.toc a:hover { background: #eef3fb; color: var(--accent); }
+  main {
+    flex: 1;
+    background: var(--card);
+    border-radius: 12px;
+    padding: 32px;
+    box-shadow: var(--shadow);
+    min-width: 0;
+  }
+  h1, h2, h3, h4 {
+    color: var(--accent);
+    margin-top: 1.6em;
+    margin-bottom: .6em;
+    line-height: 1.3;
+  }
+  h1 { font-size: 1.8rem; border-bottom: 3px solid var(--accent2); padding-bottom: 8px; }
+  h2 { font-size: 1.45rem; }
+  h3 { font-size: 1.2rem; }
+  h4 { font-size: 1.05rem; }
+  p { margin: .8em 0; }
+  strong { color: #0f3460; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.2em 0;
+    font-size: .95rem;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.04);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  th, td {
+    border: 1px solid var(--border);
+    padding: 10px 12px;
+    text-align: left;
+  }
+  th {
+    background: #eef3fb;
+    font-weight: 600;
+    color: var(--accent);
+  }
+  tr:nth-child(even) { background: #fafbfd; }
+  img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 1em auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+  figure {
+    margin: 1.5em 0;
+    text-align: center;
+  }
+  figcaption {
+    font-size: .9rem;
+    color: #555;
+    margin-top: 6px;
+  }
+  ol, ul { padding-left: 1.4em; }
+  li { margin: .35em 0; }
+  .math.display { overflow-x: auto; }
+  @media (max-width: 960px) {
+    .layout { flex-direction: column; }
+    aside.toc { width: 100%; position: static; max-height: none; }
+  }
+  .back-to-top {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    background: var(--accent2);
+    color: #fff;
+    border: none;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--shadow);
+    z-index: 999;
+  }
+  .back-to-top.show { display: flex; }
+.toc.hidden { display: none; }\n</style>
+</head>
+<body>
+<header>
+  <h1>Influence Lines of determinate and Indeterminate Structures</h1>
+  <button id="toggleToc" onclick="document.querySelector('aside.toc').classList.toggle('hidden')">☰ Sommaire</button>
+</header>
+<div class="layout">
+  <aside class="toc" id="tocPanel">
+    <h2>Sommaire</h2>
+    <ul id="tocList"></ul>
+  </aside>
+  <main id="content">
+<p><strong>Influence Lines of determinate and Indeterminate
+Structures</strong></p>
+<ol type="1">
+<li><p><strong>Introductoion</strong></p></li>
+</ol>
+<p>Influence lines have importante application for the design of
+structures that resist large live loads. In this module we will discuss
+how to draw the influence line for a statically determinate structure.
+The theory is applied to structures subjected to a distributed load or a
+series of concentrated forces, and specific applications to floor
+girders and bridge trusses are given. The determination of the absolute
+maximum live shear and moment in a member is discussed at the end of
+this module</p>
+<ol start="2" type="1">
+<li><p><strong>Learning outcomes:</strong> apply the methods of
+structural analysis for external and internal actions on various types
+of structural systems due to static and moving loads.</p></li>
+<li><p><strong>Learning objectives</strong></p></li>
+</ol>
+<p>Student learning objectives for this module upon completion of this
+module, you will be able to:</p>
+<p>• Know the meaning of influence lines.</p>
+<p>• Determine its an important part in the design of bridges,
+industrial crane rails, conveyors, and other structures where loads move
+across their span.</p>
+<ol start="4" type="1">
+<li><p><strong>Learning activities</strong></p></li>
+</ol>
+<p>Activities for this module</p>
+<p>• Do the assignments and problem sets</p>
+<p>• Take the quiz (Quiz1)</p>
+<ol type="I">
+<li><p><strong>Influence Lines of determinate
+Structures</strong></p></li>
+</ol>
+<p><strong>I.1. Defintion</strong></p>
+<p>An influence line represents the variation of the reaction, shear,
+moment, or deflection at a specific point in a member as a concentrated
+force moves over the member. Once this line is constructed, one can tell
+at a glance where the moving load should be placed on the structure so
+that it creates the greatest influence at the specified point.
+Furthermore, the magnitude of the associated reaction, shear, moment, or
+deflection at the point can then be calculated from the ordinates of the
+influence line diagram. For these reasons, influence lines play an
+important part in the design of bridges, industrial crane rails,
+conveyors, and other structures where loads move across their span.</p>
+<p><strong>The following sign conventions are used:</strong></p>
+<p><strong>Table 1. sign conventions</strong></p>
+<p><img src="media/image2.png"
+style="width:4.33959in;height:1.8788in" /></p>
+<p><strong>Remark:</strong> For other sign conventions, they must be
+clearly defined.</p>
+<p><strong>I.2 Influence Lines for Beams</strong></p>
+<p><strong>I.2.1Procedure for Analysis(Analytical Method)</strong></p>
+<p>Either of the following two procedures can be used to construct the
+influence line at a specific point P in a member for any function
+(reaction, shear, or moment). For both of these procedures we will
+choose the moving force to have a dimensionless magnitude of unity.</p>
+<p><strong>I.2.1 Tabulate Values</strong></p>
+<ul>
+<li><p>Place a <strong>unit load</strong> <span class="math inline">\(P
+= 1\)</span>at different positions <span
+class="math inline">\(x\)</span>along the member.</p></li>
+<li><p>For each position, use <strong>statics</strong> to calculate the
+required quantity: <strong>reaction</strong> <span
+class="math inline">\(R\)</span>, <strong>shear force</strong> <span
+class="math inline">\(V\)</span>, or <strong>bending moment</strong>
+<span class="math inline">\(M\)</span>.</p></li>
+<li><p>Apply the adopted <strong>sign conventions</strong>.</p></li>
+<li><p>For a <strong>statically determinate beam</strong>, the influence
+line consists of <strong>straight-line segments</strong>.</p></li>
+<li><p>Prepare a <strong>table</strong> showing the unit-load position
+<span class="math inline">\(x\)</span>and the corresponding value of
+<span class="math inline">\(R\)</span>, <span
+class="math inline">\(V\)</span>, or <span
+class="math inline">\(M\)</span>.</p></li>
+<li><p>Plot the calculated values and <strong>connect the
+points</strong> to construct the influence line.</p></li>
+</ul>
+<p><strong>Key principle:</strong></p>
+<p><img src="media/image3.png"
+style="width:6.15178in;height:0.33555in" /></p>
+<p><strong><u>Example 01</u></strong></p>
+<p>Construct the influence line for the vertical reaction at <span
+class="math inline">\(A\)</span>of the beam shown in Fig. 1 using the
+analytical method by tabulating the values.</p>
+<p><img src="media/image4.jpeg"
+style="width:0.5974in;height:0.32431in" /><img
+src="media/image5.png"
+style="width:4.05176in;height:1.72006in" /></p>
+<p><strong>SOLUTION</strong></p>
+<p>Tabulate Values. A unit load is placed on the beam at each selected
+point x and the value of Ay is calculated by summing moments about B.
+For example, when <strong>x=2.5</strong> m, <strong>x=5 m</strong> and
+<strong>x=7</strong> m, see <strong>Figs. 2-3</strong> and
+<strong>4</strong>, respectively. The results for Ay are entered in the
+<strong>Table 2</strong>. A plot of these values yields the influence
+line for the reaction at A, <strong>Fig. 5</strong>. This line or
+diagram gives the reaction at A as the unit load moves from one position
+to the next along the beam.</p>
+<p><img src="media/image40.jpeg"
+style="width:0.68831in;height:0.32431in" /><img
+src="media/image40.jpeg"
+style="width:0.74675in;height:0.32431in" /><img
+src="media/image40.jpeg"
+style="width:0.68831in;height:0.32431in" /><img
+src="media/image40.jpeg"
+style="width:0.60341in;height:0.32431in" /><img
+src="media/image6.jpeg"
+style="width:3.02462in;height:1.92931in" /> <img
+src="media/image7.jpeg"
+style="width:3.14067in;height:1.89444in" /> <img
+src="media/image8.jpeg"
+style="width:3.0625in;height:1.80347in" /> <img
+src="media/image9.png"
+style="width:1.50481in;height:1.9075in" /></p>
+<p><img src="media/image4.jpeg"
+style="width:0.74653in;height:0.32431in" /><img
+src="media/image10.jpeg"
+style="width:4.57657in;height:2.22754in" /></p>
+<p><strong>I.2.2 Influence-Line Equations</strong></p>
+<p>Rather than placing the unit load at specific points on the beam and
+plotting the values of Ay for each point, we can place the unit load a
+variable distance x from A, <strong>Fig 6</strong>. The reaction
+<strong>Ay</strong> as a function of <strong>x</strong> can be
+determined from.</p>
+<p><strong>Influence Line Equation</strong></p>
+<p>The equation expressing the reaction <span
+class="math inline">\(A_{y}\)</span> as a function of the position <span
+class="math inline">\(x\)</span> of the unit load (<span
+class="math inline">\(P = 1\)</span>) on the <span
+class="math inline">\(10\text{~m}\)</span> beam is:</p>
+<p><span class="math display">\[A_{y}(x) = 1 -
+\frac{1}{10}x\quad\text{for~}0 \leq x \leq 10\text{~m}\]</span></p>
+<p><strong>Step-by-Step Derivation Method</strong></p>
+<ol type="1">
+<li><p><strong>Definition of distances :</strong></p>
+<ul>
+<li><p>The total span of the beam is <span class="math inline">\(L =
+10\text{~m}\)</span>.</p></li>
+<li><p>The unit load <span class="math inline">\(P = 1\)</span> is
+located at a distance <span class="math inline">\(x\)</span> from
+support <span class="math inline">\(A\)</span>.</p></li>
+<li><p>The lever arm of the load <span class="math inline">\(P\)</span>
+relative to support <span class="math inline">\(B\)</span> is <span
+class="math inline">\((10 - x)\)</span>.</p></li>
+</ul></li>
+<li><p><strong>Moment equilibrium equation about</strong> <span
+class="math inline">\(B\)</span> <strong>(</strong><span
+class="math inline">\(\sum_{}^{}M_{B} =
+0\)</span><strong>):</strong></p></li>
+</ol>
+<p>Taking counterclockwise as positive, the reaction <span
+class="math inline">\(A_{y}\)</span> creates a clockwise (negative)
+moment and the unit load <span class="math inline">\(1\)</span> creates
+a counterclockwise (positive) moment about <span
+class="math inline">\(B\)</span>:</p>
+<p><span class="math display">\[- A_{y} \cdot (10) + 1 \cdot (10 - x) =
+0\]</span></p>
+<ol start="3" type="1">
+<li><p><strong>Isolating</strong> <span
+class="math inline">\(A_{y}\)</span><strong>:</strong></p></li>
+</ol>
+<p><span class="math display">\[10 \cdot A_{y} = 10 - x\]</span></p>
+<p><span class="math display">\[A_{y} = \frac{10 - x}{10} = 1 -
+\frac{1}{10}x\]</span></p>
+<p><strong>Key Point Verification</strong></p>
+<ul>
+<li><p><span class="math inline">\(x =
+0\text{~m}\)</span><strong>:</strong> <span class="math inline">\(A_{y}
+= 1 - \frac{0}{10} = 1\)</span></p></li>
+<li><p><span class="math inline">\(x =
+2.5\text{~m}\)</span><strong>:</strong> <span
+class="math inline">\(A_{y} = 1 - \frac{2.5}{10} =
+0.75\)</span></p></li>
+<li><p><span class="math inline">\(x =
+5\text{~m}\)</span><strong>:</strong> <span class="math inline">\(A_{y}
+= 1 - \frac{5}{10} = 0.5\)</span></p></li>
+<li><p><span class="math inline">\(x =
+7.5\text{~m}\)</span><strong>:</strong> <span
+class="math inline">\(A_{y} = 1 - \frac{7.5}{10} =
+0.25\)</span></p></li>
+<li><p><span class="math inline">\(x =
+10\text{~m}\)</span><strong>:</strong> <span class="math inline">\(A_{y}
+= 1 - \frac{10}{10} = 0\)</span></p></li>
+</ul>
+<p><img src="media/image4.jpeg"
+style="width:0.61667in;height:0.32431in" /> <img
+src="media/image11.jpeg"
+style="width:5.06427in;height:2.75947in" /></p>
+<p><strong><u>Example 02</u></strong></p>
+<p>Construct the influence line for the vertical reaction at B of the
+beam in <strong>Fig. 7</strong>.</p>
+<p><img src="media/image4.jpeg"
+style="width:0.5974in;height:0.32431in" /><img
+src="media/image12.png"
+style="width:3.75653in;height:1.85054in" /></p>
+<p><strong>Soltution</strong></p>
+<p>Tabulate Values.</p>
+<p>Statics verification for the reaction <span
+class="math inline">\(B_{y}\)</span> at each load position <span
+class="math inline">\(x\)</span> using moment equilibrium about support
+<span class="math inline">\(A\)</span> (<span
+class="math inline">\(\sum_{}^{}M_{A} = 0\)</span>, counterclockwise
+positive):</p>
+<p><strong>Step-by-Step Statics Calculations</strong></p>
+<ul>
+<li><p><span class="math inline">\(x = 0\text{~m}\)</span>
+<strong>(Support A):</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}M_{A} = 0 \Longrightarrow
+B_{y}(5) - 1(0) = 0 \Longrightarrow B_{y} = 0\]</span></p>
+<ul>
+<li><p><span class="math inline">\(x = 2.5\text{~m}\)</span>
+<strong>(Mid-span AB):</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}M_{A} = 0 \Longrightarrow
+B_{y}(5) - 1(2.5) = 0 \Longrightarrow B_{y} = \frac{2.5}{5} =
+0.5\]</span></p>
+<ul>
+<li><p><span class="math inline">\(x = 5.0\text{~m}\)</span>
+<strong>(Support B):</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}M_{A} = 0 \Longrightarrow
+B_{y}(5) - 1(5) = 0 \Longrightarrow B_{y} = \frac{5}{5} =
+1.0\]</span></p>
+<ul>
+<li><p><span class="math inline">\(x = 7.5\text{~m}\)</span>
+<strong>(Mid-overhang):</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}M_{A} = 0 \Longrightarrow
+B_{y}(5) - 1(7.5) = 0 \Longrightarrow B_{y} = \frac{7.5}{5} =
+1.5\]</span></p>
+<ul>
+<li><p><span class="math inline">\(x = 10.0\text{~m}\)</span>
+<strong>(Free End):</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}M_{A} = 0 \Longrightarrow
+B_{y}(5) - 1(10) = 0 \Longrightarrow B_{y} = \frac{10}{5} =
+2.0\]</span></p>
+<p><strong>Tabulated Values for</strong> <span
+class="math inline">\(B_{y}\)</span></p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 50%" />
+<col style="width: 23%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Position x (m)</strong></th>
+<th><strong>Moment Equilibrium Equation</strong></th>
+<th><strong>Reaction By​</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>0.0</strong></td>
+<td><span class="math display">\[B_{y}(5) - 1(0) = 0\]</span></td>
+<td><strong>0.0</strong></td>
+</tr>
+<tr class="even">
+<td><strong>2.5</strong></td>
+<td><span class="math display">\[B_{y}(5) - 1(2.5) = 0\]</span></td>
+<td><strong>0.5</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>5.0</strong></td>
+<td><span class="math display">\[B_{y}(5) - 1(5) = 0\]</span></td>
+<td><strong>1.0</strong></td>
+</tr>
+<tr class="even">
+<td><strong>7.5</strong></td>
+<td><span class="math display">\[B_{y}(5) - 1(7.5) = 0\]</span></td>
+<td><strong>1.5</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>10.0</strong></td>
+<td><span class="math display">\[B_{y}(5) - 1(10) = 0\]</span></td>
+<td><strong>2.0</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Influence Line Equation for</strong> <span
+class="math inline">\(B_{y}\)</span></p>
+<p>Influence-Line Equation. We must determine the reaction By when the
+unit load is placed a distance x from A, Fig. 7. Applying moment
+equilibrium about support <span class="math inline">\(A\)</span> (<span
+class="math inline">\(\sum_{}^{}M_{A} = 0\)</span>, taking
+counterclockwise moments as positive) yields the continuous equation for
+<span class="math inline">\(B_{y}\)</span> across the entire span Fig
+8 : <span class="math inline">\(0 \leq x \leq
+10\text{~}\text{m}\)</span>:</p>
+<p><span class="math display">\[\sum_{}^{}M_{A} = 0 \Longrightarrow
+\left( B_{y} \cdot 5 \right) - (1 \cdot x) = 0\]</span></p>
+<p><span class="math display">\[B_{y}(x) = \frac{x}{5} =
+0.2x\quad\text{for~}0 \leq x \leq 10\text{~m}\]</span></p>
+<p><img src="media/image4.jpeg"
+style="width:0.59722in;height:0.33188in" /><img
+src="media/image13.png"
+style="width:3.84366in;height:1.97601in" /></p>
+<p><strong><u>Example 3</u></strong></p>
+<p>Construct the influence line for the shear at point C of the beam in
+Fig. 9.</p>
+<p><img src="media/image4.jpeg"
+style="width:0.59722in;height:0.32431in" /><img
+src="media/image14.jpeg"
+style="width:3.97727in;height:1.64147in" /></p>
+<p><strong><u>Solution</u></strong></p>
+<p>Tabulate Values. At each selected position x of the unit load, the
+method of sections is used to calculate the value of Vc. Note in
+particular that the unit load must be placed just to the left (x=2.5-)
+and just to the right <strong>(x=2.5+)</strong> of point C since the
+shear is discontinuous at C, Figs. 10 and 11. A plot of the values in
+Table 3 yields the influence line for the shear at C, Fig. 13. Here the
+diagram gives the shear at C as the unit load moves from one position to
+the next along the beam.</p>
+<p>Internal shear force <span class="math inline">\(V_{C}\)</span>
+calculation using static equilibrium equations (<span
+class="math inline">\(\sum_{}^{}M_{A} = 0\)</span> and <span
+class="math inline">\(\sum_{}^{}F_{y} = 0\)</span>) for each unit load
+position along the beam (<span class="math inline">\(L = 10\text{~ft} =
+3.048\text{~m}\)</span>) with section cut at <span
+class="math inline">\(x_{C} = 2.5\text{~ft} =
+0.762\text{~}\text{m}\)</span>:</p>
+<p><strong>1. Load at</strong> <span class="math inline">\(x =
+0\text{~ft}\)</span> <strong>(</strong><span
+class="math inline">\(0\text{~m}\)</span><strong>)</strong></p>
+<ul>
+<li><p><strong>Support Reactions:</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}M_{A} = 0 \Longrightarrow
+B_{y}(10) - 1(0) = 0 \Longrightarrow B_{y} = 0\]</span></p>
+<p><span class="math display">\[\sum_{}^{}F_{y} = 0 \Longrightarrow
+A_{y} + B_{y} - 1 = 0 \Longrightarrow A_{y} = 1\]</span></p>
+<ul>
+<li><p><strong>Equilibrium of Left Segment</strong> <span
+class="math inline">\(AC\)</span><strong>:</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}F_{y} = 0 \Longrightarrow
+A_{y} - 1 - V_{C} = 0 \Longrightarrow 1 - 1 - V_{C} = 0 \Longrightarrow
+\mathbf{V}_{\mathbf{C}}\mathbf{= 0}\]</span></p>
+<p><strong>2. Load at</strong> <span
+class="math inline">\(\mathbf{x}\mathbf{=}\mathbf{2.5}^{\mathbf{-}}\text{~ft}\)</span>
+<strong>(</strong><span
+class="math inline">\(\mathbf{0.762}^{\mathbf{-}}\text{~m}\)</span><strong>)
+— Just to the left of point</strong> <span
+class="math inline">\(\mathbf{C}\)</span></p>
+<ul>
+<li><p><strong>Support Reactions:</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}M_{A} = 0 \Longrightarrow
+B_{y}(10) - 1(2.5) = 0 \Longrightarrow B_{y} = 0.25\]</span></p>
+<p><span class="math display">\[\sum_{}^{}F_{y} = 0 \Longrightarrow
+A_{y} = 0.75\]</span></p>
+<ul>
+<li><p><strong>Equilibrium of Right Segment</strong> <span
+class="math inline">\(CB\)</span><strong>:</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}F_{y} = 0 \Longrightarrow
+V_{C} + B_{y} = 0 \Longrightarrow V_{C} + 0.25 = 0 \Longrightarrow
+\mathbf{V}_{\mathbf{C}}\mathbf{= - 0.25}\]</span></p>
+<p><strong>3. Load at</strong> <span
+class="math inline">\(\mathbf{x}\mathbf{=}\mathbf{2.5}^{\mathbf{+}}\text{~ft}\)</span>
+<strong>(</strong><span
+class="math inline">\(\mathbf{0.762}^{\mathbf{+}}\text{~m}\)</span><strong>)
+— Just to the right of point</strong> <span
+class="math inline">\(\mathbf{C}\)</span></p>
+<ul>
+<li><p><strong>Support Reactions:</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}M_{A} = 0 \Longrightarrow
+B_{y}(10) - 1(2.5) = 0 \Longrightarrow B_{y} = 0.25\]</span></p>
+<p><span class="math display">\[\sum_{}^{}F_{y} = 0 \Longrightarrow
+A_{y} = 0.75\]</span></p>
+<ul>
+<li><p><strong>Equilibrium of Left Segment</strong> <span
+class="math inline">\(AC\)</span><strong>:</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}F_{y} = 0 \Longrightarrow
+A_{y} - V_{C} = 0 \Longrightarrow 0.75 - V_{C} = 0 \Longrightarrow
+\mathbf{V}_{\mathbf{C}}\mathbf{= + 0.75}\]</span></p>
+<p><strong>4. Load at</strong> <span
+class="math inline">\(\mathbf{x}\mathbf{= 5}\text{~ft}\)</span>
+<strong>(</strong><span
+class="math inline">\(\mathbf{1.524}\text{~m}\)</span><strong>)</strong></p>
+<ul>
+<li><p><strong>Support Reactions:</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}M_{A} = 0 \Longrightarrow
+B_{y}(10) - 1(5) = 0 \Longrightarrow B_{y} = 0.50\]</span></p>
+<p><span class="math display">\[\sum_{}^{}F_{y} = 0 \Longrightarrow
+A_{y} = 0.50\]</span></p>
+<ul>
+<li><p><strong>Equilibrium of Left Segment</strong> <span
+class="math inline">\(AC\)</span><strong>:</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}F_{y} = 0 \Longrightarrow
+A_{y} - V_{C} = 0 \Longrightarrow 0.50 - V_{C} = 0 \Longrightarrow
+\mathbf{V}_{\mathbf{C}}\mathbf{= + 0.50}\]</span></p>
+<p><strong>5. Load at</strong> <span
+class="math inline">\(\mathbf{x}\mathbf{= 7.5}\text{~ft}\)</span>
+<strong>(</strong><span
+class="math inline">\(\mathbf{2.286}\text{~m}\)</span><strong>)</strong></p>
+<ul>
+<li><p><strong>Support Reactions:</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}M_{A} = 0 \Longrightarrow
+B_{y}(10) - 1(7.5) = 0 \Longrightarrow B_{y} = 0.75\]</span></p>
+<p><span class="math display">\[\sum_{}^{}F_{y} = 0 \Longrightarrow
+A_{y} = 0.25\]</span></p>
+<ul>
+<li><p><strong>Equilibrium of Left Segment</strong> <span
+class="math inline">\(AC\)</span><strong>:</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}F_{y} = 0 \Longrightarrow
+A_{y} - V_{C} = 0 \Longrightarrow 0.25 - V_{C} = 0 \Longrightarrow
+\mathbf{V}_{\mathbf{C}}\mathbf{= + 0.25}\]</span></p>
+<p><strong>6. Load at</strong> <span
+class="math inline">\(\mathbf{x}\mathbf{= 10}\text{~ft}\)</span>
+<strong>(</strong><span
+class="math inline">\(\mathbf{3.048}\text{~m}\)</span><strong>)</strong></p>
+<ul>
+<li><p><strong>Support Reactions:</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}M_{A} = 0 \Longrightarrow
+B_{y}(10) - 1(10) = 0 \Longrightarrow B_{y} = 1.00\]</span></p>
+<p><span class="math display">\[\sum_{}^{}F_{y} = 0 \Longrightarrow
+A_{y} = 0\]</span></p>
+<ul>
+<li><p><strong>Equilibrium of Left Segment</strong> <span
+class="math inline">\(AC\)</span><strong>:</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}F_{y} = 0 \Longrightarrow
+A_{y} - V_{C} = 0 \Longrightarrow 0 - V_{C} = 0 \Longrightarrow
+\mathbf{V}_{\mathbf{C}}\mathbf{= 0}\]</span></p>
+<p><img src="media/image40.jpeg"
+style="width:0.77222in;height:0.32431in" /><img
+src="media/image40.jpeg"
+style="width:0.77273in;height:0.32431in" /><img
+src="media/image15.png"
+style="width:2.7256in;height:2.82472in" /> <img
+src="media/image16.png"
+style="width:2.34223in;height:2.74887in" /></p>
+<p><img src="media/image17.png"
+style="width:1.54612in;height:1.69696in" /></p>
+<p><strong>Influence-Line Equations.</strong></p>
+<p>Here two equations have to be determined, since there are two
+segments for the influence line due to the discontinuity of shear at C.
+First we determine <strong>Ay,</strong> Fig 12. Using the result we then
+obtain the internal shear at C for each region, Fig. 13. The equations
+are plotted in Fig.14.</p>
+<p><img src="media/image40.jpeg"
+style="width:0.77222in;height:0.32431in" /><img
+src="media/image18.png"
+style="width:2.63745in;height:2.28578in" /> <img
+src="media/image19.png"
+style="width:3.17908in;height:2.08775in" /></p>
+<p><img src="media/image40.jpeg"
+style="width:0.77222in;height:0.32431in" /><img
+src="media/image18.png"
+style="width:6.3in;height:2.21389in" /><img
+src="media/image40.jpeg"
+style="width:0.77222in;height:0.32431in" /><img
+src="media/image40.jpeg"
+style="width:0.77222in;height:0.32431in" /></p>
+<p><strong><u>Example 04</u></strong></p>
+<p>Construct the influence line for the shear at point C of the beam in
+Fig. 15</p>
+<p><img src="media/image20.png"
+style="width:3.11663in;height:1.83737in" /></p>
+<p>Tabluate values</p>
+<p><strong>Calculs Point par Point</strong></p>
+<ul>
+<li><p><span class="math inline">\(\mathbf{x = 0}\text{~m}\)</span>
+<strong>(Load at support</strong> <span class="math inline">\(A\)</span>
+<strong>/ Charge en</strong> <span
+class="math inline">\(A\)</span><strong>) :</strong></p>
+<ul>
+<li><p><span class="math inline">\(\sum_{}^{}M_{B} = 0 \Longrightarrow
+R_{A} \cdot 8 - 1 \cdot 8 = 0 \Longrightarrow R_{A} =
+1,00\)</span></p></li>
+<li><p><span class="math inline">\(\sum_{}^{}F_{y} = 0 \Longrightarrow
+R_{B} = 1 - 1,00 = 0,00\)</span></p></li>
+<li><p>Shear force / Effort tranchant : <span
+class="math inline">\(V_{C} = R_{A} - 1 = 1,00 - 1 =
+0,00\)</span></p></li>
+</ul></li>
+<li><p><span class="math inline">\(x = 2\text{~m}\)</span> <strong>(Load
+between</strong> <span class="math inline">\(A\)</span>
+<strong>and</strong> <span class="math inline">\(C\)</span> <strong>/
+Charge entre</strong> <span class="math inline">\(A\)</span>
+<strong>et</strong> <span class="math inline">\(C\)</span><strong>)
+:</strong></p>
+<ul>
+<li><p><span class="math inline">\(\sum_{}^{}M_{B} = 0 \Longrightarrow
+R_{A} \cdot 8 - 1 \cdot 6 = 0 \Longrightarrow R_{A} =
+0,75\)</span></p></li>
+<li><p><span class="math inline">\(\sum_{}^{}F_{y} = 0 \Longrightarrow
+R_{B} = 1 - 0,75 = 0,25\)</span></p></li>
+<li><p><span class="math inline">\(V_{C} = R_{A} - 1 = 0,75 - 1 = -
+0,25\)</span></p></li>
+</ul></li>
+<li><p><span class="math inline">\(x = 4^{-}\text{~m}\)</span>
+<strong>(Load just left of</strong> <span
+class="math inline">\(C\)</span> <strong>/ Charge à gauche de</strong>
+<span class="math inline">\(C\)</span><strong>) :</strong></p>
+<ul>
+<li><p><span class="math inline">\(R_{A} = 0,50\)</span>, <span
+class="math inline">\(R_{B} = 0,50\)</span>, <span
+class="math inline">\(V_{C} = R_{A} - 1 = - 0,50\)</span></p></li>
+</ul></li>
+<li><p><span class="math inline">\(x = 4^{+}\text{~m}\)</span>
+<strong>(Load just right of</strong> <span
+class="math inline">\(C\)</span> <strong>/ Charge à droite de</strong>
+<span class="math inline">\(C\)</span><strong>) :</strong></p>
+<ul>
+<li><p><span class="math inline">\(R_{A} = 0,50\)</span>, <span
+class="math inline">\(R_{B} = 0,50\)</span>, <span
+class="math inline">\(V_{C} = R_{A} = + 0,50\)</span></p></li>
+</ul></li>
+<li><p><span class="math inline">\(x = 6\text{~m}\)</span> <strong>(Load
+between</strong> <span class="math inline">\(C\)</span>
+<strong>and</strong> <span class="math inline">\(B\)</span> <strong>/
+Charge entre</strong> <span class="math inline">\(C\)</span>
+<strong>et</strong> <span class="math inline">\(B\)</span><strong>)
+:</strong></p>
+<ul>
+<li><p><span class="math inline">\(R_{A} = 0,25\)</span>, <span
+class="math inline">\(R_{B} = 0,75\)</span>, <span
+class="math inline">\(V_{C} = R_{A} = + 0,25\)</span></p></li>
+</ul></li>
+<li><p><span class="math inline">\(x = 8\text{~m}\)</span> <strong>(Load
+at support</strong> <span class="math inline">\(B\)</span> <strong>/
+Charge en</strong> <span class="math inline">\(B\)</span><strong>)
+:</strong></p>
+<ul>
+<li><p><span class="math inline">\(R_{A} = 0,00\)</span>, <span
+class="math inline">\(R_{B} = 1,00\)</span>, <span
+class="math inline">\(V_{C} = 0,00\)</span></p></li>
+</ul></li>
+<li><p><span class="math inline">\(x = 10\text{~m}\)</span>
+<strong>(Load on overhang / Charge sur le porte-à-faux) :</strong></p>
+<ul>
+<li><p><span class="math inline">\(\sum_{}^{}M_{A} = 0 \Longrightarrow
+R_{B} \cdot 8 - 1 \cdot 10 = 0 \Longrightarrow R_{B} =
+1,25\)</span></p></li>
+<li><p><span class="math inline">\(R_{A} = 1 - 1,25 = - 0,25
+\Longrightarrow V_{C} = - 0,25\)</span></p></li>
+</ul></li>
+<li><p><span class="math inline">\(x = 12\text{~m}\)</span>
+<strong>(Load at free end / Charge à l'extrémité libre) :</strong></p>
+<ul>
+<li><p><span class="math inline">\(R_{B} = 1,50\)</span>, <span
+class="math inline">\(R_{A} = - 0,50 \Longrightarrow V_{C} = -
+0,50\)</span></p></li>
+</ul></li>
+</ul>
+<p><strong>Tableau Récapitulatif (Summary Table)</strong></p>
+<table>
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 23%" />
+<col style="width: 23%" />
+<col style="width: 28%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Position x (m)</strong></th>
+<th><strong>Reaction RA​</strong></th>
+<th><strong>Reaction RB​</strong></th>
+<th><strong>Shear Force VC​</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>0</strong></td>
+<td><span class="math display">\[1.00\]</span></td>
+<td><span class="math display">\[0.00\]</span></td>
+<td><span class="math display">\[0.00\]</span></td>
+</tr>
+<tr class="even">
+<td><strong>2</strong></td>
+<td><span class="math display">\[0.75\]</span></td>
+<td><span class="math display">\[0.25\]</span></td>
+<td><span class="math display">\[- 0.25\]</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math display">\[4^{-}\]</span></td>
+<td><span class="math display">\[0.50\]</span></td>
+<td><span class="math display">\[0.50\]</span></td>
+<td><span class="math display">\[- 0.50\]</span></td>
+</tr>
+<tr class="even">
+<td><span class="math display">\[4^{+}\]</span></td>
+<td><span class="math display">\[0.50\]</span></td>
+<td><span class="math display">\[0.50\]</span></td>
+<td><span class="math display">\[+ 0.50\]</span></td>
+</tr>
+<tr class="odd">
+<td><strong>6</strong></td>
+<td><span class="math display">\[0.25\]</span></td>
+<td><span class="math display">\[0.75\]</span></td>
+<td><span class="math display">\[+ 0.25\]</span></td>
+</tr>
+<tr class="even">
+<td><strong>8</strong></td>
+<td><span class="math display">\[0.00\]</span></td>
+<td><span class="math display">\[1.00\]</span></td>
+<td><span class="math display">\[0.00\]</span></td>
+</tr>
+<tr class="odd">
+<td><strong>10</strong></td>
+<td><span class="math display">\[- 0.25\]</span></td>
+<td><span class="math display">\[1.25\]</span></td>
+<td><span class="math display">\[- 0.25\]</span></td>
+</tr>
+<tr class="even">
+<td><strong>12</strong></td>
+<td><span class="math display">\[- 0.50\]</span></td>
+<td><span class="math display">\[1.50\]</span></td>
+<td><span class="math display">\[- 0.50\]</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Influence-Line Equations.</strong></p>
+<p>Support Reactions Equations (Équations des réactions d'appui)</p>
+<ul>
+<li><p>Moment equilibrium about <span class="math inline">\(B\)</span>
+(<span class="math inline">\(\sum_{}^{}M_{B} = 0\)</span>) [Équilibre
+des moments en <span class="math inline">\(B\)</span>] :</p></li>
+</ul>
+<p><span class="math display">\[R_{A}(x) \cdot 8 - 1 \cdot (8 - x) = 0
+\Longrightarrow R_{A}(x) = 1 - \frac{x}{8}\]</span></p>
+<ul>
+<li><p>Vertical force equilibrium (<span
+class="math inline">\(\sum_{}^{}F_{y} = 0\)</span>) [Équilibre des
+forces verticales] :</p></li>
+</ul>
+<p><span class="math display">\[R_{A}(x) + R_{B}(x) - 1 = 0
+\Longrightarrow R_{B}(x) = \frac{x}{8}\]</span></p>
+<p>Influence Line Equations for Shear Force <span
+class="math inline">\(V_{C}\)</span> (Équations de l'effort tranchant en
+<span class="math inline">\(C\)</span>)</p>
+<ul>
+<li><p>Segment 1 (<span class="math inline">\(0 \leq x &lt;
+4\text{~m}\)</span>) — Unit load to the left of <span
+class="math inline">\(C\)</span> (Charge à gauche de <span
+class="math inline">\(C\)</span>) :</p></li>
+</ul>
+<p><span class="math display">\[V_{C}(x) = R_{A}(x) - 1 = \left( 1 -
+\frac{x}{8} \right) - 1 = - \frac{x}{8}\]</span></p>
+<ul>
+<li><p>Segment 2 (<span class="math inline">\(4 &lt; x \leq
+12\text{~m}\)</span>) — Unit load to the right of <span
+class="math inline">\(C\)</span> (Charge à droite de <span
+class="math inline">\(C\)</span>) :</p></li>
+</ul>
+<p><span class="math display">\[V_{C}(x) = R_{A}(x) = 1 -
+\frac{x}{8}\]</span></p>
+<p><strong>Summary Table (Tableau des valeurs)</strong></p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 26%" />
+<col style="width: 22%" />
+<col style="width: 16%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Position x (m)</strong></th>
+<th><strong>Segment / Condition</strong></th>
+<th><strong>Equation for VC​</strong></th>
+<th><strong>Calculation</strong></th>
+<th><strong>Shear Force VC​</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>0</strong></td>
+<td><span class="math display">\[0 \leq x &lt; 4\]</span></td>
+<td><span class="math display">\[V_{C} = - \frac{x}{8}\]</span></td>
+<td><span class="math display">\[- \frac{0}{8}\]</span></td>
+<td><strong>0.00</strong></td>
+</tr>
+<tr class="even">
+<td><strong>2</strong></td>
+<td><span class="math display">\[0 \leq x &lt; 4\]</span></td>
+<td><span class="math display">\[V_{C} = - \frac{x}{8}\]</span></td>
+<td><span class="math display">\[- \frac{2}{8}\]</span></td>
+<td><strong>-0.25</strong></td>
+</tr>
+<tr class="odd">
+<td><span class="math display">\[\mathbf{4}^{\mathbf{-}}\]</span></td>
+<td>Just left of <span class="math inline">\(C\)</span></td>
+<td><span class="math display">\[V_{C} = - \frac{x}{8}\]</span></td>
+<td><span class="math display">\[- \frac{4}{8}\]</span></td>
+<td><strong>-0.50</strong></td>
+</tr>
+<tr class="even">
+<td><span class="math display">\[\mathbf{4}^{\mathbf{+}}\]</span></td>
+<td>Just right of <span class="math inline">\(C\)</span></td>
+<td><span class="math display">\[V_{C} = 1 - \frac{x}{8}\]</span></td>
+<td><span class="math display">\[1 - \frac{4}{8}\]</span></td>
+<td><strong>+0.50</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>6</strong></td>
+<td><span class="math display">\[4 &lt; x \leq 12\]</span></td>
+<td><span class="math display">\[V_{C} = 1 - \frac{x}{8}\]</span></td>
+<td><span class="math display">\[1 - \frac{6}{8}\]</span></td>
+<td><strong>+0.25</strong></td>
+</tr>
+<tr class="even">
+<td><strong>8</strong></td>
+<td><span class="math display">\[4 &lt; x \leq 12\]</span></td>
+<td><span class="math display">\[V_{C} = 1 - \frac{x}{8}\]</span></td>
+<td><span class="math display">\[1 - \frac{8}{8}\]</span></td>
+<td><strong>0.00</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>10</strong></td>
+<td><span class="math display">\[4 &lt; x \leq 12\]</span></td>
+<td><span class="math display">\[V_{C} = 1 - \frac{x}{8}\]</span></td>
+<td><span class="math display">\[1 - \frac{10}{8}\]</span></td>
+<td><strong>-0.25</strong></td>
+</tr>
+<tr class="even">
+<td><strong>12</strong></td>
+<td><span class="math display">\[4 &lt; x \leq 12\]</span></td>
+<td><span class="math display">\[V_{C} = 1 - \frac{x}{8}\]</span></td>
+<td><span class="math display">\[1 - \frac{12}{8}\]</span></td>
+<td><strong>-0.50</strong></td>
+</tr>
+</tbody>
+</table>
+<p><img src="media/image40.jpeg"
+style="width:0.77222in;height:0.32431in" /><img
+src="media/image21.png"
+style="width:3.18133in;height:2.17614in" /></p>
+<p><strong><u>Example 05</u></strong></p>
+<p>Construct the influence line for the moment at point C of the beam in
+Fig. 17.</p>
+<p><img src="media/image40.jpeg"
+style="width:0.77222in;height:0.32431in" /><img
+src="media/image22.png"
+style="width:3.5003in;height:1.68348in" /></p>
+<p><strong>Solution</strong></p>
+<p><strong>Tabulate values</strong></p>
+<p>At each selected position of the unit load, the value of MC is
+calculated using the method of sections. For example, see Fig. 18 for
+x=2.5 ft. A plot of the values in Table 04 yields the influence line for
+the moment at C figure 19. This diagram gives the moment at C as the
+unit load moves from one position to the next along the beam.</p>
+<p><img src="media/image40.jpeg"
+style="width:0.77222in;height:0.32431in" /><img
+src="media/image23.png"
+style="width:3.62674in;height:2.39323in" /></p>
+<p><strong>Direct Point-by-Point Calculations (Calculs directs point par
+point)</strong></p>
+<ul>
+<li><p><span class="math inline">\(x = 0\text{~ft}\)</span>
+<strong>(Load at support</strong> <span class="math inline">\(A\)</span>
+<strong>/ Charge en</strong> <span
+class="math inline">\(A\)</span><strong>) :</strong></p>
+<ul>
+<li><p><span class="math inline">\(\sum_{}^{}M_{B} = 0 \Longrightarrow
+R_{A} \cdot 10 - 1 \cdot 10 = 0 \Longrightarrow R_{A} =
+1.00\)</span></p></li>
+<li><p><span class="math inline">\(\sum_{}^{}F_{y} = 0 \Longrightarrow
+R_{B} = 1 - 1.00 = 0.00\)</span></p></li>
+<li><p>Bending moment / Moment fléchissant : <span
+class="math inline">\(M_{C} = R_{B} \cdot 5 = 0.00 \cdot 5 =
+0.00\text{~ft}\)</span></p></li>
+</ul></li>
+<li><p><span class="math inline">\(x = 2.5\text{~ft}\)</span>
+<strong>(Load between</strong> <span class="math inline">\(A\)</span>
+<strong>and</strong> <span class="math inline">\(C\)</span> <strong>/
+Charge entre</strong> <span class="math inline">\(A\)</span>
+<strong>et</strong> <span class="math inline">\(C\)</span><strong>)
+:</strong></p>
+<ul>
+<li><p><span class="math inline">\(\sum_{}^{}M_{B} = 0 \Longrightarrow
+R_{A} \cdot 10 - 1 \cdot 7.5 = 0 \Longrightarrow R_{A} =
+0.75\)</span></p></li>
+<li><p><span class="math inline">\(\sum_{}^{}F_{y} = 0 \Longrightarrow
+R_{B} = 1 - 0.75 = 0.25\)</span></p></li>
+<li><p>Bending moment / Moment fléchissant : <span
+class="math inline">\(M_{C} = R_{B} \cdot 5 = 0.25 \cdot 5 =
+1.25\text{~ft}\)</span></p></li>
+</ul></li>
+<li><p><span class="math inline">\(x = 5\text{~ft}\)</span>
+<strong>(Load at point</strong> <span class="math inline">\(C\)</span>
+<strong>/ Charge en</strong> <span
+class="math inline">\(C\)</span><strong>) :</strong></p>
+<ul>
+<li><p><span class="math inline">\(\sum_{}^{}M_{B} = 0 \Longrightarrow
+R_{A} \cdot 10 - 1 \cdot 5 = 0 \Longrightarrow R_{A} =
+0.50\)</span></p></li>
+<li><p><span class="math inline">\(\sum_{}^{}F_{y} = 0 \Longrightarrow
+R_{B} = 1 - 0.50 = 0.50\)</span></p></li>
+<li><p>Bending moment / Moment fléchissant : <span
+class="math inline">\(M_{C} = R_{A} \cdot 5 = 0.50 \cdot 5 =
+2.50\text{~ft}\)</span></p></li>
+</ul></li>
+<li><p><span class="math inline">\(x = 7.5\text{~ft}\)</span>
+<strong>(Load between</strong> <span class="math inline">\(C\)</span>
+<strong>and</strong> <span class="math inline">\(B\)</span> <strong>/
+Charge entre</strong> <span class="math inline">\(C\)</span>
+<strong>et</strong> <span class="math inline">\(B\)</span><strong>)
+:</strong></p>
+<ul>
+<li><p><span class="math inline">\(\sum_{}^{}M_{B} = 0 \Longrightarrow
+R_{A} \cdot 10 - 1 \cdot 2.5 = 0 \Longrightarrow R_{A} =
+0.25\)</span></p></li>
+<li><p><span class="math inline">\(\sum_{}^{}F_{y} = 0 \Longrightarrow
+R_{B} = 1 - 0.25 = 0.75\)</span></p></li>
+<li><p>Bending moment / Moment fléchissant : <span
+class="math inline">\(M_{C} = R_{A} \cdot 5 = 0.25 \cdot 5 =
+1.25\text{~ft}\)</span></p></li>
+</ul></li>
+<li><p><span class="math inline">\(x = 10\text{~ft}\)</span>
+<strong>(Load at support</strong> <span class="math inline">\(B\)</span>
+<strong>/ Charge en</strong> <span
+class="math inline">\(B\)</span><strong>) :</strong></p>
+<ul>
+<li><p><span class="math inline">\(\sum_{}^{}M_{B} = 0 \Longrightarrow
+R_{A} \cdot 10 - 1 \cdot 0 = 0 \Longrightarrow R_{A} =
+0.00\)</span></p></li>
+<li><p><span class="math inline">\(\sum_{}^{}F_{y} = 0 \Longrightarrow
+R_{B} = 1 - 0.00 = 1.00\)</span></p></li>
+<li><p>Bending moment / Moment fléchissant : <span
+class="math inline">\(M_{C} = R_{A} \cdot 5 = 0.00 \cdot 5 =
+0.00\text{~ft}\)</span></p></li>
+</ul></li>
+</ul>
+<p><strong>Summary Table 04 (Tableau Récapitulatif)</strong></p>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 20%" />
+<col style="width: 20%" />
+<col style="width: 36%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Position x (ft)</strong></th>
+<th><strong>Reaction RA​</strong></th>
+<th><strong>Reaction RB​</strong></th>
+<th><strong>Bending Moment MC​ (ft)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>0</strong></td>
+<td><span class="math display">\[1.00\]</span></td>
+<td><span class="math display">\[0.00\]</span></td>
+<td><span class="math display">\[0.00\]</span></td>
+</tr>
+<tr class="even">
+<td><strong>2.5</strong></td>
+<td><span class="math display">\[0.75\]</span></td>
+<td><span class="math display">\[0.25\]</span></td>
+<td><span class="math display">\[1.25\]</span></td>
+</tr>
+<tr class="odd">
+<td><strong>5</strong></td>
+<td><span class="math display">\[0.50\]</span></td>
+<td><span class="math display">\[0.50\]</span></td>
+<td><span class="math display">\[2.50\]</span></td>
+</tr>
+<tr class="even">
+<td><strong>7.5</strong></td>
+<td><span class="math display">\[0.25\]</span></td>
+<td><span class="math display">\[0.75\]</span></td>
+<td><span class="math display">\[1.25\]</span></td>
+</tr>
+<tr class="odd">
+<td><strong>10</strong></td>
+<td><span class="math display">\[0.00\]</span></td>
+<td><span class="math display">\[1.00\]</span></td>
+<td><span class="math display">\[0.00\]</span></td>
+</tr>
+</tbody>
+</table>
+<p><img src="media/image40.jpeg"
+style="width:0.77222in;height:0.32431in" /></p>
+<blockquote>
+<p><img src="media/image24.png"
+style="width:3.82066in;height:2.20224in" /></p>
+</blockquote>
+<p><strong>Influence-Line Equations.</strong></p>
+<p>The two line segments for the influence line can be determined using
+<span class="math inline">\(\sum_{}^{}M_{c}\)</span> = 0 along with the
+method of sections shown in Fig. 19.</p>
+<p>Support Reactions Equations</p>
+<ul>
+<li><p>Moment equilibrium about support <span
+class="math inline">\(B\)</span> (<span
+class="math inline">\(\sum_{}^{}M_{B} = 0\)</span>) :</p></li>
+</ul>
+<p><span class="math display">\[R_{A}(x) \cdot 10 - 1 \cdot (10 - x) = 0
+\Longrightarrow R_{A}(x) = 1 - \frac{x}{10}\]</span></p>
+<ul>
+<li><p>Vertical force equilibrium (<span
+class="math inline">\(\sum_{}^{}F_{y} = 0\)</span>) :</p></li>
+</ul>
+<p><span class="math display">\[R_{A}(x) + R_{B}(x) - 1 = 0
+\Longrightarrow R_{B}(x) = \frac{x}{10}\]</span></p>
+<p>Bending Moment Equations for <span
+class="math inline">\(M_{C}\)</span> (Équations du moment fléchissant en
+<span class="math inline">\(C\)</span>)</p>
+<ul>
+<li><p>Segment 1 (<span class="math inline">\(0 \leq x \leq
+5\text{~ft}\)</span>) — Unit load to the left of <span
+class="math inline">\(C\)</span> (figure 20.a):</p></li>
+</ul>
+<p><span class="math display">\[M_{C}(x) = R_{B}(x) \cdot 5 = \left(
+\frac{x}{10} \right) \cdot 5 = 0.5x\]</span></p>
+<ul>
+<li><p>Segment 2 (<span class="math inline">\(5 \leq x \leq
+10\text{~ft}\)</span>) — Unit load to the right of <span
+class="math inline">\(C\ (figure\ \ 20.b)\)</span> :</p></li>
+</ul>
+<p><span class="math display">\[M_{C}(x) = R_{A}(x) \cdot 5 = \left( 1 -
+\frac{x}{10} \right) \cdot 5 = 5 - 0.5x\]</span></p>
+<p><img src="media/image40.jpeg"
+style="width:1.38125in;height:0.32431in" /> <img
+src="media/image25.png"
+style="width:2.38903in;height:2.26726in" /> <img
+src="media/image25.png"
+style="width:3.59408in;height:2.2875in" /></p>
+<p><strong>Summary Table (Tableau récapitulatif par
+équations)</strong></p>
+<table>
+<colgroup>
+<col style="width: 13%" />
+<col style="width: 15%" />
+<col style="width: 14%" />
+<col style="width: 16%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Position x (ft)</strong></th>
+<th><strong>Segment / Condition</strong></th>
+<th><strong>Equation for MC​</strong></th>
+<th><strong>Calculation</strong></th>
+<th><strong>Reaction RA​</strong></th>
+<th><strong>Reaction RB​</strong></th>
+<th><strong>Bending Moment MC​ (ft)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>0</strong></td>
+<td><span class="math display">\[0 \leq x \leq 5\]</span></td>
+<td><span class="math display">\[M_{C} = 0.5x\]</span></td>
+<td><span class="math display">\[0.5 \cdot 0\]</span></td>
+<td><span class="math display">\[1.00\]</span></td>
+<td><span class="math display">\[0.00\]</span></td>
+<td><strong>0.00</strong></td>
+</tr>
+<tr class="even">
+<td><strong>2.5</strong></td>
+<td><span class="math display">\[0 \leq x \leq 5\]</span></td>
+<td><span class="math display">\[M_{C} = 0.5x\]</span></td>
+<td><span class="math display">\[0.5 \cdot 2.5\]</span></td>
+<td><span class="math display">\[0.75\]</span></td>
+<td><span class="math display">\[0.25\]</span></td>
+<td><strong>1.25</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>5</strong></td>
+<td>Point <span class="math inline">\(C\)</span></td>
+<td><span class="math display">\[M_{C} = 0.5x\]</span></td>
+<td><span class="math display">\[0.5 \cdot 5\]</span></td>
+<td><span class="math display">\[0.50\]</span></td>
+<td><span class="math display">\[0.50\]</span></td>
+<td><strong>2.50</strong></td>
+</tr>
+<tr class="even">
+<td><strong>7.5</strong></td>
+<td><span class="math display">\[5 \leq x \leq 10\]</span></td>
+<td><span class="math display">\[M_{C} = 5 - 0.5x\]</span></td>
+<td><span class="math display">\[5 - 0.5 \cdot 7.5\]</span></td>
+<td><span class="math display">\[0.25\]</span></td>
+<td><span class="math display">\[0.75\]</span></td>
+<td><strong>1.25</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>10</strong></td>
+<td><span class="math display">\[5 \leq x \leq 10\]</span></td>
+<td><span class="math display">\[M_{C} = 5 - 0.5x\]</span></td>
+<td><span class="math display">\[5 - 0.5 \cdot 10\]</span></td>
+<td><span class="math display">\[0.00\]</span></td>
+<td><span class="math display">\[1.00\]</span></td>
+<td><strong>0.00</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example 06</strong></p>
+<p>Construct the influence line for the moment at point C of the beam in
+Fig. 21</p>
+<p><img src="media/image26.png"
+style="width:4.14203in;height:2.52522in" /></p>
+<p>SOLUTION</p>
+<p>Tabulate Values. Using statics and the method of sections, verify
+that the values of the moment MC at point C in Fig. 21 correspond to
+each position x of the unit load. A plot of the values in Fig. 22.b
+yields the influence line in Fig. 22.c.</p>
+<p><img src="media/image27.png"
+style="width:6.3248in;height:2.5222in" /></p>
+<p>Influence-Line Equations.</p>
+<p><strong>Support Reactions Equations (Équations des réactions
+d'appui)</strong></p>
+<ul>
+<li><p><strong>Moment equilibrium about</strong> <span
+class="math inline">\(B\)</span> <strong>(</strong><span
+class="math inline">\(\sum_{}^{}M_{B} = 0\)</span><strong>) [Équilibre
+des moments en</strong> <span class="math inline">\(B\)</span><strong>]
+:</strong></p></li>
+</ul>
+<p><span class="math display">\[R_{A}(x) \cdot 8 - 1 \cdot (8 - x) = 0
+\Longrightarrow R_{A}(x) = 1 - \frac{x}{8}\]</span></p>
+<ul>
+<li><p><strong>Vertical force equilibrium (</strong><span
+class="math inline">\(\sum_{}^{}F_{y} = 0\)</span><strong>) [Équilibre
+des forces verticales] :</strong></p></li>
+</ul>
+<p><span class="math display">\[R_{A}(x) + R_{B}(x) - 1 = 0
+\Longrightarrow R_{B}(x) = \frac{x}{8}\]</span></p>
+<p><strong>Influence Line Equations for Bending Moment</strong> <span
+class="math inline">\(M_{C}\)</span> <strong>(Équations du moment
+fléchissant)</strong></p>
+<ul>
+<li><p><strong>Segment 1 (</strong><span class="math inline">\(0 \leq x
+\leq 4\text{~m}\)</span><strong>) — Unit load to the left of</strong>
+<span class="math inline">\(C\)</span> <strong>(Charge à gauche
+de</strong> <span class="math inline">\(C\)</span><strong>)
+:</strong></p></li>
+</ul>
+<p><span class="math display">\[M_{C}(x) = R_{B}(x) \cdot 4 = \left(
+\frac{x}{8} \right) \cdot 4 = 0.5x\]</span></p>
+<ul>
+<li><p><strong>Segment 2 (</strong><span class="math inline">\(4 \leq x
+\leq 12\text{~m}\)</span><strong>) — Unit load to the right of</strong>
+<span class="math inline">\(C\)</span> <strong>(Charge à droite
+de</strong> <span class="math inline">\(C\)</span><strong>)
+:</strong></p></li>
+</ul>
+<p><span class="math display">\[M_{C}(x) = R_{A}(x) \cdot 4 = \left( 1 -
+\frac{x}{8} \right) \cdot 4 = 4 - 0.5x\]</span></p>
+<p><strong>Summary Table (Tableau Récapitulatif)</strong></p>
+<table>
+<colgroup>
+<col style="width: 15%" />
+<col style="width: 20%" />
+<col style="width: 17%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Position x (m)</strong></th>
+<th><strong>Segment / Condition</strong></th>
+<th><strong>Equation for MC​</strong></th>
+<th><strong>Reaction RA​</strong></th>
+<th><strong>Reaction RB​</strong></th>
+<th><strong>Bending Moment MC​ (m)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>0</strong></td>
+<td><span class="math display">\[0 \leq x \leq 4\]</span></td>
+<td><span class="math display">\[M_{C} = 0.5 \cdot 0\]</span></td>
+<td><span class="math display">\[1.00\]</span></td>
+<td><span class="math display">\[0.00\]</span></td>
+<td><strong>0.00</strong></td>
+</tr>
+<tr class="even">
+<td><strong>2</strong></td>
+<td><span class="math display">\[0 \leq x \leq 4\]</span></td>
+<td><span class="math display">\[M_{C} = 0.5 \cdot 2\]</span></td>
+<td><span class="math display">\[0.75\]</span></td>
+<td><span class="math display">\[0.25\]</span></td>
+<td><strong>1.00</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>4</strong></td>
+<td>Point <span class="math inline">\(C\)</span></td>
+<td><span class="math display">\[M_{C} = 0.5 \cdot 4\]</span></td>
+<td><span class="math display">\[0.50\]</span></td>
+<td><span class="math display">\[0.50\]</span></td>
+<td><strong>2.00</strong></td>
+</tr>
+<tr class="even">
+<td><strong>6</strong></td>
+<td><span class="math display">\[4 \leq x \leq 12\]</span></td>
+<td><span class="math display">\[M_{C} = 4 - 0.5 \cdot 6\]</span></td>
+<td><span class="math display">\[0.25\]</span></td>
+<td><span class="math display">\[0.75\]</span></td>
+<td><strong>1.00</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>8</strong></td>
+<td>Support <span class="math inline">\(B\)</span></td>
+<td><span class="math display">\[M_{C} = 4 - 0.5 \cdot 8\]</span></td>
+<td><span class="math display">\[0.00\]</span></td>
+<td><span class="math display">\[1.00\]</span></td>
+<td><strong>0.00</strong></td>
+</tr>
+<tr class="even">
+<td><strong>10</strong></td>
+<td>Overhang (Console)</td>
+<td><span class="math display">\[M_{C} = 4 - 0.5 \cdot 10\]</span></td>
+<td><span class="math display">\[- 0.25\]</span></td>
+<td><span class="math display">\[1.25\]</span></td>
+<td><strong>-1.00</strong></td>
+</tr>
+<tr class="odd">
+<td><strong>12</strong></td>
+<td>Free End (Extrémité libre)</td>
+<td><span class="math display">\[M_{C} = 4 - 0.5 \cdot 12\]</span></td>
+<td><span class="math display">\[- 0.50\]</span></td>
+<td><span class="math display">\[1.50\]</span></td>
+<td><strong>-2.00</strong></td>
+</tr>
+</tbody>
+</table>
+<p><strong>I.3 MÜLLER-BRESLAU PRINCIPLE : QUALITATIVE KINEMATIC
+APPROACH</strong></p>
+<p>In <strong>1886, Heinrich Müller-Breslau</strong> developed a
+technique for quickly determining the <strong>shape of an influence
+line</strong>.</p>
+<p>The <strong>Müller-Breslau principle</strong> is based on the
+<strong>principle of virtual work</strong> and provides a simple way to
+construct the qualitative shape of influence lines.</p>
+<p><strong>Principle</strong></p>
+<p>The qualitative shape of the influence line for a given function,
+such as:</p>
+<ul>
+<li><p><strong>Support reaction</strong> (R)</p></li>
+<li><p><strong>Shear force</strong> (T) or (V)</p></li>
+<li><p><strong>Bending moment</strong> (M)</p></li>
+</ul>
+<p>can be obtained by:</p>
+<ol type="1">
+<li><p><strong>Releasing the restraint</strong> corresponding to the
+function being studied at the section where the influence line is
+required.</p></li>
+<li><p><strong>Applying a unit action</strong> corresponding to this
+function in its <strong>positive direction</strong>.</p></li>
+<li><p>Allowing the modified structure to
+<strong>deform</strong>.</p></li>
+</ol>
+<p>The deflected shape of the modified structure represents the
+qualitative shape of the influence line.</p>
+<p><strong>Easy rule to remember</strong></p>
+<p><strong>RELEASE → APPLY → DEFORM → INFLUENCE LINE</strong></p>
+<p><strong>Example 1: Influence Line for the Vertical Reaction
+(Ay)</strong></p>
+<p>Consider the beam shown in <strong>Fig. 23.a</strong>.</p>
+<p><img src="media/image28.png"
+style="width:3.52888in;height:1.54388in" /><img
+src="media/image29.png"
+style="width:3.04572in;height:2.25168in" /><img
+src="media/image30.png"
+style="width:3.2897in;height:2.07494in" /></p>
+<p>We want to determine the <strong>qualitative shape of the influence
+line for the vertical reaction (Ay) at A</strong>.</p>
+<p><strong>Step 1 – Release the reaction</strong></p>
+<p>Replace the <strong>pin at A</strong> with a <strong>roller
+guide</strong>, as shown in <strong>Fig. 23.b</strong>.</p>
+<p>The roller guide still allows the beam to resist the
+<strong>horizontal force</strong>, but it cannot resist the
+<strong>vertical reaction (Ay)</strong>.</p>
+<p><strong>Step 2 – Apply the positive action</strong></p>
+<p>Apply a <strong>positive upward force (Ay)</strong> at A.</p>
+<p><strong>Step 3 – Observe the deformation</strong></p>
+<p>The beam deflects into the <strong>dashed position</strong> shown in
+<strong>Fig. 23.c</strong>.</p>
+<p><strong>Conclusion</strong></p>
+<p>The <strong>dashed deflected shape</strong> in Fig. 23.c represents
+the <strong>qualitative shape of the influence line for
+(Ay)</strong>.</p>
+<p><strong>Remember:</strong><br />
+<strong>Release (Ay) → Apply (+Ay) → Observe the deflected shape →
+Influence line for (Ay).</strong></p>
+<p><strong>Example 2: Influence Line for the Shear Force at
+C</strong></p>
+<p>Let us determine the <strong>qualitative shape of the influence line
+for the shear force (VC)</strong> at section (C), as shown in
+<strong>Fig. 24.a</strong>.</p>
+<p><strong>Step 1 – Release the shear</strong></p>
+<p>The section at (C) is replaced by a <strong>roller guide</strong>, as
+shown in <strong>Fig. 24.b</strong>.</p>
+<p>This support can resist <strong>moment and axial force</strong>, but
+it cannot resist <strong>shear force</strong>.</p>
+<p><strong>Step 2 – Apply the positive shear</strong></p>
+<p>Apply a <strong>positive shear force (VC)</strong> at point (C).</p>
+<p><strong>Step 3 – Observe the deformation</strong></p>
+<p>The beam deforms into the <strong>dotted shape</strong> shown in
+<strong>Fig. 24.b</strong>.</p>
+<p><strong>Step 4 – Obtain the influence line</strong></p>
+<p>This <strong>deformed shape</strong> gives the qualitative shape of
+the <strong>influence line for (VC)</strong>, as shown in <strong>Fig.
+24.c</strong>.</p>
+<p><strong>Conclusion</strong></p>
+<p>Release the shear → Apply (+VC) → Observe the deformation → Obtain
+the influence line for (VC).</p>
+<p><img src="media/image31.png"
+style="width:2.65864in;height:2.85758in" /></p>
+<p><strong>Example 3: Influence Line for the Bending Moment at
+C</strong></p>
+<p>Let us determine the <strong>qualitative shape of the influence line
+for the bending moment</strong> <span
+class="math inline">\(M_{C}\)</span>at section <span
+class="math inline">\(C\)</span>, as shown in <strong>Fig.
+25.a</strong>.</p>
+<p><strong>Step 1 – Release the moment</strong></p>
+<p>Introduce an <strong>internal hinge (articulation)</strong> at <span
+class="math inline">\(C\)</span>, as shown in <strong>Fig.
+25.b</strong>.</p>
+<p>The internal hinge can resist <strong>axial and shear
+forces</strong>, but it <strong>cannot resist a bending
+moment</strong>.</p>
+<p><strong>Step 2 – Apply the positive moment</strong></p>
+<p>Apply a <strong>positive bending moment</strong> <span
+class="math inline">\(M_{C}\)</span>at <span
+class="math inline">\(C\)</span>.</p>
+<p><strong>Step 3 – Observe the deformation</strong></p>
+<p>The beam deforms into the <strong>dotted position</strong> shown in
+<strong>Fig. 25.b</strong>.</p>
+<p><strong>Step 4 – Obtain the influence line</strong></p>
+<p>The resulting <strong>deformed shape</strong> represents the
+qualitative shape of the <strong>influence line for</strong> <span
+class="math inline">\(M_{C}\)</span>, as shown in <strong>Fig.
+25.c</strong>.</p>
+<p><strong>Conclusion</strong></p>
+<p><strong>Release the moment → Apply</strong> <span
+class="math inline">\(+ M_{C}\)</span><strong>→ Observe the deformation
+→ Obtain the influence line for</strong> <span
+class="math inline">\(M_{C}\)</span><strong>.</strong></p>
+<p><img src="media/image32.png"
+style="width:3.84871in;height:4.60869in" /></p>
+<p><u>Exmaple 4</u></p>
+<p>For each beam in Fig. 26.a through 26.c, sketch the influence line
+for the vertical reaction at A</p>
+<p>SOLUTION</p>
+<p>The support is replaced by a roller guide at A since it will resist
+Ax, but not Ay. The force Ay is then applied.</p>
+<p><img src="media/image33.png"
+style="width:7.21569in;height:1.56389in" /></p>
+<p>Again, a roller guide is placed at A and the force Ay is applied</p>
+<p><img src="media/image34.png"
+style="width:7.09813in;height:1.6789in" /></p>
+<p>A double-roller guide must be used at A in this case, since this type
+of support will resist both a moment MA at the fixed support and axial
+load Ax, but will not resist Ay.</p>
+<p><img src="media/image35.png"
+style="width:7.14295in;height:1.77332in" /></p>
+<p><strong><u>Example 05</u></strong></p>
+<p>For each beam in Figs. 27.a through 27.c, sketch the influence line
+for the shear at B.</p>
+<p><strong>SOLUTION</strong></p>
+<p>The roller guide is introduced at B and the positive shear VB is
+applied. Notice that the right segment of the beam will not deflect
+since the roller at A actually constrains the beam from moving
+vertically, either up or down</p>
+<p><img src="media/image36.png"
+style="width:6.50492in;height:1.35493in" /></p>
+<p>Placing the roller guide at B and applying the positive shear at B
+yields the deflected shape and corresponding influence line.</p>
+<p><img src="media/image37.png"
+style="width:6.77472in;height:1.13452in" /></p>
+<p>Again, the roller guide is placed at B, the positive shear is
+applied, and the deflected shape and corresponding influence line are
+shown. Note that the left segment of the beam does not deflect, due to
+the fixed support.</p>
+<p><img src="media/image38.png"
+style="width:6.8855in;height:1.20821in" /></p>
+<p><strong><u>Example 06</u></strong></p>
+<p>For each beam in Figs. 28.a through Fig. 28.c, sketch the influence
+line for the moment at B.</p>
+<p><strong>SOLUTION</strong></p>
+<p>A hinge is introduced at B and positive moments MB are applied to the
+beam. The deflected shape and corresponding influence line are
+shown.</p>
+<p><img src="media/image39.png"
+style="width:6.94511in;height:1.04177in" /></p>
+<p>Placing a hinge at B and applying positive moments MB to the beam
+yields the deflected shape and influence line.</p>
+<p><img src="media/image40.png"
+style="width:6.96389in;height:1.22239in" /></p>
+<p>With the hinge and positive moment at B the deflected shape and
+influence line are shown. The left segment of the beam is constrained
+from moving due to the fixed wall at A</p>
+<p><img src="media/image41.png"
+style="width:6.96862in;height:1.13087in" /></p>
+<p><strong>I.4. Influence Lines for Floor Girders</strong></p>
+<p><img src="media/image42.png"
+style="width:6.60003in;height:2.20429in" /><img
+src="media/image43.png"
+style="width:6.60003in;height:2.20429in" />In a floor system, loads are
+transferred from the <strong>slab</strong> to the <strong>floor
+beams</strong>, then to the <strong>girder</strong>, and finally to the
+<strong>columns</strong>. The girder is simply supported by the columns.
+As shown in <strong>Fig. 29.a</strong>, the load is transferred to the
+girder at specific points <strong>A, B, C, and D</strong>, called
+<strong>panel points</strong>. The part between two panel points, such
+as <strong>B–C in Fig. 29.b</strong>, is called a
+<strong>panel</strong>. These points are important for drawing the
+<strong>influence lines of the girder</strong>.</p>
+<p><img src="media/image46.png"
+style="width:5.06844in;height:1.57104in" /></p>
+<p>The influence line for a specified point on the girder can be
+determined using the same statics procedure, place the unit load at
+various points x on the floor slab and always compute the function
+(shear or moment) at the specified point P in the girder, Fig. 29.b.
+Plotting these values versus x yields the influence line for the
+function at P.</p>
+<p>For example, when the unit load is placed on the floor slab, as shown
+in <strong>Fig. 29.b</strong>:</p>
+<ol type="1">
+<li><p>Determine the slab reactions <span class="math inline">\(F_{B}\
+\)</span>and <span class="math inline">\(F_{C}\)</span>.</p></li>
+<li><p>Use these reactions to calculate the girder support reactions
+<span class="math inline">\(F_{A\ }\)</span>and <span
+class="math inline">\(F_{D}\)</span>.</p></li>
+<li><p>Cut the girder at point <span class="math inline">\(P\)</span>and
+use the <strong>method of sections</strong> to determine the internal
+shear <span class="math inline">\(V_{P\ }\)</span>and internal
+moment<span class="math inline">\({\ M}_{P\ }\)</span>.</p></li>
+</ol>
+<p><span class="math display">\[V_{P\ } = R_{A\ } - F_{B}\]</span></p>
+<p><span class="math inline">\({\ M}_{P\ }\)</span>​=<span
+class="math inline">\(\ R_{A\ }\)</span>x−<span
+class="math inline">\(F_{B}\)</span>​(x−s)</p>
+<p>where:</p>
+<ul>
+<li><p><span class="math inline">\(V_{P}\)</span>= internal shear at
+point <span class="math inline">\(P\)</span></p></li>
+<li><p><span class="math inline">\(M_{P}\)</span>= internal moment at
+point <span class="math inline">\(P\)</span></p></li>
+<li><p><span class="math inline">\(R_{A}\)</span>= girder reaction at
+<span class="math inline">\(A\)</span></p></li>
+<li><p><span class="math inline">\(F_{B}\)</span>= reaction from the
+floor slab at <span class="math inline">\(B\)</span></p></li>
+<li><p><span class="math inline">\(x\)</span>= distance from <span
+class="math inline">\(A\)</span>to <span
+class="math inline">\(P\)</span></p></li>
+<li><p><span class="math inline">\(s\)</span>= distance from <span
+class="math inline">\(A\)</span>to <span
+class="math inline">\(B\)</span></p></li>
+</ul>
+<p><strong>Important :</strong> <span
+class="math inline">\(V_{P}\)</span>is constant within the panel <span
+class="math inline">\(BC\)</span>, whereas <span
+class="math inline">\(M_{P}\)</span>depends on the exact position of
+<span class="math inline">\(P\)</span>.</p>
+<p><strong>Step-by-Step Analysis</strong></p>
+<p><strong>1. Slab Reactions (</strong><span
+class="math inline">\(\mathbf{F}_{\mathbf{B}}\)</span>
+<strong>and</strong> <span
+class="math inline">\(\mathbf{F}_{\mathbf{C}}\)</span><strong>)</strong></p>
+<p>For a unit load acting on slab panel <span
+class="math inline">\(BC\)</span> at distance <span
+class="math inline">\(x\)</span> from <span
+class="math inline">\(A\)</span>:</p>
+<ul>
+<li><p>Span of the panel segment = <span
+class="math inline">\(s\)</span></p></li>
+<li><p>Position of unit load relative to point <span
+class="math inline">\(B\)</span> = <span class="math inline">\(x -
+s\)</span></p></li>
+</ul>
+<p>Applying static equilibrium to the slab span <span
+class="math inline">\(BC\)</span>:</p>
+<ul>
+<li><p><span class="math inline">\(\sum_{}^{}M_{C} = 0 \Longrightarrow
+F_{B} \cdot s = 1 \cdot (2s - x)\)</span></p></li>
+</ul>
+<p><span class="math display">\[F_{B} = \frac{2s - x}{s} = 2 -
+\frac{x}{s}\]</span></p>
+<ul>
+<li><p><span class="math inline">\(\sum_{}^{}M_{B} = 0 \Longrightarrow
+F_{C} \cdot s = 1 \cdot (x - s)\)</span></p></li>
+</ul>
+<p><span class="math display">\[F_{C} = \frac{x - s}{s} = \frac{x}{s} -
+1\]</span></p>
+<p><strong>Girder Support Reactions (</strong><span
+class="math inline">\(\mathbf{R}_{\mathbf{A}}\)</span>
+<strong>and</strong> <span
+class="math inline">\(\mathbf{R}_{\mathbf{D}}\)</span><strong>)</strong></p>
+<p>The total length of the girder is <span class="math inline">\(L =
+3s\)</span>. The loads transmitted from the slab through the floor beams
+onto the girder are <span class="math inline">\(F_{B}\)</span> at point
+<span class="math inline">\(B\)</span> (<span class="math inline">\(x =
+s\)</span>) and <span class="math inline">\(F_{C}\)</span> at point
+<span class="math inline">\(C\)</span> (<span class="math inline">\(x =
+2s\)</span>).</p>
+<p>Applying equilibrium to the entire girder:</p>
+<ul>
+<li><p><strong>Taking moments about</strong> <span
+class="math inline">\(D\)</span> <strong>(</strong><span
+class="math inline">\(x = 3s\)</span><strong>):</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}M_{D} = 0 \Longrightarrow
+R_{A}(3s) = F_{B}(2s) + F_{C}(s)\]</span></p>
+<p><span class="math display">\[R_{A}(3s) = \left( 2 - \frac{x}{s}
+\right)(2s) + \left( \frac{x}{s} - 1 \right)(s) = 3s - x\]</span></p>
+<p><span class="math display">\[R_{A} = \frac{3s - x}{3s} = 1 -
+\frac{x}{3s}\]</span></p>
+<ul>
+<li><p><strong>Taking moments about</strong> <span
+class="math inline">\(A\)</span> <strong>(</strong><span
+class="math inline">\(x = 0\)</span><strong>):</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}M_{A} = 0 \Longrightarrow
+R_{D}(3s) = F_{B}(s) + F_{C}(2s)\]</span></p>
+<p><span class="math display">\[R_{D}(3s) = \left( 2 - \frac{x}{s}
+\right)(s) + \left( \frac{x}{s} - 1 \right)(2s) = x\]</span></p>
+<p><span class="math display">\[R_{D} = \frac{x}{3s}\]</span></p>
+<ol start="4" type="1">
+<li><p><strong>Internal Forces at Point</strong> <span
+class="math inline">\(\mathbf{P}\)</span> <strong>(</strong><span
+class="math inline">\(\mathbf{V}_{\mathbf{P}}\)</span>
+<strong>and</strong> <span
+class="math inline">\(\mathbf{M}_{\mathbf{P}}\)</span><strong>)</strong></p></li>
+</ol>
+<p><img src="media/image47.jpeg"
+style="width:4.58233in;height:1.7803in" />Consider a section cut at
+point <span class="math inline">\(P\)</span> located at distance <span
+class="math inline">\(d\)</span> from support <span
+class="math inline">\(A\)</span> (where <span class="math inline">\(s
+&lt; d &lt; 2s\)</span>). Isolate the left segment of the girder (<span
+class="math inline">\(A\)</span> to <span
+class="math inline">\(P\)</span>) Fig29.c and Fig 29.d:</p>
+<ul>
+<li><p><strong>Internal Shear (</strong><span
+class="math inline">\(V_{P}\)</span><strong>):</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}F_{y} = 0 \Longrightarrow
+R_{A} - F_{B} - V_{P} = 0\]</span></p>
+<p><span class="math display">\[V_{P} = R_{A} - F_{B} = \left( 1 -
+\frac{x}{3s} \right) - \left( 2 - \frac{x}{s} \right) = - 1 +
+\frac{2x}{3s}\]</span></p>
+<p><em>(</em><strong>Note</strong>: <span
+class="math inline">\(V_{P}\)</span> depends only on the unit load
+position <span class="math inline">\(x\)</span>, remaining uniform for
+any point <span class="math inline">\(P\)</span> within panel <span
+class="math inline">\(BC\)</span>.)</p>
+<ul>
+<li><p><strong>Internal Moment (</strong><span
+class="math inline">\(\mathbf{M}_{\mathbf{P}}\)</span><strong>):</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}M_{P} = 0 \Longrightarrow
+M_{P} = R_{A} \cdot d - F_{B} \cdot (d - s)\]</span></p>
+<p><span class="math display">\[M_{P} = \left( 1 - \frac{x}{3s} \right)d
+- \left( 2 - \frac{x}{s} \right)(d - s)\]</span></p>
+<p><span class="math display">\[M_{P} = 2s - d - x +
+\frac{2xd}{3s}\]</span></p>
+<p>Here is the calculation summary for the three unit load positions
+(measuring distance <span class="math inline">\(x\)</span> from support
+<span class="math inline">\(A\)</span>):</p>
+<p><strong>Case 1: Unit Load at Point</strong> <span
+class="math inline">\(\mathbf{B}\)</span> <strong>(</strong><span
+class="math inline">\(\mathbf{x = s}\)</span><strong>)</strong></p>
+<ul>
+<li><p><strong>Slab Reactions:</strong></p>
+<ul>
+<li><p><span class="math inline">\(F_{B} = 2 - \frac{s}{s} =
+\mathbf{1}\)</span></p></li>
+<li><p><span class="math inline">\(F_{C} = \frac{s}{s} - 1 =
+\mathbf{0}\)</span></p></li>
+</ul></li>
+<li><p><strong>Girder Support Reactions:</strong></p>
+<ul>
+<li><p><span class="math inline">\(R_{A} = 1 - \frac{s}{3s} =
+\frac{\mathbf{2}}{\mathbf{3}}\)</span></p></li>
+<li><p><span class="math inline">\(R_{D} = \frac{s}{3s} =
+\frac{\mathbf{1}}{\mathbf{3}}\)</span></p></li>
+</ul></li>
+<li><p><strong>Internal Forces at Point</strong> <span
+class="math inline">\(P\)</span><strong>:</strong></p>
+<ul>
+<li><p>Shear force: <span class="math inline">\(V_{P} = - 1 +
+\frac{2(s)}{3s} =
+\mathbf{-}\frac{\mathbf{1}}{\mathbf{3}}\)</span></p></li>
+<li><p>Bending moment: <span class="math inline">\(M_{P} = \left(
+\frac{2}{3} \right)d - 1(d - s) = \mathbf{s
+-}\frac{\mathbf{1}}{\mathbf{3}}\mathbf{d}\)</span></p></li>
+</ul></li>
+</ul>
+<p><strong>Intermediate Case: Unit Load Between</strong> <span
+class="math inline">\(\mathbf{B}\)</span> <strong>and</strong> <span
+class="math inline">\(\mathbf{C}\)</span> <strong>(Midpoint of
+Panel,</strong> <span class="math inline">\(\mathbf{x = 1.5}\mathbf{s
+=}\frac{\mathbf{3}}{\mathbf{2}}\mathbf{s}\)</span><strong>)</strong></p>
+<p><em>The midpoint of panel</em> <span
+class="math inline">\(BC\)</span> <em>is located at distance</em> <span
+class="math inline">\(x = s + 0.5s = 1.5s\)</span> <em>from support</em>
+<span class="math inline">\(A\)</span><em>.</em></p>
+<ul>
+<li><p><strong>Slab Reactions:</strong></p>
+<ul>
+<li><p><span class="math inline">\(F_{B} = 2 - \frac{1.5s}{s} =
+\frac{\mathbf{1}}{\mathbf{2}}\)</span></p></li>
+<li><p><span class="math inline">\(F_{C} = \frac{1.5s}{s} - 1 =
+\frac{\mathbf{1}}{\mathbf{2}}\)</span></p></li>
+</ul></li>
+<li><p><strong>Girder Support Reactions:</strong></p>
+<ul>
+<li><p><span class="math inline">\(R_{A} = 1 - \frac{1.5s}{3s} =
+\frac{\mathbf{1}}{\mathbf{2}}\)</span></p></li>
+<li><p><span class="math inline">\(R_{D} = \frac{1.5s}{3s} =
+\frac{\mathbf{1}}{\mathbf{2}}\)</span></p></li>
+</ul></li>
+<li><p><strong>Internal Forces at Point</strong> <span
+class="math inline">\(P\)</span><strong>:</strong></p>
+<ul>
+<li><p>Shear force: <span class="math inline">\(V_{P} = R_{A} - F_{B} =
+\frac{1}{2} - \frac{1}{2} = \mathbf{0}\)</span></p></li>
+<li><p>Bending moment: <span class="math inline">\(M_{P} = \left(
+\frac{1}{2} \right)d - \frac{1}{2}(d - s) =
+\frac{\mathbf{1}}{\mathbf{2}}\mathbf{s}\)</span></p></li>
+</ul></li>
+</ul>
+<p><strong>Case 2: Unit Load at Point</strong> <span
+class="math inline">\(\mathbf{C}\)</span> <strong>(</strong><span
+class="math inline">\(\mathbf{x =
+2}\mathbf{s}\)</span><strong>)</strong></p>
+<ul>
+<li><p><strong>Slab Reactions:</strong></p>
+<ul>
+<li><p><span class="math inline">\(F_{B} = 2 - \frac{2s}{s} =
+\mathbf{0}\)</span></p></li>
+<li><p><span class="math inline">\(F_{C} = \frac{2s}{s} - 1 =
+\mathbf{1}\)</span></p></li>
+</ul></li>
+<li><p><strong>Girder Support Reactions:</strong></p>
+<ul>
+<li><p><span class="math inline">\(R_{A} = 1 - \frac{2s}{3s} =
+\frac{\mathbf{1}}{\mathbf{3}}\)</span></p></li>
+<li><p><span class="math inline">\(R_{D} = \frac{2s}{3s} =
+\frac{\mathbf{2}}{\mathbf{3}}\)</span></p></li>
+</ul></li>
+<li><p><strong>Internal Forces at Point</strong> <span
+class="math inline">\(P\)</span><strong>:</strong></p>
+<ul>
+<li><p>Shear force: <span class="math inline">\(V_{P} = - 1 +
+\frac{2(2s)}{3s} = \frac{\mathbf{1}}{\mathbf{3}}\)</span></p></li>
+<li><p>Bending moment: <span class="math inline">\(M_{P} = \left(
+\frac{1}{3} \right)d - 0(d - s) =
+\frac{\mathbf{1}}{\mathbf{3}}\mathbf{d}\)</span></p></li>
+</ul></li>
+</ul>
+<p>What this means for the Influence Line (IL)Because the transmitted
+panel loads <span class="math inline">\(F_{B}\ \)</span>and <span
+class="math inline">\(F_{c\ \ }\)</span>vary linearly (as straight
+lines) between B and C, any structural effect in the main girder
+(support reactions, shear force <span
+class="math inline">\(V_{P}\)</span>, or bending moment <span
+class="math inline">\(M_{P}\)</span>) must also vary linearly as a
+straight line across panel BC</p>
+<p><strong>💡The Golden Rule in Practice</strong></p>
+<ul>
+<li><p>Thanks to this fundamental property, you never need to set up
+equations for load positions in the middle of a panel!To draw a complete
+Influence Line for an indirectly loaded floor system:Calculate the
+effect only when the unit load is placed at each panel point (A, B, C,
+D, etc.).Plot these specific values on your diagram.Connect adjacent
+points using straight line segments.</p></li>
+<li><p>As long as the load remains in panel <span
+class="math inline">\(CD\)</span>, panel <span
+class="math inline">\(BC\)</span> receives no direct transferred load.
+The internal shear passing through this entire panel remains completely
+constant from <span class="math inline">\(B\)</span> to <span
+class="math inline">\(C\)</span>, equal to the support reaction <span
+class="math inline">\(R_{A}\)</span>.</p></li>
+</ul>
+<p><strong><u>Example 01</u></strong></p>
+<p>Draw the influence line for the shear in panel CD of the floor girder
+in <strong>Fig. 30.a</strong>.</p>
+<p><img src="media/image48.png"
+style="width:4.37538in;height:1.66681in" /></p>
+<p><strong>Derivation of Support Reactions</strong> <span
+class="math inline">\(\mathbf{R}_{\mathbf{G}}\)</span>
+<strong>and</strong> <span
+class="math inline">\(\mathbf{R}_{\mathbf{F}}\)</span></p>
+<p>The main girder rests on a roller support at <span
+class="math inline">\(G\)</span> (<span class="math inline">\(x =
+10\text{~ft}\)</span>) and a pin support at <span
+class="math inline">\(F\)</span> (<span class="math inline">\(x =
+40\text{~ft}\)</span>). The distance between supports is <span
+class="math inline">\(L_{GF} = 40 - 10 = 30\text{~ft}\)</span>.</p>
+<p>To derive the support reaction formulas for any unit load position
+<span class="math inline">\(x\)</span> measured from point <span
+class="math inline">\(A\)</span>:</p>
+<ul>
+<li><p><strong>Sum of moments about support</strong> <span
+class="math inline">\(F\)</span> <strong>(</strong><span
+class="math inline">\(x =
+40\text{~ft}\)</span><strong>):</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}M_{F} = 0 \Longrightarrow
+R_{G} \cdot (40 - 10) - 1 \cdot (40 - x) = 0\]</span></p>
+<p><span class="math display">\[30R_{G} = 40 - x \Longrightarrow R_{G} =
+\frac{40 - x}{30}\]</span></p>
+<ul>
+<li><p><strong>Sum of moments about support</strong> <span
+class="math inline">\(G\)</span> <strong>(</strong><span
+class="math inline">\(x =
+10\text{~ft}\)</span><strong>):</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}M_{G} = 0 \Longrightarrow
+R_{F} \cdot (40 - 10) - 1 \cdot (x - 10) = 0\]</span></p>
+<p><span class="math display">\[30R_{F} = x - 10 \Longrightarrow R_{F} =
+\frac{x - 10}{30}\]</span></p>
+<ul>
+<li><p><strong>Vertical Equilibrium Check:</strong></p></li>
+</ul>
+<p><span class="math display">\[R_{G} + R_{F} = \frac{40 - x}{30} +
+\frac{x - 10}{30} = \frac{30}{30} =
+1\quad\text{(Satisfied)}\]</span></p>
+<p><strong>2. General Expression for Panel Shear</strong> <span
+class="math inline">\(\mathbf{V}_{\mathbf{CD}}\)</span></p>
+<p>To find the internal shear force <span
+class="math inline">\(V_{CD}\)</span>, make a section cut anywhere
+inside panel <span class="math inline">\(CD\)</span> (<span
+class="math inline">\(20\text{~ft} &lt; x_{\text{cut}} &lt;
+30\text{~ft}\)</span>) and sum the vertical forces acting to the left of
+the cut:</p>
+<p><span class="math display">\[\sum_{}^{}F_{y} = 0 \Longrightarrow
+R_{G} - F_{A} - F_{B} - F_{C} - V_{CD} = 0\]</span></p>
+<p><span class="math display">\[V_{CD} = R_{G} - \left( F_{A} + F_{B} +
+F_{C} \right)\]</span></p>
+<p><strong>3. Detailed Step-by-Step Calculations</strong></p>
+<p><strong>Case 1: Load at Node</strong> <span
+class="math inline">\(\mathbf{A}\)</span> <strong>(</strong><span
+class="math inline">\(\mathbf{x =
+0}\text{~ft}\)</span><strong>)</strong></p>
+<ul>
+<li><p><strong>Reactions:</strong></p></li>
+</ul>
+<p><span class="math display">\[R_{G} = \frac{40 - 0}{30} =
+\frac{40}{30} = \frac{4}{3}\]</span></p>
+<p><span class="math display">\[R_{F} = \frac{0 - 10}{30} = -
+\frac{10}{30} = - \frac{1}{3}\]</span></p>
+<ul>
+<li><p><strong>Transmitted Floor Loads:</strong> <span
+class="math inline">\(F_{A} = 1\)</span>, <span
+class="math inline">\(F_{B} = 0\)</span>, <span
+class="math inline">\(F_{C} = 0\)</span></p></li>
+<li><p><strong>Panel Shear:</strong></p></li>
+</ul>
+<p><span class="math display">\[V_{CD} = R_{G} - F_{A} = \frac{4}{3} - 1
+= \mathbf{+}\frac{\mathbf{1}}{\mathbf{3}}\]</span></p>
+<p><strong>Case 2: Load at Node</strong> <span
+class="math inline">\(\mathbf{B}\)</span> <strong>(</strong><span
+class="math inline">\(\mathbf{x =
+10}\text{~ft}\)</span><strong>)</strong></p>
+<ul>
+<li><p><strong>Reactions:</strong></p></li>
+</ul>
+<p><span class="math display">\[R_{G} = \frac{40 - 10}{30} =
+\frac{30}{30} = 1\]</span></p>
+<p><span class="math display">\[R_{F} = \frac{10 - 10}{30} =
+0\]</span></p>
+<ul>
+<li><p><strong>Transmitted Floor Loads:</strong> <span
+class="math inline">\(F_{A} = 0\)</span>, <span
+class="math inline">\(F_{B} = 1\)</span>, <span
+class="math inline">\(F_{C} = 0\)</span></p></li>
+<li><p><strong>Panel Shear:</strong></p></li>
+</ul>
+<p><span class="math display">\[V_{CD} = R_{G} - F_{B} = 1 - 1 =
+\mathbf{0}\]</span></p>
+<p><strong>Case 3: Load at Node</strong> <span
+class="math inline">\(\mathbf{C}\)</span> <strong>(</strong><span
+class="math inline">\(\mathbf{x =
+20}\text{~ft}\)</span><strong>)</strong></p>
+<ul>
+<li><p><strong>Reactions:</strong></p></li>
+</ul>
+<p><span class="math display">\[R_{G} = \frac{40 - 20}{30} =
+\frac{20}{30} = \frac{2}{3}\]</span></p>
+<p><span class="math display">\[R_{F} = \frac{20 - 10}{30} =
+\frac{10}{30} = \frac{1}{3}\]</span></p>
+<ul>
+<li><p><strong>Transmitted Floor Loads:</strong> <span
+class="math inline">\(F_{A} = 0\)</span>, <span
+class="math inline">\(F_{B} = 0\)</span>, <span
+class="math inline">\(F_{C} = 1\)</span></p></li>
+<li><p><strong>Panel Shear:</strong></p></li>
+</ul>
+<p><span class="math display">\[V_{CD} = R_{G} - F_{C} = \frac{2}{3} - 1
+= \mathbf{-}\frac{\mathbf{1}}{\mathbf{3}}\]</span></p>
+<p><strong>Case 4: Load at Midpoint of Panel</strong> <span
+class="math inline">\(\mathbf{CD}\)</span> <strong>(</strong><span
+class="math inline">\(\mathbf{x =
+25}\text{~ft}\)</span><strong>)</strong></p>
+<ul>
+<li><p><strong>Reactions:</strong></p></li>
+</ul>
+<p><span class="math display">\[R_{G} = \frac{40 - 25}{30} =
+\frac{15}{30} = \frac{1}{2}\]</span></p>
+<p><span class="math display">\[R_{F} = \frac{25 - 10}{30} =
+\frac{15}{30} = \frac{1}{2}\]</span></p>
+<ul>
+<li><p><strong>Transmitted Floor Loads (Distributed across
+Panel</strong> <span
+class="math inline">\(CD\)</span><strong>):</strong></p></li>
+</ul>
+<p><span class="math display">\[F_{C} = \frac{30 - 25}{10} =
+\frac{5}{10} = \frac{1}{2}\]</span></p>
+<p><span class="math display">\[F_{D} = \frac{25 - 20}{10} =
+\frac{5}{10} = \frac{1}{2}\]</span></p>
+<p><span class="math display">\[F_{A} = 0,\quad F_{B} = 0\]</span></p>
+<ul>
+<li><p><strong>Panel Shear:</strong></p></li>
+</ul>
+<p><span class="math display">\[V_{CD} = R_{G} - F_{C} = \frac{1}{2} -
+\frac{1}{2} = \mathbf{0}\]</span></p>
+<p><strong>Case 5: Load at Node</strong> <span
+class="math inline">\(\mathbf{D}\)</span> <strong>(</strong><span
+class="math inline">\(\mathbf{x =
+30}\text{~ft}\)</span><strong>)</strong></p>
+<ul>
+<li><p><strong>Reactions:</strong></p></li>
+</ul>
+<p><span class="math display">\[R_{G} = \frac{40 - 30}{30} =
+\frac{10}{30} = \frac{1}{3}\]</span></p>
+<p><span class="math display">\[R_{F} = \frac{30 - 10}{30} =
+\frac{20}{30} = \frac{2}{3}\]</span></p>
+<ul>
+<li><p><strong>Transmitted Floor Loads:</strong></p></li>
+</ul>
+<p><span class="math display">\[F_{A} = 0,\quad F_{B} = 0,\quad F_{C} =
+0,\quad F_{D} = 1\]</span></p>
+<ul>
+<li><p><strong>Panel Shear:</strong></p></li>
+</ul>
+<p><em>(Since</em> <span class="math inline">\(F_{D}\)</span> <em>acts
+to the right of the section cut, it does not enter the left-hand section
+equilibrium)</em></p>
+<p><span class="math display">\[V_{CD} = R_{G} - 0 =
+\mathbf{+}\frac{\mathbf{1}}{\mathbf{3}}\]</span></p>
+<p><strong>Case 6: Load at Node</strong> <span
+class="math inline">\(\mathbf{E}\)</span> <strong>(</strong><span
+class="math inline">\(\mathbf{x =
+40}\text{~ft}\)</span><strong>)</strong></p>
+<ul>
+<li><p><strong>Reactions:</strong></p></li>
+</ul>
+<p><span class="math display">\[R_{G} = \frac{40 - 40}{30} =
+0\]</span></p>
+<p><span class="math display">\[R_{F} = \frac{40 - 10}{30} =
+\frac{30}{30} = 1\]</span></p>
+<ul>
+<li><p><strong>Transmitted Floor Loads:</strong></p></li>
+</ul>
+<p><span class="math display">\[F_{A} = 0,\quad F_{B} = 0,\quad F_{C} =
+0,\quad F_{E} = 1\]</span></p>
+<ul>
+<li><p><strong>Panel Shear:</strong></p></li>
+</ul>
+<p><span class="math display">\[V_{CD} = R_{G} - 0 =
+\mathbf{0}\]</span></p>
+<p><strong>4. Summary Table</strong></p>
+<table>
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 24%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 8%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Load Position x</strong></th>
+<th><strong>Panel Point</strong></th>
+<th><span class="math inline">\(R_{G}\)</span><strong>​</strong></th>
+<th><span class="math display">\[R_{F}\]</span></th>
+<th><strong>F</strong><span class="math inline">\(F_{C}\)</span></th>
+<th><strong>Panel Shear</strong> <span
+class="math inline">\(V_{CD}\)</span><strong>​</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math display">\[0\text{~ft}\]</span></td>
+<td><strong>A</strong></td>
+<td><span class="math display">\[+ 4/3\]</span></td>
+<td><span class="math display">\[- 1/3\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[+ 1/3\]</span></td>
+</tr>
+<tr class="even">
+<td><span class="math display">\[10\text{~ft}\]</span></td>
+<td><strong>B (G)</strong></td>
+<td><span class="math display">\[1\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math display">\[20\text{~ft}\]</span></td>
+<td><strong>C</strong></td>
+<td><span class="math display">\[+ 2/3\]</span></td>
+<td><span class="math display">\[+ 1/3\]</span></td>
+<td><span class="math display">\[1\]</span></td>
+<td><span class="math display">\[- 1/3\]</span></td>
+</tr>
+<tr class="even">
+<td><span class="math display">\[25\text{~ft}\]</span></td>
+<td><strong>Midpoint CD</strong></td>
+<td><span class="math display">\[+ 1/2\]</span></td>
+<td><span class="math display">\[+ 1/2\]</span></td>
+<td><span class="math display">\[1/2\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math display">\[30\text{~ft}\]</span></td>
+<td><strong>D</strong></td>
+<td><span class="math display">\[+ 1/3\]</span></td>
+<td><span class="math display">\[+ 2/3\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[+ 1/3\]</span></td>
+</tr>
+<tr class="even">
+<td><span class="math display">\[40\text{~ft}\]</span></td>
+<td><strong>E (F)</strong></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[1\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+</tr>
+</tbody>
+</table>
+<p>Influence Line. When the tabular values are plotted and the points
+connected with straight line segments, the resulting influence line for
+<span class="math inline">\(V_{CD}\)</span> is as shown in Fig.
+30.e.</p>
+<p><img src="media/image49.png"
+style="width:4.20655in;height:1.88188in" /></p>
+<p><strong>Example 2</strong></p>
+<p>Draw the influence line for the moment at point F for the floor
+girder in Fig. 31.</p>
+<p><img src="media/image50.png"
+style="width:4.45724in;height:2.20872in" /></p>
+<p><strong>Solution</strong></p>
+<p><strong>Static Model and System Geometry</strong></p>
+<p>From the structural diagram:</p>
+<ul>
+<li><p><strong>Origin (</strong><span class="math inline">\(x =
+0\)</span><strong>):</strong> Set at the leftmost end at node <span
+class="math inline">\(A\)</span>.</p></li>
+<li><p><strong>Panel Points (Floor Beams / Load Transfer
+Nodes):</strong></p>
+<ul>
+<li><p>Node <span class="math inline">\(A\)</span>: <span
+class="math inline">\(x_{A} = 0\text{~m}\)</span> (rests directly on the
+abutment/wall)</p></li>
+<li><p>Node <span class="math inline">\(B\)</span>: <span
+class="math inline">\(x_{B} = 4\text{~m}\)</span></p></li>
+<li><p>Node <span class="math inline">\(C\)</span>: <span
+class="math inline">\(x_{C} = 8\text{~m}\)</span></p></li>
+<li><p>Node <span class="math inline">\(D\)</span>: <span
+class="math inline">\(x_{D} = 12\text{~m}\)</span></p></li>
+<li><p>Node <span class="math inline">\(E\)</span>: <span
+class="math inline">\(x_{E} = 16\text{~m}\)</span></p></li>
+</ul></li>
+<li><p><strong>Main Girder Supports:</strong></p>
+<ul>
+<li><p>Pin support <span class="math inline">\(H\)</span>: <span
+class="math inline">\(x_{H} = 2\text{~m}\)</span></p></li>
+<li><p>Roller support <span class="math inline">\(G\)</span>: <span
+class="math inline">\(x_{G} = 16\text{~m}\)</span></p></li>
+<li><p>Main girder span: <span class="math inline">\(L = x_{G} - x_{H} =
+16 - 2 = 14\text{~m}\)</span></p></li>
+</ul></li>
+<li><p><strong>Section of Interest</strong> <span
+class="math inline">\(F\)</span><strong>:</strong> <span
+class="math inline">\(x_{F} = 10\text{~m}\)</span> (located <span
+class="math inline">\(8\text{~m}\)</span> from <span
+class="math inline">\(H\)</span> and <span
+class="math inline">\(6\text{~m}\)</span> from <span
+class="math inline">\(G\)</span>).</p></li>
+</ul>
+<p><strong>2. General Support Reaction Equations</strong></p>
+<p>For a concentrated force <span class="math inline">\(P\)</span>
+acting on the main girder at position <span
+class="math inline">\(x_{\text{girder}}\)</span> (measured from <span
+class="math inline">\(A\)</span>):</p>
+<ul>
+<li><p><strong>Sum of moments about support</strong> <span
+class="math inline">\(H\)</span> <strong>(</strong><span
+class="math inline">\(x =
+2\text{~m}\)</span><strong>):</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}M_{H} = 0 \Longrightarrow
+R_{G} \cdot (14) - P \cdot \left( x_{\text{girder}} - 2 \right) = 0
+\Longrightarrow R_{G} = P \cdot \frac{x_{\text{girder}} -
+2}{14}\]</span></p>
+<ul>
+<li><p><strong>Sum of moments about support</strong> <span
+class="math inline">\(G\)</span> <strong>(</strong><span
+class="math inline">\(x =
+16\text{~m}\)</span><strong>):</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}M_{G} = 0 \Longrightarrow
+R_{H} \cdot (14) - P \cdot \left( 16 - x_{\text{girder}} \right) = 0
+\Longrightarrow R_{H} = P \cdot \frac{16 -
+x_{\text{girder}}}{14}\]</span></p>
+<p><strong>3. Principle of Indirect Loading</strong></p>
+<p>In an indirectly loaded floor system, the unit moving load (<span
+class="math inline">\(1\text{~kN}\)</span>) travels across the slab,
+which transfers concentrated loads exclusively to the <strong>panel
+points</strong> (<span class="math inline">\(A,B,C,D,E\)</span>).</p>
+<p>Between adjacent panel points, any internal structural effect varies
+<strong>strictly linearly</strong> (straight line segments). Therefore,
+we only need to calculate <span class="math inline">\(M_{F}\)</span> by
+placing the <span class="math inline">\(1\text{~kN}\)</span> unit load
+successively at each panel point.</p>
+<p><strong>4. Node-by-Node Detailed Calculations</strong></p>
+<p><strong>Case 1: Unit Load at Node</strong> <span
+class="math inline">\(\mathbf{A}\)</span> <strong>(</strong><span
+class="math inline">\(\mathbf{x =
+0}\text{~m}\)</span><strong>)</strong></p>
+<ul>
+<li><p>The load is applied directly above the abutment wall.</p></li>
+<li><p>No force is transmitted to the main girder (<span
+class="math inline">\(F_{B} = F_{C} = F_{D} = F_{E} =
+0\)</span>).</p></li>
+<li><p>Support reactions: <span class="math inline">\(R_{H} =
+0\)</span>, <span class="math inline">\(R_{G} = 0\)</span>.</p></li>
+<li><p><strong>Moment at</strong> <span
+class="math inline">\(F\)</span><strong>:</strong></p></li>
+</ul>
+<p><span class="math display">\[M_{F} = 0\text{~kN} \cdot
+\text{m}\]</span></p>
+<p><strong>Case 2: Unit Load at Node</strong> <span
+class="math inline">\(\mathbf{B}\)</span> <strong>(</strong><span
+class="math inline">\(\mathbf{x =
+4}\text{~m}\)</span><strong>)</strong></p>
+<ul>
+<li><p>The floor slab transfers the entire load to node <span
+class="math inline">\(B\)</span>: <span class="math inline">\(F_{B} =
+1\text{~kN}\)</span> at <span class="math inline">\(x =
+4\text{~m}\)</span>.</p></li>
+<li><p>Support reaction at <span
+class="math inline">\(G\)</span>:</p></li>
+</ul>
+<p><span class="math display">\[R_{G} = 1 \cdot \frac{4 - 2}{14} =
+\frac{2}{14} = \frac{1}{7}\text{~kN}\]</span></p>
+<ul>
+<li><p>Cut section at point <span class="math inline">\(F\)</span>
+(<span class="math inline">\(x_{F} = 10\text{~m}\)</span>) and consider
+the right segment (<span class="math inline">\(F \rightarrow
+G\)</span>):</p></li>
+</ul>
+<p><span class="math display">\[M_{F} = R_{G} \cdot (16 - 10) = \left(
+\frac{1}{7} \right) \cdot 6 =
+\mathbf{+}\frac{\mathbf{6}}{\mathbf{7}}\text{~kN}\mathbf{\cdot}\text{m}
+\approx + 0.857\text{~kN} \cdot \text{m}\]</span></p>
+<p><strong>Case 3: Unit Load at Node</strong> <span
+class="math inline">\(\mathbf{C}\)</span> <strong>(</strong><span
+class="math inline">\(\mathbf{x =
+8}\text{~m}\)</span><strong>)</strong></p>
+<ul>
+<li><p>The floor slab transfers the entire load to node <span
+class="math inline">\(C\)</span>: <span class="math inline">\(F_{C} =
+1\text{~kN}\)</span> at <span class="math inline">\(x =
+8\text{~m}\)</span>.</p></li>
+<li><p>Support reaction at <span
+class="math inline">\(G\)</span>:</p></li>
+</ul>
+<p><span class="math display">\[R_{G} = 1 \cdot \frac{8 - 2}{14} =
+\frac{6}{14} = \frac{3}{7}\text{~kN}\]</span></p>
+<ul>
+<li><p>Cut section at point <span class="math inline">\(F\)</span>
+(<span class="math inline">\(x_{F} = 10\text{~m}\)</span>) and consider
+the right segment (<span class="math inline">\(F \rightarrow
+G\)</span>):</p></li>
+</ul>
+<p><span class="math display">\[M_{F} = R_{G} \cdot (16 - 10) = \left(
+\frac{3}{7} \right) \cdot 6 =
+\mathbf{+}\frac{\mathbf{18}}{\mathbf{7}}\text{~kN}\mathbf{\cdot}\text{m}
+\approx + 2.571\text{~kN} \cdot \text{m}\]</span></p>
+<p><strong>Case 4: Unit Load at Node</strong> <span
+class="math inline">\(\mathbf{D}\)</span> <strong>(</strong><span
+class="math inline">\(\mathbf{x =
+12}\text{~m}\)</span><strong>)</strong></p>
+<ul>
+<li><p>The floor slab transfers the entire load to node <span
+class="math inline">\(D\)</span>: <span class="math inline">\(F_{D} =
+1\text{~kN}\)</span> at <span class="math inline">\(x =
+12\text{~m}\)</span>.</p></li>
+<li><p>Support reaction at <span
+class="math inline">\(H\)</span>:</p></li>
+</ul>
+<p><span class="math display">\[R_{H} = 1 \cdot \frac{16 - 12}{14} =
+\frac{4}{14} = \frac{2}{7}\text{~kN}\]</span></p>
+<ul>
+<li><p>Cut section at point <span class="math inline">\(F\)</span>
+(<span class="math inline">\(x_{F} = 10\text{~m}\)</span>) and consider
+the left segment (<span class="math inline">\(H \rightarrow
+F\)</span>):</p></li>
+</ul>
+<p><span class="math display">\[M_{F} = R_{H} \cdot (10 - 2) = \left(
+\frac{2}{7} \right) \cdot 8 =
+\mathbf{+}\frac{\mathbf{16}}{\mathbf{7}}\text{~kN}\mathbf{\cdot}\text{m}
+\approx + 2.286\text{~kN} \cdot \text{m}\]</span></p>
+<p><strong>Case 5: Unit Load at Node</strong> <span
+class="math inline">\(\mathbf{E}\)</span> <strong>(</strong><span
+class="math inline">\(\mathbf{x =
+16}\text{~m}\)</span><strong>)</strong></p>
+<ul>
+<li><p>The load acts directly over support <span
+class="math inline">\(G\)</span> (<span class="math inline">\(R_{G} =
+1\text{~kN}\)</span>, <span class="math inline">\(R_{H} =
+0\)</span>).</p></li>
+<li><p>Cut section at point <span class="math inline">\(F\)</span> and
+consider the left segment:</p></li>
+</ul>
+<p><span class="math display">\[M_{F} = R_{H} \cdot (10 - 2) = 0 \cdot 8
+= \mathbf{0}\text{~kN}\mathbf{\cdot}\text{m}\]</span></p>
+<p><strong>5. Verification at Intermediate Position (</strong><span
+class="math inline">\(\mathbf{x =
+10}\text{~m}\)</span><strong>)</strong></p>
+<p>When the unit load is directly over point <span
+class="math inline">\(F\)</span> (<span class="math inline">\(x =
+10\text{~m}\)</span>, midpoint of panel <span
+class="math inline">\(CD\)</span>):</p>
+<ul>
+<li><p>Load distribution to nodes <span class="math inline">\(C\)</span>
+and <span class="math inline">\(D\)</span>:</p></li>
+</ul>
+<p><span class="math display">\[F_{C} = \frac{12 - 10}{4} =
+\frac{1}{2}\text{~kN},\quad F_{D} = \frac{10 - 8}{4} =
+\frac{1}{2}\text{~kN}\]</span></p>
+<ul>
+<li><p>Support reaction at <span
+class="math inline">\(G\)</span>:</p></li>
+</ul>
+<p><span class="math display">\[R_{G} = \left( \frac{1}{2} \right) \cdot
+\frac{8 - 2}{14} + \left( \frac{1}{2} \right) \cdot \frac{12 - 2}{14} =
+\frac{3}{14} + \frac{5}{14} = \frac{8}{14} =
+\frac{4}{7}\text{~kN}\]</span></p>
+<ul>
+<li><p>Moment at <span class="math inline">\(F\)</span> (right segment
+<span class="math inline">\(F \rightarrow G\)</span>):</p></li>
+</ul>
+<p><span class="math display">\[M_{F} = R_{G} \cdot (16 - 10) - F_{D}
+\cdot (12 - 10) = \left( \frac{4}{7} \right) \cdot 6 - \left(
+\frac{1}{2} \right) \cdot 2 = \frac{24}{7} - 1 =
+\mathbf{+}\frac{\mathbf{17}}{\mathbf{7}}\text{~kN}\mathbf{\cdot}\text{m}
+\approx + 2.429\text{~kN} \cdot \text{m}\]</span></p>
+<p>(Note: This matches the arithmetic mean between <span
+class="math inline">\(M_{F}(C) = \frac{18}{7}\)</span> and <span
+class="math inline">\(M_{F}(D) = \frac{16}{7}\)</span>, confirming
+linear continuity across the panel).</p>
+<p><strong>6. Summary Table</strong></p>
+<table>
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 27%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Load Position (x)</strong></th>
+<th><strong>Panel Point</strong></th>
+<th><strong>Reaction RH​</strong></th>
+<th><strong>Reaction RG​</strong></th>
+<th><strong>Moment MF​ (kN⋅m)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math display">\[x = 0\text{~m}\]</span></td>
+<td><strong>A</strong></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+</tr>
+<tr class="even">
+<td><span class="math display">\[x = 4\text{~m}\]</span></td>
+<td><strong>B</strong></td>
+<td><span class="math display">\[+ 6/7\]</span></td>
+<td><span class="math display">\[+ 1/7\]</span></td>
+<td><span class="math display">\[+ \frac{6}{7} \approx +
+0.857\]</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math display">\[x = 8\text{~m}\]</span></td>
+<td><strong>C</strong></td>
+<td><span class="math display">\[+ 4/7\]</span></td>
+<td><span class="math display">\[+ 3/7\]</span></td>
+<td><span class="math inline">\(+ \frac{18}{7} \approx + 2.571\)</span>
+<em>(Maximum)</em></td>
+</tr>
+<tr class="even">
+<td><span class="math display">\[x = 10\text{~m}\]</span></td>
+<td><strong>Midpoint</strong> <span class="math inline">\(CD\)</span>
+<strong>(</strong><span
+class="math inline">\(F\)</span><strong>)</strong></td>
+<td><span class="math display">\[+ 3/7\]</span></td>
+<td><span class="math display">\[+ 4/7\]</span></td>
+<td><span class="math display">\[+ \frac{17}{7} \approx +
+2.429\]</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math display">\[x = 12\text{~m}\]</span></td>
+<td><strong>D</strong></td>
+<td><span class="math display">\[+ 2/7\]</span></td>
+<td><span class="math display">\[+ 5/7\]</span></td>
+<td><span class="math display">\[+ \frac{16}{7} \approx +
+2.286\]</span></td>
+</tr>
+<tr class="even">
+<td><span class="math display">\[x = 16\text{~m}\]</span></td>
+<td><strong>E</strong></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[1\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>7. Plotting Instructions</strong></p>
+<ol type="1">
+<li><p><strong>Horizontal Baseline:</strong> Draw a reference axis from
+<span class="math inline">\(x = 0\)</span> to <span
+class="math inline">\(x = 16\text{~m}\)</span> marking nodes <span
+class="math inline">\(A,B,C,D,E\)</span>.</p></li>
+<li><p><strong>Plot Key Ordinates:</strong></p>
+<ul>
+<li><p>At <span class="math inline">\(A\)</span> (<span
+class="math inline">\(x = 0\)</span>): <span
+class="math inline">\(0\)</span></p></li>
+<li><p>At <span class="math inline">\(B\)</span> (<span
+class="math inline">\(x = 4\text{~m}\)</span>): <span
+class="math inline">\(+ 6/7\)</span></p></li>
+<li><p>At <span class="math inline">\(C\)</span> (<span
+class="math inline">\(x = 8\text{~m}\)</span>): <span
+class="math inline">\(+ 18/7\)</span></p></li>
+<li><p>At <span class="math inline">\(D\)</span> (<span
+class="math inline">\(x = 12\text{~m}\)</span>): <span
+class="math inline">\(+ 16/7\)</span></p></li>
+<li><p>At <span class="math inline">\(E\)</span> (<span
+class="math inline">\(x = 16\text{~m}\)</span>): <span
+class="math inline">\(0\)</span></p></li>
+</ul></li>
+<li><p><strong>Connect Segments:</strong> Join adjacent points
+sequentially (<span class="math inline">\(A \rightarrow B \rightarrow C
+\rightarrow D \rightarrow E\)</span>) using straight line segments:</p>
+<ul>
+<li><p><span class="math inline">\(A \rightarrow B\)</span>: Increasing
+line from <span class="math inline">\(0\)</span> to <span
+class="math inline">\(+ 6/7\)</span>.</p></li>
+<li><p><span class="math inline">\(B \rightarrow C\)</span>: Increasing
+line from <span class="math inline">\(+ 6/7\)</span> to the maximum peak
+at <span class="math inline">\(+ 18/7\)</span>.</p></li>
+<li><p><span class="math inline">\(C \rightarrow D\)</span>: Continuous
+decreasing line from <span class="math inline">\(+ 18/7\)</span> to
+<span class="math inline">\(+ 16/7\)</span> (passing through <span
+class="math inline">\(+ 17/7\)</span> at <span class="math inline">\(x =
+10\text{~m}\)</span>).</p></li>
+<li><p><span class="math inline">\(D \rightarrow E\)</span>: Decreasing
+line from <span class="math inline">\(+ 16/7\)</span> back to <span
+class="math inline">\(0\)</span>.</p></li>
+</ul></li>
+</ol>
+<p><img src="media/image51.png"
+style="width:3.97534in;height:2.39187in" /></p>
+<p><strong>I.5 Influence Lines for Trusses</strong></p>
+<p>Trusses are often used as primary load-carrying elements for bridges.
+Hence, for design it is important to be able to construct the influence
+lines for each of its members. As shown in Fig. 33, the loading on the
+bridge deck is transmitted to stringers, which in turn transmit the
+loading to floor beams and then to the joints along the bottom cord of
+the truss.</p>
+<p><img src="media/image52.png"
+style="width:6.48522in;height:2.18383in" /><img
+src="media/image53.jpeg"
+style="width:6.48522in;height:2.18383in" />Trusses are commonly used to
+support bridge loads. To draw the <strong>influence line of a truss
+member</strong>, a <strong>unit load</strong> is placed successively at
+each joint along the bottom chord. The force in the member is then
+calculated using the <strong>method of joints or method of
+sections</strong>. The calculated forces are plotted against the load
+positions. <strong>Tension is taken as positive (+)</strong> and
+<strong>compression as negative (−)</strong>. Finally, the points are
+connected with straight lines to obtain the influence line.</p>
+<p><strong><u>Exercice 01</u></strong></p>
+<p><img src="media/image54.jpeg"
+style="width:5.8468in;height:1.99405in" />Draw the <strong>influence
+line diagrams for the axial forces</strong> in members <strong>IJ, CD,
+and ID</strong> of the bridge truss shown in <strong>Fig.
+6–24a</strong>.</p>
+<p>To plot the influence lines for the axial forces in members <span
+class="math inline">\(IJ\)</span>, <span
+class="math inline">\(CD\)</span>, and <span
+class="math inline">\(ID\)</span>, we use Method of Sections (Ritter's
+method).</p>
+<p><strong>1. Geometry and Support Reactions</strong></p>
+<ul>
+<li><p><strong>Dimensions:</strong></p>
+<ul>
+<li><p><span class="math inline">\(6\)</span> panels of <span
+class="math inline">\(5\text{~m}\)</span> each <span
+class="math inline">\(\Longrightarrow\)</span> Total length <span
+class="math inline">\(= 30\text{~m}\)</span>.</p></li>
+<li><p>Truss height <span class="math inline">\(h =
+4\text{~m}\)</span>.</p></li>
+<li><p>Node coordinates along the bottom chord:</p>
+<ul>
+<li><p><span class="math inline">\(A = 0\text{~m}\)</span> (Support
+A)</p></li>
+<li><p><span class="math inline">\(B = 5\text{~m}\)</span></p></li>
+<li><p><span class="math inline">\(C = 10\text{~m}\)</span></p></li>
+<li><p><span class="math inline">\(D = 15\text{~m}\)</span></p></li>
+<li><p><span class="math inline">\(E = 20\text{~m}\)</span> (Support
+E)</p></li>
+<li><p><span class="math inline">\(F = 25\text{~m}\)</span></p></li>
+<li><p><span class="math inline">\(G = 30\text{~m}\)</span> (Cantilever
+end from <span class="math inline">\(E\)</span> to <span
+class="math inline">\(G\)</span>)</p></li>
+</ul></li>
+</ul></li>
+<li><p><strong>Support Reactions for a moving downward unit
+load</strong> <span class="math inline">\(P = 1\)</span> <strong>at
+position</strong> <span class="math inline">\(x \in \left\lbrack
+0,30\text{~m} \right\rbrack\)</span><strong>:</strong></p></li>
+</ul>
+<p><span class="math display">\[\sum_{}^{}M_{E} = 0 \Longrightarrow
+R_{A}(x) = \frac{20 - x}{20}\]</span></p>
+<p><span class="math display">\[\sum_{}^{}M_{A} = 0 \Longrightarrow
+R_{E}(x) = \frac{x}{20}\]</span></p>
+<p><strong>2. Influence Line for Axial Force</strong> <span
+class="math inline">\(\mathbf{N}_{\mathbf{IJ}}\)</span> <strong>(Top
+Chord)</strong></p>
+<p>Pass a section cutting through members <span
+class="math inline">\(IJ\)</span>, <span
+class="math inline">\(ID\)</span>, and <span
+class="math inline">\(CD\)</span>. Taking moments about node <span
+class="math inline">\(D\)</span> (<span class="math inline">\(x_{D} =
+15\text{~m},y_{D} = 0\)</span>):</p>
+<ul>
+<li><p><strong>Load to the right of</strong> <span
+class="math inline">\(D\)</span> <strong>(</strong><span
+class="math inline">\(15\text{~m} \leq x \leq
+30\text{~m}\)</span><strong>):</strong></p></li>
+</ul>
+<p>Isolating the left section:</p>
+<p><span class="math display">\[\sum_{}^{}M_{D} = 0 \Longrightarrow
+R_{A} \cdot 15 + N_{IJ} \cdot 4 = 0 \Longrightarrow N_{IJ}(x) = -
+\frac{15}{4}R_{A}(x) = \frac{3(x - 20)}{16}\]</span></p>
+<ul>
+<li><p><strong>Load to the left of</strong> <span
+class="math inline">\(D\)</span> <strong>(</strong><span
+class="math inline">\(0 \leq x \leq
+15\text{~m}\)</span><strong>):</strong></p></li>
+</ul>
+<p>Isolating the right section:</p>
+<p><span class="math display">\[\sum_{}^{}M_{D} = 0 \Longrightarrow
+R_{E} \cdot 5 + N_{IJ} \cdot 4 = 0 \Longrightarrow N_{IJ}(x) = -
+\frac{5}{4}R_{E}(x) = - \frac{x}{16}\]</span></p>
+<p><strong>Key Values for</strong> <span
+class="math inline">\(\mathbf{N}_{\mathbf{IJ}}\)</span><strong>:</strong></p>
+<table>
+<colgroup>
+<col style="width: 14%" />
+<col style="width: 10%" />
+<col style="width: 12%" />
+<col style="width: 12%" />
+<col style="width: 11%" />
+<col style="width: 11%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Position x (m)</strong></th>
+<th><strong>0 (A)</strong></th>
+<th><strong>5 (B)</strong></th>
+<th><strong>10 (C)</strong></th>
+<th><strong>15 (D)</strong></th>
+<th><strong>20 (E)</strong></th>
+<th><strong>25 (F)</strong></th>
+<th><strong>30 (G)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math display">\[N_{IJ}\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[- 0.3125\]</span></td>
+<td><span class="math display">\[- 0.625\]</span></td>
+<td><span class="math display">\[- 0.9375\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[+ 0.9375\]</span></td>
+<td><span class="math display">\[+ 1.875\]</span></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p><strong>Diagram Shape:</strong> A negative triangular shape from
+<span class="math inline">\(A(0)\)</span> to <span
+class="math inline">\(E(20)\)</span> peaking at <span
+class="math inline">\(D(15)\)</span> with <span class="math inline">\(-
+0.9375\)</span>, followed by a straight upward line reaching <span
+class="math inline">\(+ 1.875\)</span> at <span
+class="math inline">\(G(30)\)</span>.</p></li>
+</ul>
+<p><img src="media/image56.jpeg"
+style="width:4.67505in;height:3.78869in" /></p>
+<p><strong>3. Influence Line for Axial Force</strong> <span
+class="math inline">\(\mathbf{N}_{\mathbf{CD}}\)</span> <strong>(Bottom
+Chord)</strong></p>
+<p>Taking moments about node <span class="math inline">\(I\)</span>
+(<span class="math inline">\(x_{I} = 10\text{~m},y_{I} =
+4\text{~m}\)</span>):</p>
+<ul>
+<li><p><strong>Load to the left of</strong> <span
+class="math inline">\(C\)</span> <strong>(</strong><span
+class="math inline">\(0 \leq x \leq
+10\text{~m}\)</span><strong>):</strong></p></li>
+</ul>
+<p>Isolating the right section:</p>
+<p><span class="math display">\[\sum_{}^{}M_{I} = 0 \Longrightarrow
+R_{E} \cdot 10 - N_{CD} \cdot 4 = 0 \Longrightarrow N_{CD}(x) =
+\frac{10}{4}R_{E}(x) = \frac{x}{8}\]</span></p>
+<ul>
+<li><p><strong>Load to the right of</strong> <span
+class="math inline">\(C\)</span> <strong>(</strong><span
+class="math inline">\(10\text{~m} \leq x \leq
+30\text{~m}\)</span><strong>):</strong></p></li>
+</ul>
+<p>Isolating the left section:</p>
+<p><span class="math display">\[\sum_{}^{}M_{I} = 0 \Longrightarrow
+R_{A} \cdot 10 - N_{CD} \cdot 4 = 0 \Longrightarrow N_{CD}(x) =
+\frac{10}{4}R_{A}(x) = \frac{20 - x}{8}\]</span></p>
+<p><strong>Key Values for</strong> <span
+class="math inline">\(\mathbf{N}_{\mathbf{CD}}\)</span><strong>:</strong></p>
+<table>
+<colgroup>
+<col style="width: 19%" />
+<col style="width: 9%" />
+<col style="width: 12%" />
+<col style="width: 11%" />
+<col style="width: 12%" />
+<col style="width: 10%" />
+<col style="width: 12%" />
+<col style="width: 11%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Position x (m)</strong></th>
+<th><strong>0 (A)</strong></th>
+<th><strong>5 (B)</strong></th>
+<th><strong>10 (C)</strong></th>
+<th><strong>15 (D)</strong></th>
+<th><strong>20 (E)</strong></th>
+<th><strong>25 (F)</strong></th>
+<th><strong>30 (G)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math display">\[N_{CD}\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[+ 0.625\]</span></td>
+<td><span class="math display">\[+ 1.25\]</span></td>
+<td><span class="math display">\[+ 0.625\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[- 0.625\]</span></td>
+<td><span class="math display">\[- 1.25\]</span></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p><strong>Diagram Shape:</strong> A positive triangle from <span
+class="math inline">\(A(0)\)</span> to <span
+class="math inline">\(E(20)\)</span> peaking at <span
+class="math inline">\(C(10)\)</span> with <span class="math inline">\(+
+1.25\)</span>, then sloping downward to <span class="math inline">\(-
+1.25\)</span> at <span class="math inline">\(G(30)\)</span>.</p></li>
+</ul>
+<p><img src="media/image57.jpeg"
+style="width:4.94426in;height:3.80357in" /></p>
+<p><strong>4. Influence Line for Axial Force</strong> <span
+class="math inline">\(\mathbf{N}_{\mathbf{ID}}\)</span>
+<strong>(Diagonal)</strong></p>
+<p>Diagonal <span class="math inline">\(ID\)</span> connects node <span
+class="math inline">\(I(10,4)\)</span> to <span
+class="math inline">\(D(15,0)\)</span>.</p>
+<ul>
+<li><p>Inclination: <span class="math inline">\(\sin\alpha =
+\frac{h}{L_{ID}} = \frac{4}{\sqrt{5^{2} + 4^{2}}} = \frac{4}{\sqrt{41}}
+\approx 0.6247\)</span>.</p></li>
+</ul>
+<p>Applying vertical force equilibrium <span
+class="math inline">\(\sum_{}^{}F_{y} = 0\)</span> across the
+section:</p>
+<ul>
+<li><p><strong>Load to the left of panel</strong> <span
+class="math inline">\(CD\)</span> <strong>(</strong><span
+class="math inline">\(0 \leq x \leq
+10\text{~m}\)</span><strong>):</strong></p></li>
+</ul>
+<p>Isolating the right section:</p>
+<p><span class="math display">\[\sum_{}^{}F_{y} = 0 \Longrightarrow
+R_{E} + N_{ID}\sin\alpha = 0 \Longrightarrow N_{ID}(x) = -
+\frac{R_{E}(x)}{\sin\alpha} = - \frac{\sqrt{41}}{80}x \approx -
+0.08004\, x\]</span></p>
+<ul>
+<li><p><strong>Load to the right of panel</strong> <span
+class="math inline">\(CD\)</span> <strong>(</strong><span
+class="math inline">\(15\text{~m} \leq x \leq
+30\text{~m}\)</span><strong>):</strong></p></li>
+</ul>
+<p>Isolating the left section:</p>
+<p><span class="math display">\[\sum_{}^{}F_{y} = 0 \Longrightarrow
+R_{A} - N_{ID}\sin\alpha = 0 \Longrightarrow N_{ID}(x) =
+\frac{R_{A}(x)}{\sin\alpha} = \frac{\sqrt{41}}{80}(20 - x) \approx
+0.08004\,(20 - x)\]</span></p>
+<ul>
+<li><p><strong>Inside panel</strong> <span
+class="math inline">\(CD\)</span> <strong>(</strong><span
+class="math inline">\(10\text{~m} \leq x \leq
+15\text{~m}\)</span><strong>):</strong></p></li>
+</ul>
+<p>Linear transition between <span class="math inline">\(x =
+10\text{~m}\)</span> and <span class="math inline">\(x =
+15\text{~m}\)</span>, crossing zero (<span class="math inline">\(N_{ID}
+= 0\)</span>) at <span class="math inline">\(x_{0} =
+13.33\text{~m}\)</span> (i.e., <span class="math inline">\(x =
+\frac{40}{3}\text{~m}\)</span>).</p>
+<p><strong>Key Values for</strong> <span
+class="math inline">\(\mathbf{N}_{\mathbf{ID}}\)</span><strong>:</strong></p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 22%" />
+<col style="width: 11%" />
+<col style="width: 14%" />
+<col style="width: 11%" />
+<col style="width: 14%" />
+<col style="width: 12%" />
+<col style="width: 14%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Position x (m)</strong></th>
+<th><strong>0 (A)</strong></th>
+<th><strong>10 (C)</strong></th>
+<th><strong>13.33</strong></th>
+<th><strong>15 (D)</strong></th>
+<th><strong>20 (E)</strong></th>
+<th><strong>30 (G)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(N_{ID}\)</span>
+<strong>(Exact)</strong></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[- \frac{\sqrt{41}}{8}\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[+ \frac{\sqrt{41}}{16}\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[- \frac{\sqrt{41}}{8}\]</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(N_{ID}\)</span>
+<strong>(Decimal)</strong></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[- 0.800\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[+ 0.400\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[- 0.800\]</span></td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><p><strong>Diagram Shape:</strong></p>
+<ul>
+<li><p>From <span class="math inline">\(A(0)\)</span> to <span
+class="math inline">\(C(10)\)</span>: linearly decreases from <span
+class="math inline">\(0\)</span> to <span class="math inline">\(-
+0.800\)</span>.</p></li>
+<li><p>From <span class="math inline">\(C(10)\)</span> to <span
+class="math inline">\(D(15)\)</span>: linear transition line passing
+through <span class="math inline">\(0\)</span> at <span
+class="math inline">\(x = 13.33\text{~m}\)</span> up to <span
+class="math inline">\(+ 0.400\)</span> at <span
+class="math inline">\(D(15)\)</span>.</p></li>
+<li><p>From <span class="math inline">\(D(15)\)</span> to <span
+class="math inline">\(G(30)\)</span>: straight line going through <span
+class="math inline">\(0\)</span> at <span
+class="math inline">\(E(20)\)</span> and down to <span
+class="math inline">\(- 0.800\)</span> at <span
+class="math inline">\(G(30)\)</span>.</p></li>
+</ul></li>
+</ul>
+<p><img src="media/image58.jpeg"
+style="width:4.33929in;height:3.74617in" /></p>
+<p><strong>Plotting Summary</strong></p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 24%" />
+<col style="width: 13%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Node / Position x</strong></th>
+<th><strong>A (0 m)</strong></th>
+<th><strong>C (10 m)</strong></th>
+<th><strong>D (15 m)</strong></th>
+<th><strong>E (20 m)</strong></th>
+<th><strong>G (30 m)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math display">\[N_{IJ}\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[- 0.625\]</span></td>
+<td><span class="math display">\[- 0.938\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[+ 1.875\]</span></td>
+</tr>
+<tr class="even">
+<td><span class="math display">\[N_{CD}\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[+ 1.250\]</span></td>
+<td><span class="math display">\[+ 0.625\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[- 1.250\]</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math display">\[N_{ID}\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[- 0.800\]</span></td>
+<td><span class="math display">\[+ 0.400\]</span></td>
+<td><span class="math display">\[0\]</span></td>
+<td><span class="math display">\[- 0.800\]</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>Example 02</strong></p>
+<p>Draw the influence line for the force in member CG of the bridge
+truss shown in Fig. 34.</p>
+<p><img src="media/image59.png"
+style="width:4.55873in;height:1.80849in" /></p>
+<p><strong>Solution</strong></p>
+<p><strong>. Static Analysis of Joint</strong> <span
+class="math inline">\(\mathbf{C}\)</span> <strong>(Method of
+Joints)</strong></p>
+<p>To determine the force <span class="math inline">\(F_{CG}\)</span> in
+the vertical member <span class="math inline">\(CG\)</span>, isolate
+joint <span class="math inline">\(C\)</span>:</p>
+<ul>
+<li><p><strong>Members meeting at joint</strong> <span
+class="math inline">\(C\)</span><strong>:</strong></p>
+<ul>
+<li><p>Two collinear horizontal bottom-chord members: <span
+class="math inline">\(CB\)</span> and <span
+class="math inline">\(CD\)</span>.</p></li>
+<li><p>One vertical member: <span
+class="math inline">\(CG\)</span>.</p></li>
+</ul></li>
+<li><p><strong>External loading:</strong></p>
+<ul>
+<li><p>As the unit moving load <span class="math inline">\(P =
+1\)</span> moves across the bridge deck, a fraction <span
+class="math inline">\(P_{C}\)</span> is transferred to joint <span
+class="math inline">\(C\)</span> via the floor beams.</p></li>
+</ul></li>
+</ul>
+<p>Summing forces vertically (<span
+class="math inline">\(\sum_{}^{}F_{y} = 0\)</span>) at joint <span
+class="math inline">\(C\)</span>:</p>
+<p><span class="math display">\[\sum_{}^{}F_{y} = 0 \Longrightarrow
+F_{CG} - P_{C} = 0 \Longrightarrow F_{CG} = P_{C}\]</span></p>
+<p>Thus, the axial force in member <span
+class="math inline">\(CG\)</span> is directly equal to the fraction of
+the unit load transmitted to joint <span
+class="math inline">\(C\)</span>.</p>
+<p><strong>2. Calculation of Force</strong> <span
+class="math inline">\(\mathbf{F}_{\mathbf{CG}}\)</span> <strong>for
+Various Load Positions (</strong><span
+class="math inline">\(\mathbf{x}\)</span><strong>)</strong></p>
+<p>Consider a unit load <span class="math inline">\(P = 1\)</span>
+moving along the bottom chord from <span class="math inline">\(x =
+0\text{~m}\)</span> (joint <span class="math inline">\(A\)</span>) to
+<span class="math inline">\(x = 24\text{~m}\)</span> (joint <span
+class="math inline">\(E\)</span>):</p>
+<ol type="1">
+<li><p><strong>Load between</strong> <span class="math inline">\(x =
+0\text{~m}\)</span> <strong>and</strong> <span class="math inline">\(x =
+6\text{~m}\)</span> <strong>(Panel</strong> <span
+class="math inline">\(AB\)</span><strong>):</strong></p>
+<ul>
+<li><p>The load is carried entirely by joints <span
+class="math inline">\(A\)</span> and <span
+class="math inline">\(B\)</span>.</p></li>
+<li><p>No load is transmitted to joint <span
+class="math inline">\(C\)</span> (<span class="math inline">\(P_{C} =
+0\)</span>).</p></li>
+<li><p><span class="math inline">\(F_{CG} = 0\)</span></p></li>
+</ul></li>
+<li><p><strong>Load between</strong> <span class="math inline">\(x =
+6\text{~m}\)</span> <strong>and</strong> <span class="math inline">\(x =
+12\text{~m}\)</span> <strong>(Panel</strong> <span
+class="math inline">\(BC\)</span><strong>):</strong></p>
+<ul>
+<li><p>By the lever rule, the fraction transmitted to joint <span
+class="math inline">\(C\)</span> increases linearly:</p></li>
+</ul></li>
+</ol>
+<p><span class="math display">\[P_{C} = \frac{x - 6}{12 - 6} = \frac{x -
+6}{6}\]</span></p>
+<ul>
+<li><p>At <span class="math inline">\(x = 6\text{~m}\)</span> (Joint
+<span class="math inline">\(B\)</span>): <span
+class="math inline">\(F_{CG} = 0\)</span></p></li>
+<li><p>At <span class="math inline">\(x = 12\text{~m}\)</span> (Joint
+<span class="math inline">\(C\)</span>): <span
+class="math inline">\(F_{CG} = + 1\text{~(Tension)}\)</span></p></li>
+</ul>
+<ol start="3" type="1">
+<li><p><strong>Load between</strong> <span class="math inline">\(x =
+12\text{~m}\)</span> <strong>and</strong> <span class="math inline">\(x
+= 18\text{~m}\)</span> <strong>(Panel</strong> <span
+class="math inline">\(CD\)</span><strong>):</strong></p>
+<ul>
+<li><p>The fraction transmitted to joint <span
+class="math inline">\(C\)</span> decreases linearly:</p></li>
+</ul></li>
+</ol>
+<p><span class="math display">\[P_{C} = \frac{18 - x}{18 - 12} =
+\frac{18 - x}{6}\]</span></p>
+<ul>
+<li><p>At <span class="math inline">\(x = 12\text{~m}\)</span> (Joint
+<span class="math inline">\(C\)</span>): <span
+class="math inline">\(F_{CG} = + 1\text{~(Tension)}\)</span></p></li>
+<li><p>At <span class="math inline">\(x = 18\text{~m}\)</span> (Joint
+<span class="math inline">\(D\)</span>): <span
+class="math inline">\(F_{CG} = 0\)</span></p></li>
+</ul>
+<ol start="4" type="1">
+<li><p><strong>Load between</strong> <span class="math inline">\(x =
+18\text{~m}\)</span> <strong>and</strong> <span class="math inline">\(x
+= 24\text{~m}\)</span> <strong>(Panel</strong> <span
+class="math inline">\(DE\)</span><strong>):</strong></p>
+<ul>
+<li><p>The load is carried entirely by joints <span
+class="math inline">\(D\)</span> and <span
+class="math inline">\(E\)</span>.</p></li>
+<li><p>No load is transmitted to joint <span
+class="math inline">\(C\)</span> (<span class="math inline">\(P_{C} =
+0\)</span>).</p></li>
+<li><p><span class="math inline">\(F_{CG} = 0\)</span></p></li>
+</ul></li>
+</ol>
+<p><strong>3. Summary Table of Ordinates</strong></p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 13%" />
+<col style="width: 21%" />
+<col style="width: 30%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Load Position x (m)</strong></th>
+<th><strong>Node</strong></th>
+<th><strong>Force FCG​</strong></th>
+<th><strong>Stress State</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math display">\[0\]</span></td>
+<td><strong>A</strong></td>
+<td><span class="math display">\[0\]</span></td>
+<td>Zero force</td>
+</tr>
+<tr class="even">
+<td><span class="math display">\[6\]</span></td>
+<td><strong>B</strong></td>
+<td><span class="math display">\[0\]</span></td>
+<td>Zero force</td>
+</tr>
+<tr class="odd">
+<td><span class="math display">\[12\]</span></td>
+<td><strong>C</strong></td>
+<td><span class="math display">\[+ 1\]</span></td>
+<td>Maximum Tension</td>
+</tr>
+<tr class="even">
+<td><span class="math display">\[18\]</span></td>
+<td><strong>D</strong></td>
+<td><span class="math display">\[0\]</span></td>
+<td>Zero force</td>
+</tr>
+<tr class="odd">
+<td><span class="math display">\[24\]</span></td>
+<td><strong>E</strong></td>
+<td><span class="math display">\[0\]</span></td>
+<td>Zero force</td>
+</tr>
+</tbody>
+</table>
+<p><strong>4. Instructions for Plotting the Influence Line</strong></p>
+<ol type="1">
+<li><p><strong>Horizontal Baseline:</strong> Draw a horizontal axis
+representing the total span from <span class="math inline">\(x =
+0\text{~m}\)</span> to <span class="math inline">\(x =
+24\text{~m}\)</span>, marking nodes <span
+class="math inline">\(A,B,C,D,E\)</span>.</p></li>
+<li><p><strong>Plot Segments:</strong></p>
+<ul>
+<li><p>From <span class="math inline">\(x = 0\text{~m}\)</span> to <span
+class="math inline">\(x = 6\text{~m}\)</span> (<span
+class="math inline">\(A \rightarrow B\)</span>): Draw a horizontal line
+lying on the axis (<span class="math inline">\(F_{CG} =
+0\)</span>).</p></li>
+<li><p>From <span class="math inline">\(x = 6\text{~m}\)</span> to <span
+class="math inline">\(x = 12\text{~m}\)</span> (<span
+class="math inline">\(B \rightarrow C\)</span>): Draw a line sloping
+upward from <span class="math inline">\(0\)</span> to a maximum value of
+<span class="math inline">\(+ 1\)</span> above the axis.</p></li>
+<li><p>From <span class="math inline">\(x = 12\text{~m}\)</span> to
+<span class="math inline">\(x = 18\text{~m}\)</span> (<span
+class="math inline">\(C \rightarrow D\)</span>): Draw a line sloping
+downward from <span class="math inline">\(+ 1\)</span> to <span
+class="math inline">\(0\)</span>.</p></li>
+<li><p>From <span class="math inline">\(x = 18\text{~m}\)</span> to
+<span class="math inline">\(x = 24\text{~m}\)</span> (<span
+class="math inline">\(D \rightarrow E\)</span>): Draw a horizontal line
+lying on the axis (<span class="math inline">\(F_{CG} =
+0\)</span>).</p></li>
+</ul></li>
+</ol>
+<p><img src="media/image60.png"
+style="width:6.08386in;height:2.3002in" /></p>
+<p><strong>I.5 Influence Lines for frame</strong></p>
+<p>For a structural <strong>frame</strong>, influence lines can be used
+to determine the <strong>support reactions, shear force, and bending
+moment</strong> at a specific point. A <strong>unit load</strong> (<span
+class="math inline">\(W = 1\)</span>) is moved along the frame, and the
+corresponding value of the required function is calculated for each load
+position. These values are then plotted against the load position to
+obtain the <strong>influence line</strong>.</p>
+<p><strong>Key Points:</strong></p>
+<ul>
+<li><p>Move a unit load (<span class="math inline">\(W = 1\)</span>)
+along the frame.</p></li>
+<li><p>Calculate the desired function (reaction, shear force, or bending
+moment) at the specified point.</p></li>
+<li><p>Plot the calculated values versus the load position (<span
+class="math inline">\(x\)</span>).</p></li>
+<li><p>Connect the key points with straight lines.</p></li>
+</ul>
+<p><strong><u>Example 01</u></strong></p>
+<p>Consider the frame shown in <strong>Fig. 36</strong>. The goal is to
+draw the influence lines for:</p>
+<blockquote>
+<p><strong>a)</strong> The vertical reaction at support <span
+class="math inline">\(A\)</span> (<span
+class="math inline">\(R_{A}\)</span>)</p>
+<p><strong>b)</strong> The shear force at point <span
+class="math inline">\(C\)</span> (<span
+class="math inline">\(V_{C}\)</span>)</p>
+<p><strong>c)</strong> The bending moment at point <span
+class="math inline">\(C\)</span> (<span
+class="math inline">\(M_{C}\)</span>)</p>
+</blockquote>
+<p><img src="media/image61.png"
+style="width:3.36762in;height:2.388in" /></p>
+<p><strong><u>Solution</u></strong></p>
+<p>Global Static Analysis &amp; Reaction Equations</p>
+<ul>
+<li><p>Frame geometry and supports :</p>
+<ul>
+<li><p>The frame consists of a horizontal beam <span
+class="math inline">\(BD\)</span> with a total span of <span
+class="math inline">\(L = 8\text{~m}\)</span> (<span
+class="math inline">\(4\text{~m} + 4\text{~m}\)</span>) and two vertical
+columns of height <span class="math inline">\(h =
+3\text{~m}\)</span>.</p></li>
+<li><p>Support <span class="math inline">\(A\)</span> is a pin support
+(restraining vertical reaction <span
+class="math inline">\(R_{A}\)</span> and horizontal reaction <span
+class="math inline">\(H_{A}\)</span>).</p></li>
+<li><p>Support <span class="math inline">\(E\)</span> is a roller
+support (restraining vertical reaction <span
+class="math inline">\(R_{E}\)</span> only, <span
+class="math inline">\(H_{E} = 0\)</span>).</p></li>
+<li><p>A downward unit vertical load <span class="math inline">\(W =
+1\)</span> moves along the horizontal member <span
+class="math inline">\(BD\)</span>, with its position defined by distance
+<span class="math inline">\(x\)</span> measured from joint <span
+class="math inline">\(B\)</span> (<span class="math inline">\(0 \leq x
+\leq 8\text{~m}\)</span>).</p></li>
+</ul></li>
+<li><p>Static equilibrium equations:</p>
+<ul>
+<li><p>Horizontal Equilibrium (<span
+class="math inline">\(\sum_{}^{}F_{x} = 0\)</span>):</p></li>
+</ul></li>
+</ul>
+<p><span class="math display">\[H_{A} = 0\]</span></p>
+<p>Since no horizontal external force acts on the frame, the columns
+carry no horizontal shear, and the frame behaves like a simply supported
+beam of <span class="math inline">\(8\text{~m}\)</span> span.</p>
+<ul>
+<li><p>Moment Equilibrium about Support <span
+class="math inline">\(E\)</span> (<span
+class="math inline">\(\sum_{}^{}M_{E} = 0\)</span>):</p></li>
+</ul>
+<p><span class="math display">\[R_{A} \cdot 8 - 1 \cdot (8 - x) = 0
+\Longrightarrow R_{A}(x) = 1 - \frac{x}{8}\]</span></p>
+<ul>
+<li><p>Vertical Equilibrium (<span class="math inline">\(\sum_{}^{}F_{y}
+= 0\)</span>):</p></li>
+</ul>
+<p><span class="math display">\[R_{A} + R_{E} = 1 \Longrightarrow
+R_{E}(x) = \frac{x}{8}\]</span></p>
+<p><strong>2. Influence Line Equations &amp; Calculations</strong></p>
+<p><strong>a) Influence Line for</strong> <span
+class="math inline">\(\mathbf{R}_{\mathbf{A}}\)</span> <strong>(Vertical
+Reaction at Support A)</strong></p>
+<ul>
+<li><p>Equation:</p></li>
+</ul>
+<p><span class="math display">\[R_{A}(x) = 1 -
+\frac{x}{8}\quad\text{for~}0 \leq x \leq 8\text{~m}\]</span></p>
+<ul>
+<li><p>Key Coordinates:</p>
+<ul>
+<li><p>At load position <span class="math inline">\(B\)</span> (<span
+class="math inline">\(x = 0\text{~m}\)</span>): <span
+class="math inline">\(R_{A} = 1 - \frac{0}{8} = + 1.0\)</span></p></li>
+<li><p>At load position <span class="math inline">\(C\)</span> (<span
+class="math inline">\(x = 4\text{~m}\)</span>): <span
+class="math inline">\(R_{A} = 1 - \frac{4}{8} = + 0.5\)</span></p></li>
+<li><p>At load position <span class="math inline">\(D\)</span> (<span
+class="math inline">\(x = 8\text{~m}\)</span>): <span
+class="math inline">\(R_{A} = 1 - \frac{8}{8} = 0.0\)</span></p></li>
+</ul></li>
+</ul>
+<p><strong>b) Influence Line for</strong> <span
+class="math inline">\(\mathbf{V}_{\mathbf{C}}\)</span> <strong>(Shear
+Force at Point C)</strong></p>
+<ul>
+<li><p>Method of Sections at Point <span
+class="math inline">\(C\)</span> (<span class="math inline">\(x_{C} =
+4\text{~m}\)</span>):</p>
+<ul>
+<li><p>Case 1: Load on segment <span class="math inline">\(BC\)</span>
+(<span class="math inline">\(0 \leq x &lt;
+4\text{~m}\)</span>):</p></li>
+</ul></li>
+</ul>
+<p><span class="math display">\[V_{C}(x) = R_{A} - 1 = \left( 1 -
+\frac{x}{8} \right) - 1 = - \frac{x}{8}\]</span></p>
+<ul>
+<li><p>At <span class="math inline">\(x = 0\text{~m}\)</span> (Joint
+<span class="math inline">\(B\)</span>): <span
+class="math inline">\(V_{C} = 0.0\)</span></p></li>
+<li><p>At <span class="math inline">\(x \rightarrow
+4^{-}\text{~m}\)</span> (Just left of <span
+class="math inline">\(C\)</span>): <span class="math inline">\(V_{C} = -
+\frac{4}{8} = - 0.5\)</span></p></li>
+</ul>
+<ul>
+<li><p>Case 2: Load on segment <span class="math inline">\(CD\)</span>
+(<span class="math inline">\(4\text{~m} &lt; x \leq
+8\text{~m}\)</span>):</p></li>
+</ul>
+<p><span class="math display">\[V_{C}(x) = R_{A} = 1 -
+\frac{x}{8}\]</span></p>
+<ul>
+<li><p>At <span class="math inline">\(x \rightarrow
+4^{+}\text{~m}\)</span> (Just right of <span
+class="math inline">\(C\)</span>): <span class="math inline">\(V_{C} = 1
+- \frac{4}{8} = + 0.5\)</span></p></li>
+<li><p>At <span class="math inline">\(x = 8\text{~m}\)</span> (Joint
+<span class="math inline">\(D\)</span>): <span
+class="math inline">\(V_{C} = 1 - \frac{8}{8} = 0.0\)</span></p></li>
+</ul>
+<ul>
+<li><p>Unit Jump at Point <span
+class="math inline">\(C\)</span>:</p></li>
+</ul>
+<p><span class="math display">\[\Delta V_{C} = V_{C}\left( 4^{+} \right)
+- V_{C}\left( 4^{-} \right) = + 0.5 - ( - 0.5) = 1.0\]</span></p>
+<p><strong>c) Influence Line for</strong> <span
+class="math inline">\(\mathbf{M}_{\mathbf{C}}\)</span> <strong>(Bending
+Moment at Point C)</strong></p>
+<ul>
+<li><p>Sign Convention: Positive bending moment causes sagging (tension
+at the bottom fibers).</p></li>
+<li><p>Equations by Segment:</p>
+<ul>
+<li><p>Case 1: Load on segment <span class="math inline">\(BC\)</span>
+(<span class="math inline">\(0 \leq x \leq
+4\text{~m}\)</span>):</p></li>
+</ul></li>
+</ul>
+<p><span class="math display">\[M_{C}(x) = R_{E} \cdot 4 = \left(
+\frac{x}{8} \right) \cdot 4 = \frac{x}{2}\]</span></p>
+<ul>
+<li><p>At <span class="math inline">\(x = 0\text{~m}\)</span> (Joint
+<span class="math inline">\(B\)</span>): <span
+class="math inline">\(M_{C} = 0.0\text{~kN} \cdot
+\text{m}\)</span></p></li>
+<li><p>At <span class="math inline">\(x = 4\text{~m}\)</span> (Point
+<span class="math inline">\(C\)</span>): <span
+class="math inline">\(M_{C} = \frac{4}{2} = + 2.0\text{~kN} \cdot
+\text{m}\)</span></p></li>
+</ul>
+<ul>
+<li><p>Case 2: Load on segment <span class="math inline">\(CD\)</span>
+(<span class="math inline">\(4\text{~m} \leq x \leq
+8\text{~m}\)</span>):</p></li>
+</ul>
+<p><span class="math display">\[M_{C}(x) = R_{A} \cdot 4 = \left( 1 -
+\frac{x}{8} \right) \cdot 4 = 4 - \frac{x}{2}\]</span></p>
+<ul>
+<li><p>At <span class="math inline">\(x = 4\text{~m}\)</span> (Point
+<span class="math inline">\(C\)</span>): <span
+class="math inline">\(M_{C} = 4 - \frac{4}{2} = + 2.0\text{~kN} \cdot
+\text{m}\)</span></p></li>
+<li><p>At <span class="math inline">\(x = 8\text{~m}\)</span> (Joint
+<span class="math inline">\(D\)</span>): <span
+class="math inline">\(M_{C} = 4 - \frac{8}{2} = 0.0\text{~kN} \cdot
+\text{m}\)</span></p></li>
+</ul>
+<p>3. Summary Table of Coordinates (Influence Line Values)</p>
+<table>
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 16%" />
+<col style="width: 19%" />
+<col style="width: 19%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Load Position (x)</th>
+<th>Joint B (0 m)</th>
+<th>Point C− (4− m)</th>
+<th>Point C+ (4+ m)</th>
+<th>Joint D (8 m)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(R_{A}\)</span> (Vertical Reaction at
+A)</td>
+<td><span class="math display">\[+ 1.0\]</span></td>
+<td><span class="math display">\[+ 0.5\]</span></td>
+<td><span class="math display">\[+ 0.5\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(V_{C}\)</span> (Shear Force at C)</td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[- 0.5\]</span></td>
+<td><span class="math display">\[+ 0.5\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(M_{C}\)</span> (Bending Moment at
+C)</td>
+<td><span class="math display">\[0.0\text{~kN} \cdot
+\text{m}\]</span></td>
+<td><span class="math display">\[+ 2.0\text{~kN} \cdot
+\text{m}\]</span></td>
+<td><span class="math display">\[+ 2.0\text{~kN} \cdot
+\text{m}\]</span></td>
+<td><span class="math display">\[0.0\text{~kN} \cdot
+\text{m}\]</span></td>
+</tr>
+</tbody>
+</table>
+<p><img src="media/image62.png"
+style="width:5.05893in;height:2.74918in" /></p>
+<p><strong>Example</strong><img
+src="media/image63.png"
+style="width:6.0218in;height:2.84496in" /></p>
+<p><strong><u>Solution</u></strong></p>
+<p><strong>Support Reactions (</strong><span
+class="math inline">\(\mathbf{R}_{\mathbf{B}}\)</span>
+<strong>and</strong> <span
+class="math inline">\(\mathbf{R}_{\mathbf{C}}\)</span><strong>)</strong></p>
+<p>To determine the influence lines for the support reactions, a unit
+vertical load <span class="math inline">\(P = 1\)</span> moves along the
+top beam <span class="math inline">\(AD\)</span> (<span
+class="math inline">\(0 \leq x_{p} \leq 8\text{~m}\)</span>).</p>
+<ul>
+<li><p><strong>Moment equilibrium about Support</strong> <span
+class="math inline">\(B\)</span> <strong>(</strong><span
+class="math inline">\(\sum_{}^{}M_{B} =
+0\)</span><strong>):</strong></p></li>
+</ul>
+<p><span class="math display">\[R_{C} \cdot 4 - 1 \cdot \left( x_{p} - 2
+\right) = 0 \Longrightarrow R_{C} = \frac{x_{p} - 2}{4}\]</span></p>
+<ul>
+<li><p><strong>Vertical force equilibrium (</strong><span
+class="math inline">\(\sum_{}^{}F_{y} =
+0\)</span><strong>):</strong></p></li>
+</ul>
+<p><span class="math display">\[R_{B} + R_{C} - 1 = 0 \Longrightarrow
+R_{B} = \frac{6 - x_{p}}{4}\]</span></p>
+<ul>
+<li><p><strong>Horizontal reaction at Support</strong> <span
+class="math inline">\(B\)</span> <strong>(</strong><span
+class="math inline">\(H_{B}\)</span><strong>):</strong></p></li>
+</ul>
+<p><span class="math display">\[H_{B} = 0\quad\left(
+\text{for~all~}x_{p} \right)\]</span></p>
+<p><em>Since no external horizontal forces act on the frame, the
+horizontal reaction remains zero.</em></p>
+<p><strong>2. Internal Forces at Section</strong> <span
+class="math inline">\(\mathbf{x}\)</span> <strong>(</strong><span
+class="math inline">\(\mathbf{x}_{\mathbf{p}}\mathbf{=
+1}\text{~m}\)</span><strong>)</strong></p>
+<ul>
+<li><p><strong>Shear Force (</strong><span
+class="math inline">\(V_{x}\)</span><strong>):</strong></p>
+<ul>
+<li><p>For <span class="math inline">\(0 \leq x_{p} &lt;
+1\text{~m}\)</span> (load to the left of section <span
+class="math inline">\(x\)</span>): <span class="math inline">\(V_{x} = -
+1\)</span></p></li>
+<li><p>For <span class="math inline">\(1\text{~m} &lt; x_{p} \leq
+8\text{~m}\)</span> (load to the right of section <span
+class="math inline">\(x\)</span>): <span class="math inline">\(V_{x} =
+0\)</span></p></li>
+</ul></li>
+<li><p><strong>Bending Moment (</strong><span
+class="math inline">\(M_{x}\)</span><strong>):</strong></p>
+<ul>
+<li><p>For <span class="math inline">\(0 \leq x_{p} \leq
+1\text{~}\text{m}\)</span>: <span class="math inline">\(M_{x} = x_{p} -
+1\)</span></p></li>
+<li><p>For <span class="math inline">\(1\text{~m} \leq x_{p} \leq
+8\text{~}\text{m}\)</span>: <span class="math inline">\(M_{x} =
+0\)</span></p></li>
+</ul></li>
+</ul>
+<p><strong>3. Shear Force Just Right of Column Joint (</strong><span
+class="math inline">\(\mathbf{V}_{\mathbf{By}}\)</span><strong>)</strong></p>
+<p>This corresponds to the shear force in the horizontal beam segment
+immediately to the right of the joint above column <span
+class="math inline">\(B\)</span> (<span class="math inline">\(x_{p} =
+2^{+}\)</span>) :</p>
+<ul>
+<li><p>For <span class="math inline">\(0 \leq x_{p} &lt;
+2\text{~}\text{m}\)</span>: <span class="math inline">\(V_{By} = R_{C} =
+\frac{x_{p} - 2}{4}\)</span></p></li>
+<li><p>For <span class="math inline">\(2\text{~m} &lt; x_{p} \leq
+8\text{~}\text{m}\)</span>: <span class="math inline">\(V_{By} = R_{C} -
+1 = \frac{x_{p} - 6}{4}\)</span></p></li>
+</ul>
+<p><strong>4. Internal Forces at Section</strong> <span
+class="math inline">\(\mathbf{y}\)</span> <strong>(</strong><span
+class="math inline">\(\mathbf{x}_{\mathbf{p}}\mathbf{=
+4}\text{~m}\)</span><strong>)</strong></p>
+<ul>
+<li><p><strong>Shear Force (</strong><span
+class="math inline">\(V_{y}\)</span><strong>):</strong></p>
+<ul>
+<li><p>For <span class="math inline">\(0 \leq x_{p} &lt;
+4\text{~}\text{m}\)</span>: <span class="math inline">\(V_{y} = R_{C} =
+\frac{x_{p} - 2}{4}\)</span></p></li>
+<li><p>For <span class="math inline">\(4\text{~m} &lt; x_{p} \leq
+8\text{~}\text{m}\)</span>: <span class="math inline">\(V_{y} = R_{C} -
+1 = \frac{x_{p} - 6}{4}\)</span></p></li>
+</ul></li>
+<li><p><strong>Bending Moment (</strong><span
+class="math inline">\(M_{y}\)</span><strong>):</strong></p>
+<ul>
+<li><p>For <span class="math inline">\(0 \leq x_{p} \leq
+4\text{~}\text{m}\)</span>: <span class="math inline">\(M_{y} = - 2R_{C}
+= - \frac{x_{p} - 2}{2}\)</span></p></li>
+<li><p>For <span class="math inline">\(4\text{~m} \leq x_{p} \leq
+8\text{~}\text{m}\)</span>: <span class="math inline">\(M_{y} =
+\frac{x_{p} - 6}{2}\)</span></p></li>
+</ul></li>
+</ul>
+<p><strong>5. Internal Forces at Section</strong> <span
+class="math inline">\(\mathbf{z}\)</span> <strong>(Vertical
+Column</strong> <span
+class="math inline">\(\mathbf{JB}\)</span><strong>)</strong></p>
+<ul>
+<li><p><strong>Axial Force (</strong><span
+class="math inline">\(A_{z}\)</span> <strong>/ Normal
+Force):</strong></p></li>
+</ul>
+<p>The vertical column transmits the reaction <span
+class="math inline">\(R_{B}\)</span> (compression when negative) :</p>
+<p><span class="math display">\[A_{z} = - R_{B} = \frac{x_{p} -
+6}{4}\]</span></p>
+<ul>
+<li><p><strong>Column Shear Force (</strong><span
+class="math inline">\(V_{z}\)</span><strong>):</strong></p></li>
+</ul>
+<p><span class="math display">\[V_{z} = 0\quad\left(
+\text{for~all~}x_{p} \right)\]</span></p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 17%" />
+<col style="width: 13%" />
+<col style="width: 13%" />
+<col style="width: 14%" />
+<col style="width: 15%" />
+<col style="width: 12%" />
+<col style="width: 13%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Function / Load Position</strong></th>
+<th><strong>Point A (xp​=0 m)</strong></th>
+<th><strong>Section x (xp​=1 m)</strong></th>
+<th><strong>Joint B (xp​=2 m)</strong></th>
+<th><strong>Section y (xp​=4 m)</strong></th>
+<th><strong>Support C (xp​=6 m)</strong></th>
+<th><strong>Point D (xp​=8 m)</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><span class="math inline">\(R_{C}\)</span> <strong>(Reaction at
+C)</strong></td>
+<td><span class="math display">\[- 0.5\]</span></td>
+<td><span class="math display">\[- 0.25\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[+ 0.5\]</span></td>
+<td><span class="math display">\[+ 1.0\]</span></td>
+<td><span class="math display">\[+ 1.5\]</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(R_{B}\)</span> <strong>(Reaction at
+B)</strong></td>
+<td><span class="math display">\[+ 1.5\]</span></td>
+<td><span class="math display">\[+ 1.25\]</span></td>
+<td><span class="math display">\[+ 1.0\]</span></td>
+<td><span class="math display">\[+ 0.5\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[- 0.5\]</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(V_{x}\)</span> <strong>(Shear at
+x)</strong></td>
+<td><span class="math display">\[- 1.0\]</span></td>
+<td><span class="math display">\[- 1.0 \mid 0.0\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(M_{x}\)</span> <strong>(Moment at
+x)</strong></td>
+<td><span class="math display">\[- 1.0\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(V_{By}\)</span> <strong>(Shear right of
+B)</strong></td>
+<td><span class="math display">\[- 0.5\]</span></td>
+<td><span class="math display">\[- 0.25\]</span></td>
+<td><span class="math display">\[0.0/ - 1.0\]</span></td>
+<td><span class="math display">\[- 0.5\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[+ 0.5\]</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(V_{y}\)</span> <strong>(Shear at
+y)</strong></td>
+<td><span class="math display">\[- 0.5\]</span></td>
+<td><span class="math display">\[- 0.25\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[+ 0.5/ - 0.5\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[+ 0.5\]</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(M_{y}\)</span> <strong>(Moment at
+y)</strong></td>
+<td><span class="math display">\[+ 1.0\]</span></td>
+<td><span class="math display">\[+ 0.5\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[- 1.0\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[+ 1.0\]</span></td>
+</tr>
+<tr class="even">
+<td><span class="math inline">\(A_{z}\)</span> <strong>(Axial Force in
+Column)</strong></td>
+<td><span class="math display">\[- 1.5\]</span></td>
+<td><span class="math display">\[- 1.25\]</span></td>
+<td><span class="math display">\[- 1.0\]</span></td>
+<td><span class="math display">\[- 0.5\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[+ 0.5\]</span></td>
+</tr>
+<tr class="odd">
+<td><span class="math inline">\(V_{z}\)</span> <strong>(Shear in
+Column)</strong></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+<td><span class="math display">\[0.0\]</span></td>
+</tr>
+</tbody>
+</table>
+<p><strong>6. Summary Table of Influence Line Ordinates</strong></p>
+<p><img src="media/image64.png"
+style="width:2.72256in;height:3.31388in" /><img
+src="media/image65.png"
+style="width:2.65118in;height:2.31615in" /></p>
+<p><strong><u>Example 03</u></strong></p>
+<p>Example: Draw the I.L. for the following functions for the frame
+shown below. RB RC, RAY, Vc, VH, VJ, MH and MJ.</p>
+<p><img src="media/image66.png"
+style="width:4.26137in;height:1.85871in" /></p>
+<p><strong>Solution</strong></p>
+<blockquote>
+<p><img src="media/image67.png"
+style="width:4.37904in;height:5.39988in" /></p>
+<p><img src="media/image68.png"
+style="width:4.32087in;height:2.52877in" /></p>
+</blockquote>
+<p><strong>I.6 Application of Influence Lines :</strong></p>
+
+  </main>
+</div>
+<button class="back-to-top" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+<script>
+  // Auto-build TOC from headings
+  const toc = document.getElementById('tocList');
+  const headings = document.querySelectorAll('main h1, main h2, main h3, main h4');
+  headings.forEach((h,i) => {
+    if (!h.id) h.id = 'sec-' + i;
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = '#' + h.id;
+    a.textContent = h.textContent.substring(0,70);
+    a.style.paddingLeft = (parseInt(h.tagName[1]) * 6) + 'px';
+    li.appendChild(a);
+    toc.appendChild(li);
+  });
+
+  // Back-to-top visibility
+  const btt = document.getElementById('btt');
+  window.addEventListener('scroll', () => {
+    btt.classList.toggle('show', window.scrollY > 400);
+  });
+
+  // Collapsible TOC on mobile
+  const tocPanel = document.getElementById('tocPanel');
+  if (window.innerWidth < 960) tocPanel.classList.add('hidden');
+</script>
+</body>
+</html>
