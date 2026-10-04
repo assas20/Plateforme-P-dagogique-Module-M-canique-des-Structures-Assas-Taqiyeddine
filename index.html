@@ -2396,6 +2396,36 @@ Devoir /5
 
 <div class="card">
 
+<div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-bottom:18px;">
+
+<strong style="margin-right:5px;">Section :</strong>
+
+<button
+class="btn btn-primary"
+id="gradesSection01Btn"
+onclick="setGradesSection('01')">
+
+S1 — Section 01
+
+</button>
+
+<button
+class="btn btn-light"
+id="gradesSection02Btn"
+onclick="setGradesSection('02')">
+
+S2 — Section 02
+
+</button>
+
+<span
+id="gradesSectionInfo"
+style="font-weight:700;margin-left:8px;">
+Section 01
+</span>
+
+</div>
+
 <div class="table-wrapper">
 
 <table>
@@ -4985,6 +5015,40 @@ return Math.max(
 }
 
 
+let selectedGradesSection = "01";
+
+
+function setGradesSection(section){
+
+selectedGradesSection = section;
+
+const btn01 = document.getElementById("gradesSection01Btn");
+const btn02 = document.getElementById("gradesSection02Btn");
+const info = document.getElementById("gradesSectionInfo");
+
+if(btn01 && btn02){
+
+btn01.className =
+section === "01"
+? "btn btn-primary"
+: "btn btn-light";
+
+btn02.className =
+section === "02"
+? "btn btn-primary"
+: "btn btn-light";
+
+}
+
+if(info){
+info.textContent = `Section ${section}`;
+}
+
+renderGrades();
+
+}
+
+
 function renderGrades(){
 
 const body =
@@ -4996,7 +5060,9 @@ document.getElementById(
 body.innerHTML="";
 
 
-students.forEach(
+students
+.filter(student => student[4] === selectedGradesSection)
+.forEach(
 student=>{
 
 const key =
