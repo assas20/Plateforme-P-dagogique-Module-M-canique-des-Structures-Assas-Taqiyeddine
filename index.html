@@ -1796,138 +1796,73 @@ class="grid grid-3">
 
 
 <!-- =========================================================
-     PRESENCE
+     PRESENCE — SUIVI ÉTUDIANT EN LECTURE SEULE
 ========================================================= -->
 
 <section
 id="presence"
 class="page">
 
-
 <h1 class="section-title"
-data-fr="Gestion de la présence"
-data-en="Attendance Management">
-
-Gestion de la présence
-
+data-fr="Suivi de la présence"
+data-en="Attendance Tracking">
+Suivi de la présence
 </h1>
-
 
 <div class="card">
 
 <h3>
 <i class="fa-solid fa-calendar-days"></i>
-
-<span
-data-fr="Séance"
-data-en="Session">
-
-Séance
-
-</span>
-
+<span data-fr="Suivi des séances"
+data-en="Session Tracking">Suivi des séances</span>
 </h3>
-
 
 <div class="grid grid-3">
 
-
 <div>
-
-<label>
-<strong
-data-fr="Section"
-data-en="Section">
-
-Section
-
-</strong>
-</label>
-
+<label><strong data-fr="Section" data-en="Section">Section</strong></label>
 <select
 id="presenceSection"
 class="input"
 style="width:100%;margin-top:7px;"
-onchange="syncGroupWithSection()">
-
-<option value="01">
-Section 01
-</option>
-
-<option value="02">
-Section 02
-</option>
-
+onchange="syncGroupWithSection();updateStudentFollowUp();">
+<option value="01">Section 01</option>
+<option value="02">Section 02</option>
 </select>
-
 </div>
 
-
 <div>
-
-<label>
-<strong
-data-fr="Groupe"
-data-en="Group">
-
-Groupe
-
-</strong>
-</label>
-
+<label><strong data-fr="Groupe" data-en="Group">Groupe</strong></label>
 <select
 id="presenceGroup"
 class="input"
 style="width:100%;margin-top:7px;"
-onchange="updatePresenceList()">
-
-<option value="01">
-Groupe 01
-</option>
-
-<option value="02">
-Groupe 02
-</option>
-
+onchange="updatePresenceList();updateStudentFollowUp();">
+<option value="01">Groupe 01</option>
+<option value="02">Groupe 02</option>
 </select>
-
 </div>
 
-
 <div>
-
-<label>
-<strong
-data-fr="Date"
-data-en="Date">
-
-Date
-
-</strong>
-</label>
-
-<input
-type="date"
+<label><strong data-fr="Date de la séance" data-en="Session Date">Date de la séance</strong></label>
+<select
 id="presenceDate"
 class="input"
 style="width:100%;margin-top:7px;"
-onchange="updatePresenceList()">
-
+onchange="updatePresenceList();updateStudentFollowUp();">
+</select>
 </div>
 
 </div>
-
 
 <div
 id="presenceSessionInfo"
-style="
-margin-top:20px;
-padding:15px;
-border-radius:12px;
-background:#eef6fc;
-border-left:5px solid #0077b6;
-">
+style="margin-top:20px;padding:15px;border-radius:12px;background:#eef6fc;border-left:5px solid #0077b6;">
+</div>
 
+<div style="margin-top:15px;padding:12px 15px;border-radius:10px;background:#f7f7f7;border-left:5px solid #777;">
+<strong>🔒 Affichage en lecture seule :</strong>
+la présence est fixée par l'enseignant et ne peut pas être modifiée par l'étudiant sur la plateforme.
 </div>
 
 </div>
@@ -1935,76 +1870,56 @@ border-left:5px solid #0077b6;
 
 <div class="card">
 
-<div
-style="
-display:flex;
-flex-wrap:wrap;
-gap:8px;
-">
+<h3>
+<i class="fa-solid fa-user-check"></i>
+Suivi individuel de l'étudiant
+</h3>
 
+<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
+
+<input
+class="input"
+id="studentMatricule"
+type="text"
+inputmode="numeric"
+maxlength="8"
+style="flex:1;min-width:250px;"
+placeholder="Saisir votre matricule"
+oninput="updateStudentFollowUp()">
+
+</div>
+
+<div id="studentFollowUp" style="margin-top:15px;">
+<div style="padding:15px;border-radius:10px;background:#f5f5f5;color:#666;">
+Saisissez votre matricule pour afficher votre suivi annuel.
+</div>
+</div>
+
+</div>
+
+
+<div class="card">
+
+<div style="display:flex;flex-wrap:wrap;gap:10px;align-items:center;">
 
 <input
 class="input"
 id="studentSearch"
 style="flex:1;min-width:250px;"
-placeholder="Rechercher / Search..."
+placeholder="Rechercher un étudiant / Search..."
 oninput="updatePresenceList()">
 
+<span style="padding:8px 12px;border-radius:8px;background:#e7f7ed;color:#16803c;font-weight:700;">
+🟢 PRÉSENT
+</span>
 
-<button
-class="btn btn-success"
-onclick="markAllPresent()">
+<span style="padding:8px 12px;border-radius:8px;background:#fdeaea;color:#c62828;font-weight:700;">
+🔴 ABSENT
+</span>
 
-<i class="fa-solid fa-check-double"></i>
-
-Tous présents
-
-</button>
-
-
-<button
-class="btn btn-danger"
-onclick="markAllAbsent()">
-
-<i class="fa-solid fa-xmark"></i>
-
-Tous absents
-
-</button>
-
-
-<button
-class="btn btn-primary"
-onclick="saveCurrentSession()">
-
-<i class="fa-solid fa-floppy-disk"></i>
-
-Enregistrer
-
-</button>
-
-
-<button
-class="btn btn-warning"
-onclick="printAttendance()">
-
-<i class="fa-solid fa-print"></i>
-
-Imprimer
-
-</button>
-
-
-<button
-class="btn btn-dark"
-onclick="exportAttendanceCSV()">
-
-<i class="fa-solid fa-file-csv"></i>
-
-CSV
-
-</button>
-
+<span style="padding:8px 12px;border-radius:8px;background:#eeeeee;color:#666;font-weight:700;">
+⚪ NON SAISIE
+</span>
 
 </div>
 
@@ -2013,86 +1928,28 @@ CSV
 
 <div class="grid grid-4">
 
-
 <div class="stat-card">
-
 <i class="fa-solid fa-users"></i>
-
-<div
-class="stat-number"
-id="totalStudentsPresence">
-
-0
-
+<div class="stat-number" id="totalStudentsPresence">0</div>
+<div>Étudiants</div>
 </div>
-
-<div>
-Étudiants
-</div>
-
-</div>
-
 
 <div class="stat-card">
-
-<i
-class="fa-solid fa-user-check"
-style="color:#16803c;">
-</i>
-
-<div
-class="stat-number"
-id="totalPresent">
-
-0
-
+<i class="fa-solid fa-user-check" style="color:#16803c;"></i>
+<div class="stat-number" id="totalPresent">0</div>
+<div>Présents</div>
 </div>
-
-<div>
-Présents
-</div>
-
-</div>
-
 
 <div class="stat-card">
-
-<i
-class="fa-solid fa-user-xmark"
-style="color:#c62828;">
-</i>
-
-<div
-class="stat-number"
-id="totalAbsent">
-
-0
-
+<i class="fa-solid fa-user-xmark" style="color:#c62828;"></i>
+<div class="stat-number" id="totalAbsent">0</div>
+<div>Absents</div>
 </div>
-
-<div>
-Absents
-</div>
-
-</div>
-
 
 <div class="stat-card">
-
 <i class="fa-solid fa-percent"></i>
-
-<div
-class="stat-number"
-id="presencePercentage">
-
-0%
-
-</div>
-
-<div>
-Taux
-</div>
-
+<div class="stat-number" id="presencePercentage">—</div>
+<div>Taux</div>
 </div>
 
 </div>
@@ -2100,45 +1957,25 @@ Taux
 
 <div class="card">
 
-<h3 id="currentSectionTitle">
-</h3>
-
+<h3 id="currentSectionTitle"></h3>
 
 <div class="table-wrapper">
-
 <table>
-
 <thead>
-
 <tr>
-
 <th>#</th>
-
 <th>Année Bac</th>
-
 <th>Matricule</th>
-
 <th>Nom</th>
-
 <th>Prénom</th>
-
 <th>Section</th>
-
 <th>Groupe</th>
-
 <th>Présence</th>
-
-<th>Absences</th>
-
+<th>Absences annuelles</th>
 </tr>
-
 </thead>
-
-<tbody id="attendanceBody">
-</tbody>
-
+<tbody id="attendanceBody"></tbody>
 </table>
-
 </div>
 
 </div>
@@ -2148,14 +1985,13 @@ Taux
 
 <h3>
 <i class="fa-solid fa-clock-rotate-left"></i>
-
 Historique des séances
-
 </h3>
 
 <div id="attendanceHistory"></div>
 
 </div>
+
 <!-- =========================================================
      DOCUMENTS DE PRÉSENCE
 ========================================================= -->
@@ -4517,1007 +4353,609 @@ YouTube
 
 
 /* =========================================================
-   PRESENCE
+   PRESENCE — STUDENT READ-ONLY TRACKING
 ========================================================= */
 
-function today(){
+const ATTENDANCE_START_DATE = "2026-09-30";
+const ATTENDANCE_END_DATE = "2027-06-30";
+const MAX_LEGAL_ABSENCES = 5;
 
-const d =
-new Date();
+/*
+   IMPORTANT:
+   The attendance displayed to students is FIXED.
+   There are no buttons, localStorage controls, or editable fields
+   for changing attendance from the platform.
 
+   30/09/2026 — Section 01 / Group 01
+   Attendance corrected according to the teacher's official list.
+*/
+const ATTENDANCE_RECORDS = {
 
-return (
-
-d.getFullYear()+
-"-"+
-String(
-d.getMonth()+1
-).padStart(2,"0")+
-"-"+
-String(
-d.getDate()
-).padStart(2,"0")
-
-);
-
-}
+    "2026-09-30": {
+        "01": {
+            "group": "01",
+            "absent": [
+                "36265017",
+                "32024905",
+                "34471615",
+                "34543106",
+                "34151807",
+                "32108108",
+                "34021617",
+                "31425018",
+                "35410008",
+                "34486609",
+                "38004019",
+                "32580608"
+            ],
+            "justified": {}
+        },
+        "02": {
+            "group": "02",
+            "absent": [
+                "33151616",
+                "32107213",
+                "31734413",
+                "32518514",
+                "33252305",
+                "32396603"
+            ],
+            "justified": {}
+        }
+    }
+};
 
 
 function formatDate(date){
-
-if(!date)
-return "";
-
-
-const p =
-date.split("-");
+    if(!date) return "";
+    const p = date.split("-");
+    return p[2] + "/" + p[1] + "/" + p[0];
+}
 
 
-return p[2]+"/"+p[1]+"/"+p[0];
+function getSessionDates(){
+    const dates = [ATTENDANCE_START_DATE];
 
+    /* 30/09/2026 is kept as the first official session date.
+       The regular weekly schedule then follows every Tuesday. */
+    let current = new Date("2026-10-06T00:00:00");
+    const end = new Date(ATTENDANCE_END_DATE + "T00:00:00");
+
+    while(current <= end){
+        const y = current.getFullYear();
+        const m = String(current.getMonth()+1).padStart(2,"0");
+        const d = String(current.getDate()).padStart(2,"0");
+        dates.push(`${y}-${m}-${d}`);
+        current.setDate(current.getDate()+7);
+    }
+
+    return dates;
 }
 
 
 function syncGroupWithSection(){
-
-const section =
-document.getElementById(
-"presenceSection"
-).value;
-
-
-document.getElementById(
-"presenceGroup"
-).value =
-section;
+    const section = document.getElementById("presenceSection").value;
+    document.getElementById("presenceGroup").value = section;
+    updatePresenceList();
+}
 
 
-updatePresenceList();
+/*
+   Presence uses the official Section 01/02 membership for this module.
+   OUNISSI Mohamed Amine and SALEM Abderrahmane belong to Section 01.
+*/
+function getPresenceStudents(){
 
+    const section = document.getElementById("presenceSection").value;
+
+    const section01Ids = new Set([
+        "39411920","31472814","33037209","36265017","35469213",
+        "31426802","31405410","32359503","32490908","32385219",
+        "35402106","35025308","33284706","34048304","32151207",
+        "34151803","31568209","32024905","34471615","34543106",
+        "38004518","32031804","34151807","34469616","32108108",
+        "34021617","31425018","35410008","33067417","34486609",
+        "33052865","35629701","38004019","32580608","33055908",
+        "37642302","34151811","35548310"
+    ]);
+
+    const section02Ids = new Set([
+        "33151616","32214209","31531414","31518818","32285314",
+        "35191812","32213609","33289613","32497702","31347601",
+        "31031517","31573012","31527603","32107213","31673206",
+        "38159313","31568320","31734413","32164103","31729113",
+        "31729113","31734413","31729113","31734413"
+    ]);
+
+    /* Section 02 is taken directly from the students list, excluding
+       the two students that were incorrectly assigned to Section 02. */
+    const corrected = students.map(student => {
+        if(student[1] === "34151811" || student[1] === "35548310"){
+            return [student[0],student[1],student[2],student[3],"01"];
+        }
+        return student;
+    });
+
+    return corrected.filter(student => student[4] === section);
 }
 
 
 function getCurrentStudents(){
+    const search = (document.getElementById("studentSearch")?.value || "")
+        .toLowerCase()
+        .trim();
 
-const group =
-document.getElementById(
-"presenceGroup"
-).value;
-
-
-const search =
-document.getElementById(
-"studentSearch"
-).value
-.toLowerCase()
-.trim();
-
-
-return students
-.filter(student=>{
-
-const text =
-student.join(" ")
-.toLowerCase();
-
-
-return (
-student[4]===group &&
-text.includes(search)
-);
-
-});
-
+    return getPresenceStudents().filter(student => {
+        if(!search) return true;
+        return student.join(" ").toLowerCase().includes(search);
+    });
 }
 
 
-function presenceKey(
-id,
-date
-){
+function getPresence(id,date){
 
-return `
-presence_${date}_${id}
-`;
+    const section = document.getElementById("presenceSection").value;
+    const session = ATTENDANCE_RECORDS[date];
 
+    if(!session || !session[section]) return "not-recorded";
+
+    const record = session[section];
+
+    if(record.justified && record.justified[id]) return "justified";
+    if(record.absent.includes(id)) return "absent";
+
+    return "present";
 }
 
 
-function getPresence(
-id,
-date
-){
-
-return localStorage.getItem(
-presenceKey(id,date)
-)||"present";
-
+function getJustification(id,date){
+    const section = document.getElementById("presenceSection").value;
+    const session = ATTENDANCE_RECORDS[date];
+    if(!session || !session[section]) return "";
+    return (session[section].justified || {})[id] || "";
 }
 
 
 function totalAbsences(id){
+    let count = 0;
 
-let count=0;
+    Object.keys(ATTENDANCE_RECORDS).forEach(date => {
+        ["01","02"].forEach(section => {
+            const record = ATTENDANCE_RECORDS[date][section];
+            if(!record) return;
+            if(record.absent.includes(id) && !(record.justified && record.justified[id])){
+                count++;
+            }
+        });
+    });
 
-
-for(
-let i=0;
-i<localStorage.length;
-i++
-){
-
-const key =
-localStorage.key(i);
-
-
-if(
-key &&
-key.startsWith("presence_") &&
-key.endsWith("_"+id)
-){
-
-if(
-localStorage.getItem(key)
-==="absent"
-){
-
-count++;
-
-}
-
-}
-
+    return count;
 }
 
 
-return count;
+function getStudentAbsenceDates(id){
+    const dates = [];
+    const section = document.getElementById("presenceSection").value;
 
+    Object.keys(ATTENDANCE_RECORDS).sort().forEach(date => {
+        const record = ATTENDANCE_RECORDS[date][section];
+        if(!record) return;
+
+        if(record.absent.includes(id) && !(record.justified && record.justified[id])){
+            dates.push(date);
+        }
+    });
+
+    return dates;
+}
+
+
+function getStudentStatusSummary(studentId){
+    let present = 0;
+    let absent = 0;
+    let justified = 0;
+    let recorded = 0;
+
+    const section = document.getElementById("presenceSection").value;
+
+    getSessionDates().forEach(date => {
+        const record = ATTENDANCE_RECORDS[date]?.[section];
+        if(!record) return;
+
+        recorded++;
+        const status = getPresence(studentId,date);
+
+        if(status === "present") present++;
+        else if(status === "absent") absent++;
+        else if(status === "justified") justified++;
+    });
+
+    return {
+        present,
+        absent,
+        justified,
+        recorded
+    };
 }
 
 
 function updatePresenceList(){
 
-const section =
-document.getElementById(
-"presenceSection"
-).value;
-
-
-const group =
-document.getElementById(
-"presenceGroup"
-).value;
-
-
-const date =
-document.getElementById(
-"presenceDate"
-).value;
-
-
-const list =
-getCurrentStudents();
-
-
-document.getElementById(
-"currentSectionTitle"
-).textContent =
-
-`Section ${section}
-—
-Groupe ${group}
-—
-${formatDate(date)}`;
-
-
-document.getElementById(
-"presenceSessionInfo"
-).innerHTML = `
-
-<strong>Date :</strong>
-${formatDate(date)}
-
-&nbsp; | &nbsp;
-
-<strong>Section :</strong>
-${section}
-
-&nbsp; | &nbsp;
-
-<strong>Groupe :</strong>
-${group}
-
-&nbsp; | &nbsp;
-
-<strong>Effectif :</strong>
-${list.length}
-
-`;
-
-
-const body =
-document.getElementById(
-"attendanceBody"
-);
-
-
-body.innerHTML="";
-
-
-list.forEach(
-(student,index)=>{
-
-const status =
-getPresence(
-student[1],
-date
-);
-
-
-const absences =
-totalAbsences(
-student[1]
-);
-
-
-body.innerHTML += `
-
-<tr>
-
-<td>
-${index+1}
-</td>
-
-<td>
-${student[0]}
-</td>
-
-<td>
-${student[1]}
-</td>
-
-<td>
-${student[2]}
-</td>
-
-<td>
-${student[3]}
-</td>
-
-<td>
-Section ${section}
-</td>
-
-<td>
-Groupe ${group}
-</td>
-
-<td>
-
-<button
-class="btn ${
-status==="present"
-?"btn-success"
-:"btn-danger"
-}"
-onclick="
-togglePresence(
-'${student[1]}'
-)">
-
-<i class="fa-solid ${
-status==="present"
-?"fa-check"
-:"fa-xmark"
-}"></i>
-
-${
-status==="present"
-?"Présent"
-:"Absent"
-}
-
-</button>
-
-</td>
-
-<td>
-<strong>
-${absences}
-</strong>
-</td>
-
-</tr>
-
-`;
-
-});
-
-
-updatePresenceStats();
-
-renderAttendanceHistory();
-
-}
-
-
-function togglePresence(id){
-
-const date =
-document.getElementById(
-"presenceDate"
-).value;
-
-
-const key =
-presenceKey(
-id,
-date
-);
-
-
-const current =
-getPresence(
-id,
-date
-);
-
-
-localStorage.setItem(
-key,
-current==="present"
-?"absent"
-:"present"
-);
-
-
-updatePresenceList();
-
-}
-
-
-function markAllPresent(){
-
-const date =
-document.getElementById(
-"presenceDate"
-).value;
-
-
-getCurrentStudents()
-.forEach(student=>{
-
-localStorage.setItem(
-
-presenceKey(
-student[1],
-date
-),
-
-"present"
-
-);
-
-});
-
-
-updatePresenceList();
-
-}
-
-
-function markAllAbsent(){
-
-const date =
-document.getElementById(
-"presenceDate"
-).value;
-
-
-getCurrentStudents()
-.forEach(student=>{
-
-localStorage.setItem(
-
-presenceKey(
-student[1],
-date
-),
-
-"absent"
-
-);
-
-});
-
-
-updatePresenceList();
-
+    const section = document.getElementById("presenceSection").value;
+    const group = document.getElementById("presenceGroup").value;
+    const date = document.getElementById("presenceDate").value;
+    const list = getCurrentStudents();
+
+    document.getElementById("currentSectionTitle").textContent =
+        `Section ${section} — Groupe ${group} — ${formatDate(date)}`;
+
+    const recordExists = !!(ATTENDANCE_RECORDS[date] && ATTENDANCE_RECORDS[date][section]);
+
+    document.getElementById("presenceSessionInfo").innerHTML = `
+        <strong>Date :</strong> ${formatDate(date)}
+        &nbsp; | &nbsp;
+        <strong>Section :</strong> ${section}
+        &nbsp; | &nbsp;
+        <strong>Groupe :</strong> ${group}
+        &nbsp; | &nbsp;
+        <strong>Effectif :</strong> ${getPresenceStudents().length}
+        <br><br>
+        <span style="color:#555;">
+            ${recordExists
+                ? "✅ Séance enregistrée — affichage en lecture seule."
+                : "⏳ Présence non encore saisie pour cette séance — aucune absence n'est comptabilisée."
+            }
+        </span>
+    `;
+
+    const body = document.getElementById("attendanceBody");
+    body.innerHTML = "";
+
+    if(!list.length){
+        body.innerHTML = `
+            <tr>
+                <td colspan="9" style="text-align:center;padding:25px;">
+                    Aucun étudiant trouvé.
+                </td>
+            </tr>`;
+        updatePresenceStats();
+        renderAttendanceHistory();
+        return;
+    }
+
+    list.forEach((student,index)=>{
+
+        const status = getPresence(student[1],date);
+        const absences = totalAbsences(student[1]);
+        const warning = absences > MAX_LEGAL_ABSENCES;
+        const justification = getJustification(student[1],date);
+
+        let statusHTML = "";
+
+        if(status === "present"){
+            statusHTML = `
+                <span class="btn btn-success" style="display:inline-block;cursor:default;pointer-events:none;">
+                    <i class="fa-solid fa-check"></i> PRÉSENT
+                </span>`;
+        }
+        else if(status === "absent"){
+            statusHTML = `
+                <span class="btn btn-danger" style="display:inline-block;cursor:default;pointer-events:none;">
+                    <i class="fa-solid fa-xmark"></i> ABSENT
+                </span>`;
+        }
+        else if(status === "justified"){
+            statusHTML = `
+                <span class="btn btn-warning" style="display:inline-block;cursor:default;pointer-events:none;">
+                    <i class="fa-solid fa-file-circle-check"></i> ABSENCE JUSTIFIÉE
+                </span>
+                <div style="margin-top:7px;padding:7px 9px;background:#fff7cf;border-left:4px solid #f2c94c;border-radius:6px;font-size:12px;">
+                    <strong>Justification :</strong> ${justification}
+                </div>`;
+        }
+        else{
+            statusHTML = `
+                <span style="display:inline-block;padding:8px 12px;border-radius:8px;background:#eeeeee;color:#666;font-weight:700;">
+                    <i class="fa-solid fa-clock"></i> NON SAISIE
+                </span>`;
+        }
+
+        body.innerHTML += `
+            <tr>
+                <td>${index+1}</td>
+                <td>${student[0]}</td>
+                <td><strong>${student[1]}</strong></td>
+                <td>${student[2]}</td>
+                <td>${student[3]}</td>
+                <td>Section ${section}</td>
+                <td>Groupe ${group}</td>
+                <td>${statusHTML}</td>
+                <td>
+                    <strong style="font-size:16px;">${absences}</strong>
+                    ${warning ? `
+                        <div style="margin-top:6px;color:#b71c1c;font-weight:700;font-size:12px;">
+                            ⚠️ Nombre légal dépassé
+                        </div>` : ""}
+                </td>
+            </tr>`;
+    });
+
+    updatePresenceStats();
+    renderAttendanceHistory();
 }
 
 
 function updatePresenceStats(){
+    const date = document.getElementById("presenceDate").value;
+    const list = getCurrentStudents();
+    const section = document.getElementById("presenceSection").value;
+    const recordExists = !!(ATTENDANCE_RECORDS[date] && ATTENDANCE_RECORDS[date][section]);
 
-const date =
-document.getElementById(
-"presenceDate"
-).value;
+    let present = 0;
+    let absent = 0;
+    let justified = 0;
 
+    list.forEach(student=>{
+        const status = getPresence(student[1],date);
+        if(status === "present") present++;
+        else if(status === "absent") absent++;
+        else if(status === "justified") justified++;
+    });
 
-const list =
-getCurrentStudents();
-
-
-let present=0;
-
-
-list.forEach(student=>{
-
-if(
-getPresence(
-student[1],
-date
-)==="present"
-){
-
-present++;
-
+    document.getElementById("totalStudentsPresence").textContent = list.length;
+    document.getElementById("totalPresent").textContent = present;
+    document.getElementById("totalAbsent").textContent = absent + justified;
+    document.getElementById("presencePercentage").textContent =
+        recordExists && list.length
+            ? ((present + justified) / list.length * 100).toFixed(1) + "%"
+            : "—";
 }
 
-});
-
-
-const absent =
-list.length-present;
-
-
-document.getElementById(
-"totalStudentsPresence"
-).textContent =
-list.length;
-
-
-document.getElementById(
-"totalPresent"
-).textContent =
-present;
-
-
-document.getElementById(
-"totalAbsent"
-).textContent =
-absent;
-
-
-document.getElementById(
-"presencePercentage"
-).textContent =
-
-list.length
-?
-(
-present/list.length*100
-).toFixed(1)+"%"
-:
-"0%";
-
-}
-
-
-/* =========================================================
-   SAVE SESSION
-========================================================= */
-
-function saveCurrentSession(){
-
-const date =
-document.getElementById(
-"presenceDate"
-).value;
-
-
-const section =
-document.getElementById(
-"presenceSection"
-).value;
-
-
-const group =
-document.getElementById(
-"presenceGroup"
-).value;
-
-
-const data =
-getCurrentStudents()
-.map(student=>({
-
-id:student[1],
-
-status:
-getPresence(
-student[1],
-date
-)
-
-}));
-
-
-localStorage.setItem(
-
-`session_${date}_${section}_${group}`,
-
-JSON.stringify(data)
-
-);
-
-
-alert(
-"Présence enregistrée avec succès."
-);
-
-
-renderAttendanceHistory();
-
-}
-
-
-/* =========================================================
-   HISTORY
-========================================================= */
 
 function renderAttendanceHistory(){
 
-const container =
-document.getElementById(
-"attendanceHistory"
-);
+    const container = document.getElementById("attendanceHistory");
+    const section = document.getElementById("presenceSection").value;
+    const group = document.getElementById("presenceGroup").value;
 
+    const dates = getSessionDates();
 
-const section =
-document.getElementById(
-"presenceSection"
-).value;
+    let html = `
+        <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Section</th>
+                    <th>Groupe</th>
+                    <th>Présents</th>
+                    <th>Absents</th>
+                    <th>Justifiés</th>
+                    <th>État</th>
+                </tr>
+            </thead>
+            <tbody>`;
 
+    dates.forEach(date=>{
+        const record = ATTENDANCE_RECORDS[date]?.[section];
 
-const group =
-document.getElementById(
-"presenceGroup"
-).value;
+        if(!record){
+            html += `
+                <tr>
+                    <td>${formatDate(date)}</td>
+                    <td>${section}</td>
+                    <td>${group}</td>
+                    <td>—</td>
+                    <td>—</td>
+                    <td>—</td>
+                    <td style="color:#777;">Non saisie</td>
+                </tr>`;
+            return;
+        }
 
+        const total = getPresenceStudents().length;
+        const justified = Object.keys(record.justified || {}).length;
+        const absent = record.absent.length - justified;
+        const present = total - record.absent.length;
 
-let sessions=[];
+        html += `
+            <tr>
+                <td>${formatDate(date)}</td>
+                <td>${section}</td>
+                <td>${group}</td>
+                <td>${present}</td>
+                <td>${absent}</td>
+                <td>${justified}</td>
+                <td style="color:#16803c;font-weight:700;">Enregistrée</td>
+            </tr>`;
+    });
 
-
-for(
-let i=0;
-i<localStorage.length;
-i++
-){
-
-const key =
-localStorage.key(i);
-
-
-if(
-key &&
-key.startsWith("session_")
-){
-
-const parts =
-key.split("_");
-
-
-if(
-parts[2]===section &&
-parts[3]===group
-){
-
-sessions.push({
-date:parts[1],
-key:key
-});
-
-}
-
-}
-
-}
-
-
-sessions.sort(
-(a,b)=>
-b.date.localeCompare(a.date)
-);
-
-
-if(!sessions.length){
-
-container.innerHTML=
-"<p>Aucune séance enregistrée.</p>";
-
-return;
-
+    html += `</tbody></table></div>`;
+    container.innerHTML = html;
 }
 
 
-let html=`
+function updateStudentFollowUp(){
 
-<div class="table-wrapper">
+    const id = (document.getElementById("studentMatricule")?.value || "").trim();
+    const box = document.getElementById("studentFollowUp");
 
-<table>
+    if(!box) return;
 
-<thead>
+    if(!id){
+        box.innerHTML = `
+            <div style="padding:15px;border-radius:10px;background:#f5f5f5;color:#666;">
+                Saisissez votre matricule pour afficher votre suivi annuel.
+            </div>`;
+        return;
+    }
 
-<tr>
+    const student = getPresenceStudents().find(s => s[1] === id);
 
-<th>Date</th>
+    if(!student){
+        box.innerHTML = `
+            <div style="padding:15px;border-radius:10px;background:#fdeaea;color:#b71c1c;font-weight:700;">
+                Matricule introuvable dans la section sélectionnée.
+            </div>`;
+        return;
+    }
 
-<th>Section</th>
+    const summary = getStudentStatusSummary(id);
+    const warning = summary.absent > MAX_LEGAL_ABSENCES;
+    const remaining = Math.max(0, MAX_LEGAL_ABSENCES - summary.absent);
 
-<th>Groupe</th>
+    const absenceDates = getStudentAbsenceDates(id)
+        .map(date => `<li>${formatDate(date)}</li>`)
+        .join("");
 
-<th>Présents</th>
+    box.innerHTML = `
+        <div style="padding:18px;border-radius:12px;background:#eef6fc;border-left:5px solid #0077b6;">
+            <h3 style="margin-top:0;">
+                ${student[2]} ${student[3]}
+            </h3>
+            <p><strong>Matricule :</strong> ${student[1]}</p>
 
-<th>Absents</th>
+            <div class="grid grid-4" style="margin-top:12px;">
+                <div class="stat-card">
+                    <div class="stat-number" style="color:#16803c;">${summary.present}</div>
+                    <div>Présences</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="color:#c62828;">${summary.absent}</div>
+                    <div>Absences</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number">${summary.recorded}</div>
+                    <div>Séances saisies</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" style="color:${warning ? '#b71c1c' : '#16803c'};">${warning ? 'ALERTE' : remaining}</div>
+                    <div>${warning ? 'Seuil dépassé' : 'Absences restantes'}</div>
+                </div>
+            </div>
 
-</tr>
+            ${warning ? `
+                <div style="margin-top:15px;padding:14px;border-radius:10px;background:#fdeaea;border:1px solid #e57373;color:#b71c1c;font-weight:800;">
+                    ⚠️ SIGNALÉ : l'étudiant a dépassé le nombre légal des absences (${MAX_LEGAL_ABSENCES}).
+                </div>` : `
+                <div style="margin-top:15px;padding:12px;border-radius:10px;background:#e7f7ed;color:#16803c;font-weight:700;">
+                    ✅ Nombre légal d'absences non dépassé.
+                </div>`}
 
-</thead>
-
-<tbody>
-
-`;
-
-
-sessions.forEach(
-session=>{
-
-const data =
-JSON.parse(
-localStorage.getItem(
-session.key
-)||"[]"
-);
-
-
-const present =
-data.filter(
-x=>x.status==="present"
-).length;
-
-
-const absent =
-data.filter(
-x=>x.status==="absent"
-).length;
-
-
-html+=`
-
-<tr>
-
-<td>
-${formatDate(session.date)}
-</td>
-
-<td>
-${section}
-</td>
-
-<td>
-${group}
-</td>
-
-<td>
-${present}
-</td>
-
-<td>
-${absent}
-</td>
-
-</tr>
-
-`;
-
-});
-
-
-html+=`
-
-</tbody>
-
-</table>
-
-</div>
-
-`;
-
-
-container.innerHTML=html;
-
+            <div style="margin-top:15px;">
+                <strong>Dates des absences :</strong>
+                ${absenceDates ? `<ul style="margin-top:8px;">${absenceDates}</ul>` : `<p>Aucune absence enregistrée.</p>`}
+            </div>
+        </div>`;
 }
 
 
-/* =========================================================
-   PRINT
-========================================================= */
+function selectStudentFromList(id){
+    const input = document.getElementById("studentMatricule");
+    if(input){
+        input.value = id;
+        updateStudentFollowUp();
+    }
+}
+
+
+function populatePresenceDates(){
+    const select = document.getElementById("presenceDate");
+    if(!select) return;
+
+    select.innerHTML = "";
+
+    getSessionDates().forEach(date => {
+        const option = document.createElement("option");
+        option.value = date;
+        option.textContent = formatDate(date);
+        select.appendChild(option);
+    });
+
+    select.value = ATTENDANCE_START_DATE;
+}
+
 
 function printAttendance(){
+    const date = document.getElementById("presenceDate").value;
+    const section = document.getElementById("presenceSection").value;
+    const group = document.getElementById("presenceGroup").value;
+    const list = getCurrentStudents();
 
-const date =
-document.getElementById(
-"presenceDate"
-).value;
+    let rows = "";
 
+    list.forEach((student,index)=>{
+        const status = getPresence(student[1],date);
+        const label =
+            status === "present" ? "PRÉSENT" :
+            status === "absent" ? "ABSENT" :
+            status === "justified" ? "ABSENCE JUSTIFIÉE" : "NON SAISIE";
 
-const section =
-document.getElementById(
-"presenceSection"
-).value;
+        rows += `
+            <tr>
+                <td>${index+1}</td>
+                <td>${student[1]}</td>
+                <td>${student[2]}</td>
+                <td>${student[3]}</td>
+                <td>${label}</td>
+                <td>${totalAbsences(student[1])}</td>
+            </tr>`;
+    });
 
+    const win = window.open("","_blank");
 
-const group =
-document.getElementById(
-"presenceGroup"
-).value;
+    win.document.write(`
+        <html><head><title>Présence</title>
+        <style>
+            body{font-family:Arial;padding:30px}
+            h1,h2{text-align:center}
+            table{width:100%;border-collapse:collapse}
+            th,td{border:1px solid #333;padding:8px}
+            th{background:#eee}
+        </style></head>
+        <body>
+            <h1>ÉCOLE NATIONALE SUPÉRIEURE DES TRAVAUX PUBLICS</h1>
+            <h2>Mécanique des Structures</h2>
+            <p>Date : <strong>${formatDate(date)}</strong>
+            &nbsp;&nbsp; Section : <strong>${section}</strong>
+            &nbsp;&nbsp; Groupe : <strong>${group}</strong></p>
+            <table>
+                <thead><tr>
+                    <th>N°</th><th>Matricule</th><th>Nom</th>
+                    <th>Prénom</th><th>Présence</th><th>Absences annuelles</th>
+                </tr></thead>
+                <tbody>${rows}</tbody>
+            </table>
+            <br><br>
+            <strong>Enseignant :</strong> Dr. Assas Taqiyeddine
+        </body></html>`);
 
-
-const list =
-getCurrentStudents();
-
-
-let rows="";
-
-
-list.forEach(
-(student,index)=>{
-
-const status =
-getPresence(
-student[1],
-date
-);
-
-
-rows+=`
-
-<tr>
-
-<td>
-${index+1}
-</td>
-
-<td>
-${student[1]}
-</td>
-
-<td>
-${student[2]}
-</td>
-
-<td>
-${student[3]}
-</td>
-
-<td>
-${status==="present"
-?"PRÉSENT"
-:"ABSENT"}
-</td>
-
-</tr>
-
-`;
-
-});
-
-
-const win =
-window.open(
-"",
-"_blank"
-);
-
-
-win.document.write(`
-
-<html>
-
-<head>
-
-<title>
-Présence
-</title>
-
-<style>
-
-body{
-font-family:Arial;
-padding:30px;
+    win.document.close();
+    win.print();
 }
 
-h1,h2{
-text-align:center;
-}
-
-table{
-width:100%;
-border-collapse:collapse;
-}
-
-th,td{
-border:1px solid #333;
-padding:8px;
-}
-
-th{
-background:#eee;
-}
-
-</style>
-
-</head>
-
-<body>
-
-<h1>
-ÉCOLE NATIONALE SUPÉRIEURE
-DES TRAVAUX PUBLICS
-</h1>
-
-<h2>
-Mécanique des Structures
-</h2>
-
-<p>
-
-Date :
-<strong>
-${formatDate(date)}
-</strong>
-
-&nbsp;&nbsp;
-
-Section :
-<strong>
-${section}
-</strong>
-
-&nbsp;&nbsp;
-
-Groupe :
-<strong>
-${group}
-</strong>
-
-</p>
-
-<table>
-
-<thead>
-
-<tr>
-
-<th>N°</th>
-<th>Matricule</th>
-<th>Nom</th>
-<th>Prénom</th>
-<th>Présence</th>
-
-</tr>
-
-</thead>
-
-<tbody>
-
-${rows}
-
-</tbody>
-
-</table>
-
-<br><br>
-
-<strong>
-Enseignant :
-</strong>
-
-Dr. Assas Taqiyeddine
-
-</body>
-
-</html>
-
-`);
-
-
-win.document.close();
-
-win.print();
-
-}
-
-
-/* =========================================================
-   CSV
-========================================================= */
 
 function exportAttendanceCSV(){
+    const date = document.getElementById("presenceDate").value;
+    const section = document.getElementById("presenceSection").value;
+    const group = document.getElementById("presenceGroup").value;
 
-const date =
-document.getElementById(
-"presenceDate"
-).value;
+    let csv = "N°;Année Bac;Matricule;Nom;Prénom;Section;Groupe;Date;Présence;Absences annuelles\n";
 
+    getCurrentStudents().forEach((student,index)=>{
+        csv +=
+            `${index+1};${student[0]};${student[1]};`+
+            `"${student[2]}";"${student[3]}";${section};${group};`+
+            `${formatDate(date)};${getPresence(student[1],date)};${totalAbsences(student[1])}\n`;
+    });
 
-const section =
-document.getElementById(
-"presenceSection"
-).value;
-
-
-const group =
-document.getElementById(
-"presenceGroup"
-).value;
-
-
-let csv=
-"N°;Année Bac;Matricule;Nom;Prénom;Section;Groupe;Date;Présence;Absences\n";
-
-
-getCurrentStudents()
-.forEach(
-(student,index)=>{
-
-csv+=
-
-`${index+1};`+
-`${student[0]};`+
-`${student[1]};`+
-`"${student[2]}";`+
-`"${student[3]}";`+
-`${section};`+
-`${group};`+
-`${formatDate(date)};`+
-`${getPresence(student[1],date)};`+
-`${totalAbsences(student[1])}\n`;
-
-});
-
-
-const blob =
-new Blob(
-["\ufeff"+csv],
-{
-type:
-"text/csv;charset=utf-8"
-}
-);
-
-
-const url =
-URL.createObjectURL(blob);
-
-
-const a =
-document.createElement("a");
-
-
-a.href=url;
-
-
-a.download=
-`presence_${section}_${group}_${date}.csv`;
-
-
-a.click();
-
-
-URL.revokeObjectURL(url);
-
+    const blob = new Blob(["\ufeff"+csv],{type:"text/csv;charset=utf-8"});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `presence_${section}_${group}_${date}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
 }
 
 
@@ -6215,13 +5653,13 @@ renderExams();
 renderResources();
 
 
-document.getElementById(
-"presenceDate"
-).value=
-today();
-
+populatePresenceDates();
 
 syncGroupWithSection();
+
+updatePresenceList();
+
+updateStudentFollowUp();
 
 });
 
