@@ -4963,6 +4963,28 @@ function exportAttendanceCSV(){
    NOTES
 ========================================================= */
 
+function calculatePresenceCC(studentId){
+
+const absences = totalAbsences(studentId);
+
+/*
+   Presence /5:
+   0 absence  = 5.0
+   1 absence  = 4.5
+   2 absences = 4.0
+   3 absences = 3.5
+   ...
+   Minimum   = 0.0
+*/
+
+return Math.max(
+0,
+5 - (0.5 * absences)
+);
+
+}
+
+
 function renderGrades(){
 
 const body =
@@ -4989,14 +5011,14 @@ localStorage.getItem(key)
 );
 
 
-const presence =
-Math.max(
-0,
-5-
-.5*
+const absenceCount =
 totalAbsences(
 student[1]
-)
+);
+
+const presence =
+calculatePresenceCC(
+student[1]
 );
 
 
@@ -5031,7 +5053,17 @@ ${student[1]}
 
 
 <td>
-${presence.toFixed(2)}
+
+<strong>
+${presence.toFixed(2)} / 5
+</strong>
+
+<br>
+
+<small>
+${absenceCount} absence${absenceCount>1 ? "s" : ""}
+</small>
+
 </td>
 
 
